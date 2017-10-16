@@ -126,7 +126,8 @@ $(function(){
 			            alert("Connection error");
 			        },
 			        success: function(data) {
-			        	$rightContent.load(findAllInfo);
+			        	/*$rightContent.load(findAllInfo);*/
+			        	ckbs.parent().parent().remove();
 			        }
 			    });
 			}
@@ -197,7 +198,9 @@ $(function(){
 	/**
 	**add_XX.jsp begin
 	*/
-	
+	$rightContent.find(".button-group").find("button:first").on("click",function(){
+		$rightContent.load(findAllInfo);
+	});
 	$rightContent.find(".button-group").find("button:last").on("click",function(){
 		var $form=$content.find("form");
 		/* $form.submit(); */
@@ -209,7 +212,7 @@ $(function(){
 	         //JQuery load页面
 	         $rightContent.load(pageRef);
 		}).submit();  */
-		alert("load success");
+		
 		$.ajax({
 	        cache: true,
 	        type: "POST",

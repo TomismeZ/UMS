@@ -56,6 +56,7 @@ public class AccountDaoImpl implements IAccountDao {
 	@Override
 	public void saveOrUpdate(Account entity) {
 		getCurrentSession().saveOrUpdate(entity);
+		
 	}
 
 	@Override
@@ -115,6 +116,11 @@ public class AccountDaoImpl implements IAccountDao {
 	public Account findByName(String userName) {
 		// TODO Auto-generated method stub
 		return (Account) getCurrentSession().createQuery("FROM Account WHERE userName=?").setParameter(0, userName).getSingleResult();
+	}
+	@Override
+	public void update(Account entity) {
+		getCurrentSession().update(entity);
+		
 	}
 
 }

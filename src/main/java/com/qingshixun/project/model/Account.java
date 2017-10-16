@@ -19,6 +19,8 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import com.mysql.jdbc.Blob;
+
 @Entity
 @Table(name = "t_user")
 public class Account {
@@ -35,6 +37,10 @@ public class Account {
 	private String name; // 用户姓名
 	
 	private String phoneNumber; //手机号码
+	
+	@Column(name="photo",columnDefinition="BLOB",nullable=true)
+	private byte[] photo;
+	
 	// 用户性别(不可以为空)
 	@Column(nullable = false)
 	@Enumerated(EnumType.ORDINAL)
@@ -43,7 +49,7 @@ public class Account {
 	// 用户状态(不可以为空)
 	@Column(nullable = false)
 	@Enumerated(EnumType.ORDINAL)
-	private Status status = Status.enable;
+	private Status status = Status.disable;
 
 	@Temporal(TemporalType.DATE)
 	private Date createTime;
@@ -70,6 +76,7 @@ public class Account {
 	}
 
 	public void setId(Integer id) {
+		
 		this.id = id;
 	}
 
@@ -104,6 +111,8 @@ public class Account {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	
 
 	
 
@@ -153,6 +162,15 @@ public class Account {
 
 	public void setDepartment(Department department) {
 		this.department = department;
+	}
+
+
+	public byte[] getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(byte[] photo) {
+		this.photo = photo;
 	}
 
 	@Override

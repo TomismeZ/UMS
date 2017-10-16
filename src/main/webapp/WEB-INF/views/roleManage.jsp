@@ -4,6 +4,8 @@
 <%
 	String path = request.getContextPath();
 %>
+<link type="text/css" rel="stylesheet"
+	href="<%=path%>/plugins/bootstrap.min.css" />
 <div class="header">
 	<button>添加</button>
 	<button>删除</button>
@@ -38,30 +40,12 @@
 	<div class="footer">
 		<font size="3">共<font color="red">${pageBean.totalPage }</font>页
 		</font>&nbsp;&nbsp; <font size="3">共<font color="red">${pageBean.allRows }</font>条记录
-		</font><br>
+		</font><br> 
+		<input type="hidden"
+			data-currentpage="${pageBean.currentPage }"> <input
+			type="hidden" data-totalpages="${pageBean.totalPage }">
 
-		<c:choose>
-			<c:when test="${pageBean.currentPage == 1}">
-			 首页&nbsp;&nbsp;&nbsp;上一页
-			</c:when>
-			<c:otherwise>
-				<a href="findAllRole">首页</a>
-            &nbsp;&nbsp;&nbsp;
-            <a href="findAllRole"
-					data-page="${pageBean.currentPage - 1 }">上一页</a>
-			</c:otherwise>
-		</c:choose>
-
-		<c:choose>
-			<c:when test="${pageBean.currentPage != pageBean.totalPage }">
-				<a href="findAllRole" data-page="${pageBean.currentPage + 1 }">下一页</a>
-            &nbsp;&nbsp;&nbsp;
-            <a href="findAllRole" data-page="${pageBean.totalPage }">尾页</a>
-			</c:when>
-			<c:otherwise>
-			下一页&nbsp;&nbsp;&nbsp;尾页
-			</c:otherwise>
-		</c:choose>
+		<ul class="pagination" id="pagination1"></ul>
 	</div>
 </div>
 <script type="text/javascript">
@@ -69,6 +53,34 @@ var manageRef="toRole";
 var deleteInfo="deleteRole";
 var findAllInfo="findAllRole";
 var $mangeClass=$rightContent.find(".role-manage");
+
+//Jquery分页插件用到时的变量
+var $inputFirst = $mangeClass.find(".footer").find("input:first");
+var $inputLast = $mangeClass.find(".footer").find("input:last");
+var totalPages = $inputLast.data("totalpages");
+var currentPage = $inputFirst.data("currentpage");
+if(totalPages == 0){
+	totalPages=1;
+}
+
+/**
+ * jQuery 分页插件
+ */
+
+$.jqPaginator('#pagination1',
+				{
+					totalPages : totalPages,
+					visiblePages : 8,
+					currentPage : currentPage,
+					first : '<li class="first"><a href="javascript:;">First</a></li>',
+					prev : '<li class="prev"><a href="javascript:;" data-page="${pageBean.currentPage - 1 }">Previous</a></li>',
+					next : '<li class="next"><a href="javascript:;" data-page="${pageBean.currentPage + 1 }">Next</a></li>',
+					last : '<li class="last"><a href="javascript:;" data-page="${pageBean.totalPage }">Last</a></li>',
+					page : '<li class="page"><a href="javascript:;" data-page="{{page}}">{{page}}</a></li>',
+				/* onPageChange : function(num, type) {
+					$('font').text(type + '：' + num);
+				} */
+				});
 </script>
 <!-- 引入外部脚本 -->
 <script src="<%=path%>/js/common.js"></script>

@@ -4,7 +4,7 @@
 <%
 	String path = request.getContextPath();
 %>
-<link type="text/css" rel="stylesheet" href="<%=path%>/plugins/bootstrap.min.css"/>
+
 <c:choose>
 	<c:when test="${account ==null }">
 	<div class="header">
@@ -15,13 +15,13 @@
 		<div class="left">
 			 <div class="input-group">
 				<label class="input-label">用户名：</label> <label class="input-content">
-					<input type="text" class="input" name="account.userName" placeholder="请输入您的用户名！">
+					<input type="text" class="input" name="account.userName">
 				</label>
 
 			</div>
 			<div class="input-group">
 				<label class="input-label">姓 名：</label> <label class="input-content">
-					<input type="text" class="input" name="account.name" placeholder="请输入您的姓名！">
+					<input type="text" class="input" name="account.name">
 				</label>
 
 			</div>
@@ -42,8 +42,7 @@
 		<div class="right">
 			<div class="input-group">
 				<label class="input-label">密 码：</label> <label class="input-content">
-					<input type="password" name="account.password"
-					placeholder="请输入您的密码！" class="input">
+					<input type="password" name="account.password" class="input">
 				</label>
 			</div>
 
@@ -103,7 +102,7 @@
 			</div>
 			<div class="input-group">
 				<label class="input-label">姓 名：</label> <label class="input-content">
-					<input type="text" name="account.name" placeholder="${account.name }">
+					<input type="text" name="account.name" value="${account.name }">
 				</label>
 
 			</div>

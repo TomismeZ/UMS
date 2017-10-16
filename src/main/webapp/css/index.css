@@ -1,0 +1,225 @@
+html, body {
+	margin: 0px;
+	padding: 0px;
+	font-family: "楷体";
+}
+
+#index {
+	width: 100%;
+	height: 700px;
+	background-image: url(../images/index.jpg);
+	background-size: 100%;
+}
+
+.container {
+	width: 100%;
+	height: 60px;
+	background-color: rgba(192, 192, 192, 0.8);
+	position: fixed;
+}
+ul{
+	list-style: none;
+	float: right;
+	margin: 0;
+	padding:0;
+}
+ul li {
+	float: left;
+	/* font-size: 20px; */
+	margin-right:20px;
+	line-height: 60px;
+}
+ul li a {
+	text-decoration: none;
+	font-size:24px;
+	color: white;
+}
+ ul li:hover, ul li.active
+	{
+	/* background-color: #CCCCCC; */
+/* 	color: #4d98c1; */
+	border-bottom: 2px solid #438EB9; 
+}
+a:focus {
+	text-decoration: none;	
+}
+
+a:hover {
+	color: #5D9CEC;
+	text-decoration: underline;
+	text-decoration: none;
+}
+
+.menu {
+	width: 20%;
+	height: 60px;
+	line-height: 60px;
+	font-size: 24px;
+	color: white;
+	float: left;
+	text-align: center;
+}
+
+.collapse {
+	float: right;
+	width: 35%;
+	height: 100%;
+	line-height: 60px;
+}
+
+.mission {
+	width: 100%;
+	height: 950px;
+	background-image: url(../images/index.jpg);
+	background-size: cover;
+}
+
+.help {
+	width: 100%;
+	height: 800px;
+	background-color: rgba(192, 192, 192, 0.3);
+}
+
+#index .title-v1, .title-v2 {
+	width: 600px;
+	height: 70px;
+	margin: 0 auto;
+	text-align: center;
+	font-size: 40px;
+	font-weight: bold;
+	color: white;
+	position: relative;
+	top: 240px;
+}
+
+#index .title-v2 button {
+	width: 150px;
+	height: 40px;
+	font-size: 20px;
+	background-color: rgba(192, 192, 192, 0.4);
+	font-family: "楷体";
+	color: white;
+	border-color: white;
+}
+
+#index .title-v2 button:hover {
+	background-color: rgba(192, 192, 192, 0.3);
+}
+
+#index .title-v2 button:active {
+	background-color: gray;
+	opacity: 0.5;
+	border-color: white;
+}
+
+.mission {
+	background-color: black;
+}
+
+.brief-introduction {
+	width: 88%;
+	margin: 0 auto;
+	padding-top: 20px;
+	font-size: 20px;
+	color: white;
+	line-height: 30px;
+}
+
+.liu {
+	text-align: center;
+}
+
+.brief-introduction table {
+	width: 100%;
+	margin: 0 auto;
+}
+
+.brief-introduction tr {
+	width: 100%;
+	height: 250px;
+}
+
+.brief-introduction td {
+	text-align: center;
+	border-collapse: collapse;
+	padding: 0 20px;
+}
+
+.help {
+	width: 100%;
+	height: 800px;
+	background-image: url(../images/index.jpg);
+	background-size: 100%;
+	background-position: absolute;
+	left: 0px;
+	top: 0px;
+	background-color: rgba(192, 192, 192, 0.1);
+}
+
+.contact {
+	margin: 0 auto;
+	width: 68%;
+	height: 80%;
+	position: relative;
+	top: 100px;
+	/*background-color: red;*/
+}
+
+.contact-us {
+	width: 50%;
+	height: 50%;
+	position: relative;
+	top: 120px;
+	float: left;
+}
+
+.contact-us td {
+	color: white;
+	font-size: 24px;
+	line-height: 100px;
+}
+
+.contact-words {
+	position: relative;
+	top: 135px;
+	width: 50%;
+	height: 50%;
+	float: right;
+	color: white;
+	font-size: 24px;
+}
+
+.contact-words input {
+	width: 370px;
+	height: 24px;
+	margin: 0 0 35px 0;
+	background-color: rgba(192, 192, 192, 0.2);
+}
+
+.contact-words textarea {
+	width: 370px;
+	height: 100px;
+	background-color: rgba(192, 192, 192, 0.3);
+	margin: 0 0 15px 0;
+}
+
+.contact-words button {
+	color: white;
+	background-color: rgba(192, 192, 192, 0.2);
+	border-color: rgba(192, 192, 192, 0.8);
+	width: 80px;
+	height: 30px;
+}
+
+.submit {
+	position: relative;
+	left: 300px;
+}
+
+.contact-words textarea:hover {
+	background-color: rgba(192, 192, 192, 0.1);
+}
+
+.contact-words input:hover {
+	background-color: rgba(192, 192, 192, 0.1);
+}

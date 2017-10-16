@@ -1,0 +1,449 @@
+html, body {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	margin: 0;
+}
+/**
+总容器
+**/
+#container {
+	width: 100%;
+	height: 100%;
+	/* border: 1px solid red; */
+	/* margin: 0 auto; */
+	display: flex;
+	flex-direction: column;
+}
+
+#container .topPanel,
+#top-panel {
+	flex-grow: 1;
+	min-height: 60px;
+	max-height: 60px;
+	background-color: #438EB9;
+	position: relative;
+	/* border-bottom: 1px solid red; */
+}
+
+#container .content,
+#account-setting-panel {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: row;
+}
+
+.left-content,
+#account-setting-panel .left-content{
+	flex-grow: 1;
+	min-width: 140px;
+	max-width: 140px;
+	border-right: 1px solid #797979;
+}
+
+.right-content,
+#account-setting-panel .right-content {
+	flex-grow: 1;
+	overflow: auto;
+	margin: 8px;
+	border: 1px solid #797979;
+	display: flex;
+	flex-direction: column;
+}
+/**
+topPanel.jsp，CSS样式
+**/
+#container .topPanel .menu-panel, #container .topPanel .logo-panel,
+#top-panel .menu-panel, #top-panel .logo-panel{
+	width: 300px;
+	height: 100%;
+	position: absolute;
+	
+}
+#container .topPanel .menu-panel,
+#top-panel .menu-panel{
+right: 10px;
+}
+#container .topPanel .logo-panel h5,
+#top-panel .logo-panel h5{
+	color: white;
+	font-size: 30px;
+	margin: 0;
+	line-height: 60px;
+	position: absolute;
+	left: 50px;
+	cursor: pointer;
+}
+ #container .topPanel .menu-panel .userinfo,
+ #top-panel .menu-panel .userinfo {
+        padding: 6px 18px 6px 6px;
+        background: #32415a url(../images/userinfoarrow.png) no-repeat right center;
+        border-radius: 2px;
+        width:40%; 
+        position:absolute;
+        right:0;
+        top:10px;     
+        border-bottom: 1px solid #445775; 
+        box-shadow: inset 1px 1px 2px #2b384e;
+        cursor: pointer;
+    }
+
+ #container .topPanel .menu-panel .changetheme,
+ #top-panel .menu-panel .changetheme {
+        position: absolute;
+        left: 10px;
+        bottom: 10px;
+        font-size: 11px;
+    }
+
+  #container .topPanel .menu-panel .changetheme a,
+  #top-panel .menu-panel .changetheme a {
+        display: inline-block;
+        margin-top: 5px;
+        width: 15px;
+        height: 15px;
+        cursor: pointer;
+    }
+
+ #container .topPanel .menu-panel .changetheme a.default,
+ #top-panel .menu-panel .changetheme a.default {
+        background: #FB9337;
+    }
+
+  #container .topPanel .menu-panel .changetheme a.blueline,
+  #top-panel .menu-panel .changetheme a.blueline {
+        background: #319cff;
+    }
+
+   #container .topPanel .menu-panel .changetheme a.greenline,
+   #top-panel .menu-panel .changetheme a.greenline {
+        background: #78ce07;
+    }
+
+   #container .topPanel .menu-panel .changetheme a.contrast,
+   #top-panel .menu-panel .changetheme a.contrast {
+        background: #ff4800;
+    }
+
+   #container .topPanel .menu-panel .changetheme a.custombg,
+   #top-panel .menu-panel .changetheme a.custombg {
+        background: #666;
+    }
+
+   #container .topPanel .menu-panel .userinfo:hover,
+   #top-panel .menu-panel .userinfo:hover {
+        background-color: #2d3b53;
+    }
+
+   #container .topPanel .menu-panel h4, #container .topPanel .menu-panel span
+   #top-panel .menu-panel h4, #top-panel .menu-panel span {
+
+        background: transparent;
+        border: 0;
+        margin: 0;
+        padding: 0;
+        vertical-align: baseline;
+        font-family: 'RobotoBoldCondensed', Arial, Helvetica, sans-serif;
+        font-weight: normal;
+    }
+
+    #container .topPanel .menu-panel ul,
+    #top-panel .menu-panel ul {
+        margin: 0;
+        padding: 0;
+    }
+
+   #container .topPanel .menu-panel .userinfo img,
+   #top-panel .menu-panel .userinfo img {
+        border: 1px solid #b9c1ce;
+        vertical-align: middle;
+    }
+
+  #container .topPanel .menu-panel .userinfo span,
+  #top-panel .menu-panel .userinfo span {
+        color: #b9c2cf;
+        display: inline-block;
+        padding: 0 5px;
+        font-family: 'RobotoCondensed', Arial, Helvetica, sans-serif;
+    }
+
+   #container .topPanel .menu-panel .userinfodrop,
+   #top-panel .menu-panel .userinfodrop {
+        padding: 10px;
+        min-width: 300px;
+        position: absolute;
+        top: 48px;
+        right: 0;
+        display: none;
+        border-radius: 2px;
+        background: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        z-index: 200;
+    }
+
+   #container .topPanel .menu-panel .userinfodrop .avatar,
+   #top-panel .menu-panel .userinfodrop .avatar {
+        float: left;
+    }
+
+   #container .topPanel .menu-panel .userdata,
+   #top-panel .menu-panel .userdata {
+        margin-left: 105px;
+    }
+
+   #container .topPanel .menu-panel .userdata h4,
+   #top-panel .menu-panel .userdata h4 {
+
+        color: #2d3c54;
+        display: inline-block;
+    }
+
+   #container .topPanel .menu-panel .userdata .phone-number,
+   #top-panel .menu-panel .userdata .phone-number {
+        color: #999;
+        font-size: 11px;
+        display: inline-block;
+    }
+
+   #container .topPanel .menu-panel .userdata ul,
+   #top-panel .menu-panel .userdata ul {
+        list-style: none;
+        margin-top: 10px;
+    }
+
+   #container .topPanel .menu-panel .userdata ul li,
+   #top-panel .menu-panel .userdata ul li {
+        display: block;
+        margin-bottom: 1px;
+    }
+
+   #container .topPanel .menu-panel .userdata ul li:last-child,
+   #top-panel .menu-panel .userdata ul li:last-child {
+        margin-bottom: 0;
+    }
+
+   #container .topPanel .menu-panel .userdata ul li a,
+   #top-panel .menu-panel .userdata ul li a {
+        display: block;
+        padding: 5px;
+        background: #f7f7f7;
+        border-radius: 2px;
+        text-decoration: none;
+        color: black;
+        font-size: 12px;
+    }
+
+   #container .topPanel .menu-panel .userdata ul li a:hover,
+   #top-panel .menu-panel .userdata ul li a:hover {
+        background: #fb9337;
+        color: #fff;
+    }
+/**
+left.jsp，style代码
+**/
+.left-content ul {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.left-content ul li {
+	height: 40px;
+	line-height: 40px;
+	padding-left: 30px;
+	cursor: pointer;
+	border-bottom: 1px solid grey;
+}
+.left-content ul li a{
+	text-decoration: none;
+	color: #000000;
+}
+
+.left-content ul li:hover, .left-content ul li.active
+	{
+	background-color: #CCCCCC;
+	color: white;
+}
+
+/**
+accountManage.jsp,CSS样式
+**/
+.right-content .header {
+	flex-grow: 1;
+	min-height: 45px;
+	max-height: 45px;
+	padding-left:10px;
+	border-bottom:1px solid #797979;
+}
+.right-content .account-manage{
+flex-grow: 1;
+}
+.right-content .account-manage .footer,
+.right-content .role-manage .footer,
+.right-content .jurisdiction-manage .footer,
+.right-content .department-manage .footer{
+	width:-moz-calc(100% - 8px);
+	width:-webkit-calc(100% - 8px);
+	width:calc(100%-8px);
+	margin:0;
+	padding:0;
+	height: 80px;
+	text-align: right;
+	
+}
+.right-content table {
+	width:-moz-calc(100% - 16px);
+	width:-webkit-calc(100% - 16px);
+	width:calc(100%-16px);
+	border-collapse: collapse;
+	margin: 10px;
+}
+
+.right-content .header button {
+	margin: 10px;
+	width: 60px;
+	border: 1px solid grey;
+	background-color: white;
+	
+}
+
+.right-content table, .right-content th,
+	.right-content td {
+	border: 1px solid #797979;
+	text-align: center;
+}
+.right-content table tr td a:last-child{
+	color: red;
+	margin-left: 15px;
+}
+/**
+添加account页面的CSS样式
+**/
+.right-content .accountContent,
+.right-content .roleContent,
+.right-content .jurisdictionContent,
+.right-content .departmentContent {
+	flex-grow: 1;
+	position: relative;
+}
+
+.right-content .accountContent .left,
+.right-content .accountContent .right {
+	position: absolute;
+	width: 50%;
+	height: 100%;
+}
+
+.right-content .accountContent .right {
+	right: 0;
+}
+
+.right-content .accountContent .input-group{
+	width: 100%;
+	text-align: center;
+	height: 30px;
+	line-height: 30px;
+	margin-bottom: 5%;
+}
+
+.right-content .accountContent .input-group .input{
+	width: 90%;
+	height: 21px;
+	border: 1px solid black;
+	font-size: 15px;
+	padding-left: 10px;
+	margin-top: 10px;
+}
+/*
+头像设置，CSS样式
+*/
+.right-content .accountContent .avatar-setting{
+	margin: 0 auto;
+	width: 50%;
+	height: 200px;
+	margin-top: 100px;
+}
+ .right-content .submit{
+	margin: 10px;
+	border: 1px solid grey;
+	background-color: white;
+	width: 60px;
+	cursor: pointer;
+}
+.right-content .accountContent .input-group .input-content,
+.right-content .roleContent .input-group .input-content,
+.right-content .jurisdictionContent .input-group .input-content,
+.right-content .departmentContent .input-group .input-content{
+	width: 70%;
+	/*对于外部其他元素是行内元素，对于内部是块级元素*/
+	display: inline-block;
+	text-align: left;
+}
+
+.right-content .button-group {
+	flex-grow: 1;
+	min-height: 45px;
+	max-height: 45px;
+	border-top: 1px solid red;
+	text-align: center;
+	
+}
+
+.right-content .button-group button{
+	margin: 10px;
+	border: 1px solid grey;
+	background-color: white;
+	width: 60px;
+	float: right;
+	cursor: pointer;
+}
+/**
+	add_role.jsp,add_jurisdictionCSS样式
+**/
+
+.right-content .roleContent .input-group,
+.right-content .jurisdictionContent .input-group,
+.right-content .departmentContent .input-group {
+	width: 95%;
+	height: 30px;
+	line-height: 30px;
+	margin:2% 0 5% 3%;
+}
+.right-content .roleContent .input-group .input-label,
+.right-content .jurisdictionContent .input-group .input-label,
+.right-content .departmentContent .input-group .input-label{
+	margin-top:5px;
+	vertical-align: top;
+	
+}
+.right-content .roleContent .input-group:nth-child(2){
+	height: 180px;
+}
+.right-content .roleContent .input-group .input-content:nth-child(3){
+	
+	background-color: red;
+}
+.right-content .roleContent .input-group .input,
+.right-content .jurisdictionContent .input-group .input,
+.right-content .departmentContent .input-group .input {
+
+	width: 60%;
+	height: 21px;
+	border: 1px solid black;
+	font-size: 15px;
+	padding-left: 10px;
+	margin-top: 10px;
+}
+
+.right-content .roleContent .input-group textarea,
+.right-content .jurisdictionContent .input-group textarea,
+.right-content .departmentContent .input-group textarea{
+	width: 100%;
+	height: 160px;
+	border: 1px solid #A9A9A9;
+	font-size: 15px;
+	padding:2px;
+	margin-top: 10px;
+	overflow: hidden;
+	/* resize: none; */
+}

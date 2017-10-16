@@ -107,4 +107,10 @@ public class JurisdictionDaoImpl implements IJurisdictionDao{
 		return getCurrentSession().createQuery(hql).getResultList().size();
 	}
 
+	@Override
+	public void update(Jurisdiction entity) {
+		getCurrentSession().update(entity);
+		
+	}
+
 }

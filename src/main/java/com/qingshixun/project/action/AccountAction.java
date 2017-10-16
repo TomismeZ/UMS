@@ -1,7 +1,16 @@
 package com.qingshixun.project.action;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
@@ -54,6 +63,8 @@ public class AccountAction extends ActionSupport {
 
 	// 页面提示信息
 	private String message;
+	// 账户头像信息
+	private File photo;
 	// 使用这个时，需要setter注入以及，@Controller注解
 	// private AccountAction accountAction;
 
@@ -64,49 +75,63 @@ public class AccountAction extends ActionSupport {
 	}
 
 	/**
-	 * 验证用户名是否存在，ajax异步刷新
+	 * 验证登录时是否满足，ajax异步刷新
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	@Action(value = "findByName", results = { @Result(name = SUCCESS, type = "json") })
-	public String findByName() throws Exception {
-
+	@Action(value = "validateLogin", results = { @Result(name = SUCCESS, type = "json") })
+	public String validateLogin() throws Exception {
+		System.out.println("进入验证登录模块");
 		if (account != null) {
-			Account findByName = accountService.findByName(account.getUserName());
-			if (findByName == null) {
-				message = "用户名不存在";
-				return SUCCESS;
+			if (accountService.findByName(account.getUserName()) == null) {
+				message = "用户名错误";
+
+			} else {
+				Account account1 = accountService.loginAccount(account.getUserName(), account.getPassword());
+				if (account1 != null) {
+					if (account1.getStatus().equals(Status.enable)) {
+						message = "success";
+					} else {
+						message = "您的账户已经被禁用了";
+
+					}
+
+				} else {
+					message = "密码输入错误，请重新选择";
+
+				}
+				/*
+				 * //可以根据用户名查找用户头像，这里就不需要设置了，可以在ajax实现这部分功能 id=1;
+				 */
 			}
+
 		}
-		return "login";
+		return SUCCESS;
+
 	}
 
-
-		
 	// 点击登录要跳转的界面
-	@Action(value = "loginAccount", results = {
-			@Result(name = SUCCESS, location = "/WEB-INF/views/main.jsp") })
+	@Action(value = "loginAccount", results = { @Result(name = SUCCESS, location = "/WEB-INF/views/main.jsp") })
 	public String loginAccount() throws Exception {
-		Account account1 = new Account();
+		HttpSession session = ServletActionContext.getRequest().getSession();
 		if (account != null) {
-			account1 = accountService.loginAccount(account.getUserName(), account.getPassword());
-		}
-
-		if (account1 != null) {
-			if (account1.getStatus().equals(Status.enable)) {
-				ServletActionContext.getRequest().getSession().setAttribute("currentAccount", account1);
+			Account account1 = accountService.loginAccount(account.getUserName(), account.getPassword());
+			if (account1 != null) {
+				session.setAttribute("currentAccount", account1);
 				return SUCCESS;
+
 			} else {
 				return "login";
 			}
 
+		} else if (session.getAttribute("currentAccount") != null) {
+			return SUCCESS;
 		} else {
 			return "login";
 		}
 
 	}
-
-
 
 	/**
 	 * 跳转到添加或者编辑账户界面
@@ -120,13 +145,26 @@ public class AccountAction extends ActionSupport {
 		if (id != null) {
 			account = accountService.get(id);
 		}
-		System.err.println("----id:"+id);
+		System.err.println("----id:" + id);
 		departments = departmentService.findAll();
 		roles = roleService.findAll();
 
 		return SUCCESS;
 	}
-
+	/**
+	 * 根据标识符跳转到当前账户基本、详细、头像设置页面
+	 * @return
+	 * @throws Exception
+	 */
+	@Action(value = "baseData", interceptorRefs = { @InterceptorRef("myInterceptorStack") }, 
+			results = { @Result(name = SUCCESS, location = "/WEB-INF/views/account/basic_data.jsp") })
+	public String baseData() throws Exception {
+		if(id==2){
+			departments = departmentService.findAll();
+			roles = roleService.findAll();
+		}
+		return SUCCESS;
+	}
 	/**
 	 * 添加或者修改账户
 	 * 
@@ -137,25 +175,87 @@ public class AccountAction extends ActionSupport {
 			@Result(name = SUCCESS, location = "/WEB-INF/views/accountManage.jsp") })
 	public String saveAccount() throws Exception {
 		System.out.println("------------  saveAccount()");
-		Account account2 = new Account();
-		
-		if (account.getId() != null) {
-			account2 = accountService.get(account.getId());
 
-		}
-		account2.setCreateTime(new Date());
-		account2.setUserName(account.getUserName());
-		account2.setPassword(account.getPassword());
-		account2.setName(account.getName());
-		account2.setPhoneNumber(account.getPhoneNumber());
-		account2.setGender(account.getGender());
-		account2.setStatus(account.getStatus());
 		Department department = departmentService.findByName(departmentName);
 		Role role = roleService.findByName(roleName);
-		account2.setDepartment(department);
-		account2.setRole(role);
-		accountService.saveOrUpdate(account2);
+		if (account.getId() != null) {
+
+			Account account2 = accountService.get(account.getId());
+			if (account.getUserName() != null) {
+				account2.setUserName(account.getUserName());
+			} else if (account.getName() != null) {
+				account2.setName(account.getName());
+			} else if (account.getPassword() != null) {
+				account2.setPassword(account.getPassword());
+			} else if (account.getPhoneNumber() != null) {
+				account2.setPhoneNumber(account.getPhoneNumber());
+			}
+			account2.setDepartment(department);
+			account2.setRole(role);
+			if (account.getName() != null || !"".equals(account.getName())) {
+				account2.setName(account.getName());
+			}
+			account2.setGender(account.getGender());
+			account2.setStatus(account.getStatus());
+			accountService.saveOrUpdate(account2);
+
+		} else {
+			account.setCreateTime(new Date());
+			account.setDepartment(department);
+			account.setRole(role);
+			accountService.save(account);
+		}
+
 		// System.out.println(account);
+		return SUCCESS;
+	}
+
+	/**
+	 * 编辑当前用户资料
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@Action(value = "editCurrentAccount", results = {
+			@Result(name = SUCCESS, type="redirectAction",params={"actionName","loginAccount"}) })
+	public String editCurrentAccount() throws Exception {
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		Account currentAccount = (Account) session.getAttribute("currentAccount");
+		if (photo == null) {
+			Department department = departmentService.findByName(departmentName);
+			Role role = roleService.findByName(roleName);
+			if (account.getName() != null) {
+				currentAccount.setName(account.getName());
+			}
+			if (account.getUserName() != null) {
+				currentAccount.setUserName(account.getUserName());
+			} else if (account.getPassword() != null) {
+				currentAccount.setPassword(account.getPassword());
+			} else if (account.getPhoneNumber() != null) {
+				currentAccount.setPhoneNumber(account.getPhoneNumber());
+			} else if (department != null) {
+				currentAccount.setDepartment(department);
+			} else if (role != null) {
+				currentAccount.setRole(role);
+			} else if (photo != null) {
+				FileInputStream fis = new FileInputStream(this.getPhoto());
+				byte[] buffer = new byte[fis.available()];
+				fis.read(buffer);
+				currentAccount.setPhoto(buffer);
+			} else if (account.getGender() != null) {
+				currentAccount.setGender(account.getGender());
+			} else if (account.getStatus() != null) {
+				currentAccount.setStatus(account.getStatus());
+			}
+		} else {
+			FileInputStream fis = new FileInputStream(this.getPhoto());
+			byte[] buffer = new byte[fis.available()];
+			fis.read(buffer);
+			currentAccount.setPhoto(buffer);
+		}
+		accountService.saveOrUpdate(currentAccount);
+		session.removeAttribute("currentAccount");
+		session.setAttribute("currentAccount", currentAccount);
 		return SUCCESS;
 	}
 
@@ -173,7 +273,8 @@ public class AccountAction extends ActionSupport {
 		pageBean = accountService.getPageBean(5, page);
 		return SUCCESS;
 	}
-
+	
+	
 	/**
 	 * 删除账户
 	 * 
@@ -191,6 +292,54 @@ public class AccountAction extends ActionSupport {
 		return SUCCESS;
 	}
 
+	/**
+	 * 退出登录
+	 * 
+	 * @return
+	 */
+	@Action(value = "logoutAccount", results = { @Result(name = SUCCESS, location = "/WEB-INF/views/login.jsp") })
+	public String logoutAccount() throws Exception {
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		Object user = session.getAttribute("currentAccount");
+		if (user != null) {
+			session.removeAttribute("currentAccount");
+			/* session.invalidate(); */
+		}
+		return SUCCESS;
+	}
+
+	/**
+	 * 注册账户验证或者忘记密码验证
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@Action(value = "validateRegister", results = { @Result(name = SUCCESS, type = "json") })
+	public String validateRegister() throws Exception {
+
+		if (account != null) {
+			Account findByName = accountService.findByName(account.getUserName());
+			if (id == 1) {
+				if (findByName != null) {
+					message = "用户名已存在";
+				}else{
+					account.setCreateTime(new Date());
+					accountService.save(account);
+					message = "您已经成功注册！等待管理员验证方可登录";
+				}
+				
+			} else if (id == 2) {
+				if(findByName!=null){
+					message = "用户名正确，您的密码为："+findByName.getPassword()+"\n该用户的状态："+findByName.getStatus();
+				}else{
+					message="用户名不存在，请重新输入！";
+				}
+				
+			}
+		}
+
+		return SUCCESS;
+	}
 
 	public List<Account> getAccounts() {
 		return accounts;
@@ -211,13 +360,6 @@ public class AccountAction extends ActionSupport {
 	public List<Department> getDepartments() {
 		return departments;
 	}
-	// public void setDepartments(List<Department> departments) {
-	// this.departments = departments;
-	// }
-
-	// public String getDepartmentName() {
-	// return departmentName;
-	// }
 
 	public void setDepartmentName(String departmentName) {
 		this.departmentName = departmentName;
@@ -226,10 +368,6 @@ public class AccountAction extends ActionSupport {
 	public List<Role> getRoles() {
 		return roles;
 	}
-
-	// public String getRoleName() {
-	// return roleName;
-	// }
 
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
@@ -267,16 +405,12 @@ public class AccountAction extends ActionSupport {
 		this.id = id;
 	}
 
-	// public void setRoles(List<Role> roles) {
-	// this.roles = roles;
-	// }
+	public File getPhoto() {
+		return photo;
+	}
 
-	// public AccountAction getAccountAction() {
-	// return accountAction;
-	// }
-	//
-	// public void setAccountAction(AccountAction accountAction) {
-	// this.accountAction = accountAction;
-	// }
+	public void setPhoto(File photo) {
+		this.photo = photo;
+	}
 
 }

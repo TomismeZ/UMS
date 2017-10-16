@@ -70,7 +70,6 @@
         <webClassPathEntry>C:/Users/Administrator/.m2/repository/org/ow2/asm/asm-commons/5.1/asm-commons-5.1.jar</webClassPathEntry>
         <webClassPathEntry>C:/Users/Administrator/.m2/repository/org/ow2/asm/asm-tree/5.1/asm-tree-5.1.jar</webClassPathEntry>
         <webClassPathEntry>C:/Users/Administrator/.m2/repository/org/ow2/asm/asm/5.1/asm-5.1.jar</webClassPathEntry>
-        <webClassPathEntry>C:/Users/Administrator/.m2/repository/org/slf4j/slf4j-api/1.5.8/slf4j-api-1.5.8.jar</webClassPathEntry>
         <webClassPathEntry>C:/Users/Administrator/.m2/repository/org/springframework/spring-aop/4.3.0.RELEASE/spring-aop-4.3.0.RELEASE.jar</webClassPathEntry>
         <webClassPathEntry>C:/Users/Administrator/.m2/repository/org/springframework/spring-beans/4.3.0.RELEASE/spring-beans-4.3.0.RELEASE.jar</webClassPathEntry>
         <webClassPathEntry>C:/Users/Administrator/.m2/repository/org/springframework/spring-context/4.3.0.RELEASE/spring-context-4.3.0.RELEASE.jar</webClassPathEntry>

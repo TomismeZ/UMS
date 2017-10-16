@@ -33,7 +33,6 @@ C:\Users\Administrator\.m2\repository\javax\annotation\jsr250-api\1.0\jsr250-api
 C:\Users\Administrator\.m2\repository\javax\inject\javax.inject\1\javax.inject-1.jar
 C:\Users\Administrator\.m2\repository\org\hibernate\hibernate-annotations\3.5.0-Final\hibernate-annotations-3.5.0-Final.jar
 C:\Users\Administrator\.m2\repository\org\hibernate\hibernate-commons-annotations\3.2.0.Final\hibernate-commons-annotations-3.2.0.Final.jar
-C:\Users\Administrator\.m2\repository\org\slf4j\slf4j-api\1.5.8\slf4j-api-1.5.8.jar
 C:\Users\Administrator\.m2\repository\org\javassist\javassist\3.21.0-GA\javassist-3.21.0-GA.jar
 C:\Users\Administrator\.m2\repository\antlr\antlr\2.7.6\antlr-2.7.6.jar
 C:\Users\Administrator\.m2\repository\commons-collections\commons-collections\3.2.2\commons-collections-3.2.2.jar
@@ -53,6 +52,9 @@ C:\Users\Administrator\.m2\repository\org\springframework\spring-orm\4.3.0.RELEA
 C:\Users\Administrator\.m2\repository\org\springframework\spring-jdbc\4.3.0.RELEASE\spring-jdbc-4.3.0.RELEASE.jar
 C:\Users\Administrator\.m2\repository\org\aspectj\aspectjweaver\1.8.9\aspectjweaver-1.8.9.jar
 C:\Users\Administrator\.m2\repository\taglibs\standard\1.1.2\standard-1.1.2.jar
+C:\Users\Administrator\.m2\repository\org\slf4j\slf4j-api\1.7.25\slf4j-api-1.7.25.jar
+C:\Users\Administrator\.m2\repository\ch\qos\logback\logback-classic\1.2.3\logback-classic-1.2.3.jar
+C:\Users\Administrator\.m2\repository\ch\qos\logback\logback-core\1.2.3\logback-core-1.2.3.jar
 C:\Users\Administrator\.m2\repository\log4j\log4j\1.2.17\log4j-1.2.17.jar
 C:\Java\jre1.8.0_131\lib\resources.jar
 C:\Java\jre1.8.0_131\lib\rt.jar

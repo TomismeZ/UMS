@@ -30,7 +30,7 @@ public class Jurisdiction {
 	private Date createTime;
 	
 	@ManyToMany(targetEntity=Role.class,mappedBy="jurisdictions")
-	@Cascade(value={CascadeType.ALL,CascadeType.DELETE})
+	@Cascade(value={CascadeType.SAVE_UPDATE,CascadeType.DELETE})
 	private Set<Role> roles=new HashSet<>();
 	public Integer getId() {
 		return id;

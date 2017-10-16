@@ -104,5 +104,10 @@ public class DepartmentDaoImpl implements IDepartmentDao {
 	public Integer getAllRowCount(String hql) {
 		return getCurrentSession().createQuery(hql).getResultList().size();
 	}
+	@Override
+	public void update(Department entity) {
+		getCurrentSession().update(entity);
+		
+	}
 
 }

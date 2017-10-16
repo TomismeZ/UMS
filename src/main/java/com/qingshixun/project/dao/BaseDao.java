@@ -10,7 +10,8 @@ public interface BaseDao<T, PK extends Serializable> {
     T get(PK id);  
     List<T> findAll();  
     void persist(T entity);  
-    PK save(T entity);  
+    PK save(T entity);
+    void update(T entity); 
     void saveOrUpdate(T entity);  
     void delete(PK id);  
     void flush();

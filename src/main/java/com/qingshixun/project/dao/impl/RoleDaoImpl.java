@@ -109,4 +109,10 @@ public class RoleDaoImpl implements IRoleDao {
 		return getCurrentSession().createQuery(hql).getResultList().size();
 	}
 
+	@Override
+	public void update(Role entity) {
+		getCurrentSession().update(entity);
+		
+	}
+
 }

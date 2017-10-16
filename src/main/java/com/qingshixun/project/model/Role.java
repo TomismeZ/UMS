@@ -43,12 +43,12 @@ public class Role {
 			@JoinColumn(name = "role_id", referencedColumnName = "id") }, inverseJoinColumns = {
 					@JoinColumn(name = "jurisdiction_id", referencedColumnName = "id") })
 	// 设置级联，当这个实体类与另一个实体之间存在着外键关系时，需要设置一个delete级联，把与这个记录关联的表也删除掉，如果是关联两张表以上就会出现错误
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE })
+	@Cascade(value = { CascadeType.SAVE_UPDATE})
 	private Set<Jurisdiction> jurisdictions = new HashSet<>();
 
 	// 如果要删除角色的话，需要设置注解级联，把跟角色Id对应的账户删除掉（这里级联删除最好只设置在一的一方），这里使用的双向的
 	@OneToMany(targetEntity = Account.class, mappedBy = "role")
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE })
+	@Cascade(value = { CascadeType.ALL})
 	private Set<Account> accounts;
 
 	public Integer getId() {
