@@ -55,9 +55,10 @@
 					e.preventDefault();
 					//得到a标签href属性的值
 					var pageRef = $this.find("a").prop("href");
-					/* var id= $this.find("a").data("id"); */
+					var id= $this.find("a").data("id");
+					console.log("id:"+id);
 					//JQuery load页面
-					$rightContent.load(pageRef);
+					$rightContent.load(pageRef,{id:id});
 				}).first().click();
 			});
 		});

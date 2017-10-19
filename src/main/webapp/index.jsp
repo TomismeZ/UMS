@@ -6,14 +6,13 @@
 <head>
 <meta charset="UTF-8">
 <title>用户管理系统</title>
-<link rel="stylesheet" href="<%=path%>/css/animate.css">
 <link rel="stylesheet" type="text/css" href="<%=path%>/css/index.css">
 </head>
 <body>
 	<nav class="navbar navbar-default navbar-fixed-top topnav"
 		role="navigation">
 		<div class="container">
-			
+			<div class="btn-audio" data-path="<%=path%>"><audio id="mp3Btn" loop="loop" autoplay="autoplay"><source src="<%=path %>/music/1.mp3" type="audio/mpeg" /></audio></div>
 			 <div class="collapse" id="example">
 				<ul class="navbar-nav">
 					<li><a href="#about">关于</a></li>
@@ -116,6 +115,31 @@
 	</section>
 	<script src="<%=path%>/plugins/jquery2.1.3.min.js"
 		type="text/javascript"></script>
+	<script type="text/javascript">
+        $(function(){
+        	var path=$(".btn-audio").data("path");
+            //播放完毕
+            $('#mp3Btn').on('ended', function() {
+                console.log("音频已播放完成");
+                $('.btn-audio').css({'background':'url('+path+'/images/zanting.jpg) no-repeat center bottom','background-size':'cover'});
+            })
+            //播放器控制
+            var audio = document.getElementById('mp3Btn');
+            audio.volume = 0.3;
+            audio.currentTime += 20;
+            $('.btn-audio').click(function() {
+                event.stopPropagation();//防止冒泡
+                if(audio.paused){ //如果当前是暂停状态
+                    $('.btn-audio').css({'background':'url('+path+'/images/bofang.jpg) no-repeat center bottom','background-size':'cover'});
+                    audio.play(); //播放
+                    return;
+                }else{//当前是播放状态
+                    $('.btn-audio').css({'background':'url('+path+'/images/zanting.jpg) no-repeat center bottom','background-size':'cover'});
+                    audio.pause(); //暂停
+                }
+            });
+        })
+    </script>
 	<script type="text/javascript">
 	
 		$("#index").find(".title-v2").find("button").on("click",function(){

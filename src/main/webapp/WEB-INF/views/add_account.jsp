@@ -15,13 +15,13 @@
 		<div class="left">
 			 <div class="input-group">
 				<label class="input-label">用户名：</label> <label class="input-content">
-					<input type="text" class="input" name="account.userName">
+					<input type="text" class="input" name="account.userName" required>
 				</label>
 
 			</div>
 			<div class="input-group">
 				<label class="input-label">姓 名：</label> <label class="input-content">
-					<input type="text" class="input" name="account.name">
+					<input type="text" class="input" name="account.name" required>
 				</label>
 
 			</div>
@@ -42,22 +42,22 @@
 		<div class="right">
 			<div class="input-group">
 				<label class="input-label">密 码：</label> <label class="input-content">
-					<input type="password" name="account.password" class="input">
+					<input type="password" name="account.password" class="input" required>
 				</label>
 			</div>
 
 
 			<div class="input-group">
 				<label class="input-label">手 机：</label> <label class="input-content">
-					<input type="number" class="input" name="account.phoneNumber">
+					<input type="number" class="input" name="account.phoneNumber" required>
 				</label>
 			</div>
 
 			<div class="input-group">
 				<label class="input-label">部　门：</label> <label class="input-content">
-					<select name="departmentName">
+					<select name="account.department.id">
 						<c:forEach items="${departments}" var="department">
-							<option value="${department.name }">${department.name }</option>
+							<option value="${department.id }">${department.name }</option>
 						</c:forEach>
 				</select>
 
@@ -66,9 +66,9 @@
 			
 			<div class="input-group">
 				<label class="input-label">角　色：</label> <label class="input-content">
-					<select name="roleName">
+					<select name="account.role.id">
 						<c:forEach items="${roles}" var="role">
-							<option value="${role.name }">${role.name }</option>
+							<option value="${role.id }">${role.name }</option>
 						</c:forEach>
 				</select>
 
@@ -91,18 +91,18 @@
 </div>
 <div class="accountContent">
 	
-	<form action="saveAccount" method="post">
+	<form action="editAccount" method="post">
 		<input type="hidden" name="account.id" value="${account.id }">
 		<div class="left">
 			 <div class="input-group">
 				<label class="input-label">用户名：</label> <label class="input-content">
-					<input type="text" name="account.userName" value="${account.userName }">
+					<input type="text" name="account.userName" value="${account.userName }" required>
 				</label>
 
 			</div>
 			<div class="input-group">
 				<label class="input-label">姓 名：</label> <label class="input-content">
-					<input type="text" name="account.name" value="${account.name }">
+					<input type="text" name="account.name" value="${account.name }" required>
 				</label>
 
 			</div>
@@ -146,28 +146,28 @@
 			<div class="input-group">
 				<label class="input-label">密 码：</label> <label class="input-content">
 					<input type="password" name="account.password"
-					placeholder="${account.password}">
+					placeholder="${account.password}" required>
 				</label>
 			</div>
 
 
 			<div class="input-group">
 				<label class="input-label">手 机：</label> <label class="input-content">
-					<input type="number" name="account.phoneNumber" value="${account.phoneNumber }">
+					<input type="number" name="account.phoneNumber" value="${account.phoneNumber }" required>
 				</label>
 			</div>
 
 			<div class="input-group">
 				<label class="input-label">部　门：</label> <label class="input-content">
-					<select name="departmentName">
+					<select name="account.department.id">
 						<c:forEach items="${departments}" var="department">
 						<c:choose>
 							
 							<c:when test="${account.department.name eq department.name}">
-							<option value="${department.name }" selected="selected">${department.name }</option>
+							<option value="${department.id }" selected="selected">${department.name }</option>
 							</c:when>
 							<c:otherwise>
-							<option value="${department.name }">${department.name }</option>
+							<option value="${department.id }">${department.name }</option>
 							</c:otherwise>
 						</c:choose>
 							
@@ -179,14 +179,14 @@
 			
 			<div class="input-group">
 				<label class="input-label">角　色：</label> <label class="input-content">
-					<select name="roleName">
+					<select name="account.role.id">
 						<c:forEach items="${roles}" var="role">
 						<c:choose>
 							<c:when test="${account.role.name == role.name}">
-							<option value="${role.name }" selected="selected">${role.name }</option>
+							<option value="${role.id }" selected="selected">${role.name }</option>
 							</c:when>
 							<c:otherwise>
-							<option value="${role.name }">${role.name }</option>
+							<option value="${role.id }">${role.name }</option>
 							</c:otherwise>
 						</c:choose>
 							

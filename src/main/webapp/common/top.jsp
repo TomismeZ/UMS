@@ -1,13 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%
+	String path = request.getContextPath();
+%>
 <div class="logo-panel">
 	<div class="logo-content-panel"></div>
 	<h5>用户管理系统</h5>
 </div>
 <div class="menu-panel">
 	<div class="userinfo">
-		<img src="getImage" alt="" width="30" height="30" style=" border-radius: 50%;" />
+		<c:choose>
+			<c:when test="${not empty currentAccount.photo }">
+			<img src="getImage" alt="" width="30" height="30" style=" border-radius: 50%;" />
+			</c:when>
+			<c:otherwise>
+			<img src="<%=path %>/images/avatar.png" alt="" width="30" height="30" style=" border-radius: 50%;" />
+			</c:otherwise>
+		</c:choose>
+		
 		<c:choose>
 		<c:when test="${not empty currentAccount.role.name}">
 		<span>${currentAccount.role.name}</span>
@@ -21,7 +32,15 @@
 	<!--userinfo-->
 	<div class="userinfodrop">
 		<div class="avatar">
+		<c:choose>
+			<c:when test="${not empty currentAccount.photo }">
 			<a href=""><img src="getImage" alt="" width="90" height="90" style=" border-radius: 50%;"/></a>
+			</c:when>
+			<c:otherwise>
+			<a href=""><img src="<%=path %>/images/avatarbig.png" alt="" width="90" height="90" style=" border-radius: 50%;"/></a>
+			</c:otherwise>
+		</c:choose>
+			
 			<div class="changetheme">
 				切换主题: <br /> <a class="default"></a> <a class="blueline"></a> <a
 					class="greenline"></a> <a class="contrast"></a> <a class="custombg"></a>

@@ -21,8 +21,7 @@
 				<div class="input-group">
 					<label class="input-label">描述：</label> <label class="input-content">
 						
-						<textarea name="department.description" >         
-        				</textarea>
+						<textarea name="department.description" ></textarea>
 					</label>
 				</div>
 				
@@ -40,9 +39,9 @@
 			<h4>修改部门信息</h4>
 		</div>
 		<div class="departmentContent">
-			<form action="saveDepartment" method="post">
+			<form action="editDepartment" method="post">
 			<!-- 把id的值传到Action里，验证id是否存在，如果存在只修改信息，否则添加新记录 -->
-			<input type="hidden" name="id" value="${department.id }">
+			<input type="hidden" name="department.id" value="${department.id }">
 				<div class="input-group">
 					<label class="input-label">名称：</label> <label class="input-content">
 						<input class="input" type="text" name="department.name" value="${department.name }">
@@ -52,9 +51,7 @@
 				<div class="input-group">
 					<label class="input-label">描述：</label> <label class="input-content">
 						
-						<textarea name="department.description"> 
-							${department.description }        
-        				</textarea>
+						<textarea name="department.description"> ${department.description }</textarea>
 					</label>
 				</div>
 				

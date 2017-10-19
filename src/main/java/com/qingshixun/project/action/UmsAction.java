@@ -126,7 +126,7 @@ public class UmsAction extends ActionSupport {
 	}
 	
 	/**
-	 * 跳转到右侧菜单界面
+	 * 跳转到帮助页面右侧菜单界面
 	 * @return
 	 * @throws Exception
 	 */
@@ -138,6 +138,11 @@ public class UmsAction extends ActionSupport {
 	@Action(value = "twoRightContent",  interceptorRefs = { @InterceptorRef("myInterceptorStack") }, 
 			results = { @Result(name = SUCCESS, location = "/WEB-INF/views/help/two_right_content.jsp") })
 	public String twoRightContent() throws Exception {
+		return SUCCESS;
+	}
+	@Action(value = "threeRightContent",  interceptorRefs = { @InterceptorRef("myInterceptorStack") }, 
+			results = { @Result(name = SUCCESS, location = "/WEB-INF/views/help/three_right_content.jsp") })
+	public String threeRightContent() throws Exception {
 		return SUCCESS;
 	}
 	public Integer getId() {

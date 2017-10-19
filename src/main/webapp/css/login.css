@@ -17,6 +17,7 @@ body {
 	min-height: 60px;
 	max-height: 60px;
 	left: 0;
+	z-index: 1;
 }
 
 #header-panel .logo-panel, #header-panel .menu-panel {

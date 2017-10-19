@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.qingshixun.project.interceptor.PrivilegeInfo;
 import com.qingshixun.project.model.Jurisdiction;
 import com.qingshixun.project.model.PageBean;
 import com.qingshixun.project.model.Role;
@@ -20,7 +21,9 @@ import com.qingshixun.project.service.IRoleService;
 
 @ParentPackage("web-default")
 @Scope("prototype")
-@Results({ @Result(name = "login", location = "/WEB-INF/views/login.jsp") })
+@Results({ @Result(name = "login", location = "/WEB-INF/views/login.jsp"),
+	@Result(name = "jurisdiction", location = "/WEB-INF/views/jurisdiction/jurisdiction_interceptor.jsp"),
+})
 // @Controller
 public class RoleAction extends ActionSupport {
 
@@ -38,7 +41,6 @@ public class RoleAction extends ActionSupport {
 
 	private Role role;
 
-	// 权限列表集合
 	private List<Jurisdiction> jurisdictions;
 	// 权限列表名字
 	private List<String> jurisdictionNames;
@@ -48,6 +50,9 @@ public class RoleAction extends ActionSupport {
 	private int page;
 	//从页面上传入的值
 	private Integer id;
+	
+	//用于显示在页面上的提示信息
+	private String message;
 
 	/**
 	 * 跳转到添加或者编辑角色页面
@@ -55,7 +60,8 @@ public class RoleAction extends ActionSupport {
 	 * @return
 	 * @throws Exception
 	 */
-	@Action(value = "toRole",  interceptorRefs = { @InterceptorRef("myInterceptorStack") },results = { @Result(name = SUCCESS, location = "/WEB-INF/views/add_role.jsp") })
+	@Action(value = "toRole",  interceptorRefs = { @InterceptorRef("myInterceptorStack") },
+			results = { @Result(name = SUCCESS, location = "/WEB-INF/views/add_role.jsp") })
 	public String toRole() throws Exception {
 		
 		if(id!=null){
@@ -71,38 +77,40 @@ public class RoleAction extends ActionSupport {
 	 * @return
 	 * @throws Exception
 	 */
-	@Action(value = "saveRole", interceptorRefs = { @InterceptorRef("myInterceptorStack") }, results = { @Result(name = SUCCESS, location = "/WEB-INF/views/add_role.jsp") })
-	public String saveRole() throws Exception {
-		System.out.println("执行了保存！"+jurisdictionNames+role);
-		
-			role.setCreateTime(new Date());
-
-			for (String jurisdictionName : jurisdictionNames) {
-				System.out.println(jurisdictionName);
-				jurisdictions = jurisdictionService.findByName(jurisdictionName);
-				Jurisdiction jurisdiction = jurisdictions.get(0);
-				System.out.println(jurisdiction.getId() + "-----");
-				role.getJurisdictions().add(jurisdiction);
-			}
+	@Action(value = "saveRole", interceptorRefs = { @InterceptorRef("myInterceptorStack"),@InterceptorRef("jurisdictionInterceptor") },
+			results = { @Result(name = SUCCESS,type="json") })
+	@PrivilegeInfo(name="保存")
+	public String saveRole() throws Exception {	
 			roleService.saveOrUpdate(role);
-			System.out.println(role);
-
-		
-
+			message="success";						
 		return SUCCESS;
 	}
 
+	/**
+	 * 编辑角色信息
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@Action(value = "editRole", interceptorRefs = { @InterceptorRef("myInterceptorStack"),@InterceptorRef("jurisdictionInterceptor") },
+			results = { @Result(name = SUCCESS,type="json") })
+	@PrivilegeInfo(name="编辑")
+	public String editRole() throws Exception {
+		roleService.saveOrUpdate(role);	
+		message="success";
+		return SUCCESS;
+	}
 	/**
 	 * 显示角色列表信息
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	@Action(value = "findAllRole", interceptorRefs = { @InterceptorRef("myInterceptorStack") }, results = {
-			@Result(name = SUCCESS, location = "/WEB-INF/views/roleManage.jsp") })
+	@Action(value = "findAllRole", interceptorRefs = { @InterceptorRef("myInterceptorStack"),@InterceptorRef("jurisdictionInterceptor")  },
+			results = {@Result(name = SUCCESS, location = "/WEB-INF/views/roleManage.jsp") })
+	@PrivilegeInfo(name="查找")
 	public String findAllRole() throws Exception {
 		pageBean = roleService.getPageBean(5, page);
-		System.out.println(pageBean);
 		return SUCCESS;
 	}
 
@@ -114,12 +122,14 @@ public class RoleAction extends ActionSupport {
 	 * @return
 	 * @throws Exception
 	 */
-	@Action(value = "deleteRole", interceptorRefs = { @InterceptorRef("myInterceptorStack") }, results = {
-			@Result(name = SUCCESS, location = "/WEB-INF/views/roleManage.jsp") })
+	@Action(value = "deleteRole", interceptorRefs = { @InterceptorRef("myInterceptorStack"),@InterceptorRef("jurisdictionInterceptor")  }, 
+			results = {@Result(name = SUCCESS,type="json") })
+	@PrivilegeInfo(name="删除")
 	public String deleteRole() throws Exception {
 		System.out.println("执行了删除----"+id);
 		if (id != null) {
 			roleService.delete(id);
+			message="success";
 		}
 		
 		return SUCCESS;
@@ -169,8 +179,14 @@ public class RoleAction extends ActionSupport {
 		this.id = id;
 	}
 
-	// public void setJurisdictions(List<Jurisdiction> jurisdictions) {
-	// this.jurisdictions = jurisdictions;
-	// }
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	
 
 }

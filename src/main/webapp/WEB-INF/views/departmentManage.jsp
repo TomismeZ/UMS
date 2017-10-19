@@ -27,7 +27,7 @@
 					<!-- count获取当前序号，从1开始 -->
 					<!-- index获取当前索引，从0开始 -->
 					<td><input type="checkbox" name="checkbox" value="${item.id }" data-id="${item.id }">
-						${item.id }</td>				
+						${status.count }</td>				
 					<td>${item.name }</td>
 					<td>${item.description }</td>
 					<td>${item.createTime }</td>

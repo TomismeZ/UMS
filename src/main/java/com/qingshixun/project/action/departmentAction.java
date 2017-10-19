@@ -11,13 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.qingshixun.project.interceptor.PrivilegeInfo;
 import com.qingshixun.project.model.Department;
 import com.qingshixun.project.model.PageBean;
 import com.qingshixun.project.service.IDepartmentService;
 
 @ParentPackage("web-default")
 @Scope("prototype")
-@Results({ @Result(name = "login", location = "/WEB-INF/views/login.jsp") })
+@Results({ @Result(name = "login", location = "/WEB-INF/views/login.jsp"),
+		@Result(name = "jurisdiction", location = "/WEB-INF/views/jurisdiction/jurisdiction_interceptor.jsp"), })
 public class departmentAction extends ActionSupport {
 
 	/**
@@ -29,54 +31,68 @@ public class departmentAction extends ActionSupport {
 	private IDepartmentService departmentService;
 
 	private Department department;
-	
+
 	// 用户显示在页面上集合
 	private PageBean<Department> pageBean;
-	//从页面上得到page
+	// 从页面上得到page
 	private int page;
-	//从页面得到ID的值，用于查找，编辑以及删除
+	// 从页面得到ID的值，用于查找，编辑以及删除
 	private Integer id;
-	
+
+	//用于显示在页面上的提示信息
+	private String message;
 	/**
 	 * 跳转到添加或者编辑部门界面
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	@Action(value = "toDepartment",interceptorRefs = { @InterceptorRef("myInterceptorStack") }, 
-			results = { @Result(name = SUCCESS, location = "/WEB-INF/views/add_department.jsp") })
+	@Action(value = "toDepartment", interceptorRefs = { @InterceptorRef("myInterceptorStack") }, results = {
+			@Result(name = SUCCESS, location = "/WEB-INF/views/add_department.jsp") })
 	public String toDepartment() throws Exception {
-		
-		if(id!=null){
-			department=departmentService.get(id);
-			
+
+		if (id != null) {
+			department = departmentService.get(id);
+
 		}
-		System.out.println("id:"+id);
+		System.out.println("id:" + id);
 		return SUCCESS;
 	}
-	
+
 	/**
-	 * 保存或者修改部门信息
+	 * 保存部门信息
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	@Action(value = "saveDepartment",interceptorRefs = { @InterceptorRef("myInterceptorStack") }, 
-			results = { @Result(name = SUCCESS, location = "/WEB-INF/views/departmentManage.jsp") })
+	@Action(value = "saveDepartment", interceptorRefs = { @InterceptorRef("myInterceptorStack"),
+			@InterceptorRef("jurisdictionInterceptor") }, results = {
+					@Result(name = SUCCESS, type = "json") })
+	@PrivilegeInfo(name = "保存")
 	public String saveDepartment() throws Exception {
-		System.out.println("进入到saveDepartment方法");
-		Department department2=new Department();
-		if(id!=null){
-			department2=departmentService.get(id);
-			System.out.println("jurisdiction:"+department2);
-		}
-		department2.setCreateTime(new Date());
-		department2.setName(department.getName());
-		department2.setDescription(department.getDescription());
-		departmentService.saveOrUpdate(department2);
-					
-			return SUCCESS;
-		
+		departmentService.save(department);
+		message="success";
+		return SUCCESS;
+
 	}
-	
+
+	/**
+	 * 修改部门信息
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@Action(value = "editDepartment", interceptorRefs = { @InterceptorRef("myInterceptorStack"),
+			@InterceptorRef("jurisdictionInterceptor") }, results = {
+					@Result(name = SUCCESS, type = "json") })
+	@PrivilegeInfo(name = "保存")
+	public String editDepartment() throws Exception {
+		
+		departmentService.saveOrUpdate(department);
+		message="success";
+		return SUCCESS;
+
+	}
 
 	/**
 	 * 显示部门列表信息
@@ -84,32 +100,33 @@ public class departmentAction extends ActionSupport {
 	 * @return
 	 * @throws Exception
 	 */
-	@Action(value = "findAllDepartment", interceptorRefs = { @InterceptorRef("myInterceptorStack") }, results = {
+	@Action(value = "findAllDepartment", interceptorRefs = { @InterceptorRef("myInterceptorStack"),@InterceptorRef("jurisdictionInterceptor") },
+			results = {
 			@Result(name = SUCCESS, location = "/WEB-INF/views/departmentManage.jsp") })
+	@PrivilegeInfo(name="查找")
 	public String findAllDepartment() throws Exception {
 		pageBean = departmentService.getPageBean(5, page);
 		System.out.println(pageBean);
 		return SUCCESS;
 	}
-	
+
 	/**
 	 * 根据id删除权限信息
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	@Action(value = "deleteDepartment",interceptorRefs = { @InterceptorRef("myInterceptorStack") }, 
-			results = { @Result(name = SUCCESS, location = "/WEB-INF/views/departmentManage.jsp") })
+	@Action(value = "deleteDepartment", interceptorRefs = { @InterceptorRef("myInterceptorStack"),@InterceptorRef("jurisdictionInterceptor") },
+			results = {@Result(name = SUCCESS, type = "json") })
+	@PrivilegeInfo(name="删除")
 	public String deleteDepartment() throws Exception {
 		System.out.println("执行了删除");
-		if(id!=null){
+		if (id != null) {
 			departmentService.delete(id);
+			message="success";
 		}
-		System.out.println("id:"+id);
 		return SUCCESS;
 	}
-	
-	
-	
 
 	public Department getDepartment() {
 		return department;
@@ -143,7 +160,9 @@ public class departmentAction extends ActionSupport {
 		this.id = id;
 	}
 
+	public String getMessage() {
+		return message;
+	}
 
-	
 
 }

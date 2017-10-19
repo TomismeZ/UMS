@@ -25,7 +25,8 @@
 			<!-- 定义一个自己的interceptor -->
 			<interceptor name="myInterceptor"
 				class="com.qingshixun.project.interceptor.MyInterception"></interceptor>
-
+			<interceptor name="jurisdictionInterceptor"
+				class="com.qingshixun.project.interceptor.JurisdictionInterception"></interceptor>
 			<!-- 配置一个自定义的拦截器链，包含了自己定义的拦截器和默认的拦截器 -->
 			<interceptor-stack name="myInterceptorStack">
 				<interceptor-ref name="myInterceptor"></interceptor-ref>

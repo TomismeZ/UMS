@@ -1,14 +1,11 @@
 package com.qingshixun.project.action;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
+
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
@@ -17,12 +14,16 @@ import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import com.opensymphony.xwork2.ActionSupport;
+import com.qingshixun.project.interceptor.PrivilegeInfo;
 import com.qingshixun.project.model.Account;
 import com.qingshixun.project.model.Account.Status;
 import com.qingshixun.project.model.Department;
+import com.qingshixun.project.model.Jurisdiction;
 import com.qingshixun.project.model.PageBean;
 import com.qingshixun.project.model.Role;
 import com.qingshixun.project.service.IAccountService;
@@ -32,12 +33,18 @@ import com.qingshixun.project.service.IRoleService;
 //使用拦截器注解时，必须引用package包name的值
 @ParentPackage("web-default")
 @Scope("prototype")
-@Results({ @Result(name = "login", location = "/WEB-INF/views/login.jsp") })
+@Results({ @Result(name = "login", location = "/WEB-INF/views/login.jsp"),
+	@Result(name = "jurisdiction", location = "/WEB-INF/views/jurisdiction/jurisdiction_interceptor.jsp"),
+})
 // @Controller("accountAction")
 // @Component("accountAction")
 // //当使用这个注解时，下方的setter就不需要使用了,当知道分层结构之后就用@Controller
 public class AccountAction extends ActionSupport {
-
+	
+	//用于输出
+	Logger logger = LoggerFactory.getLogger(getClass());
+	//获取session
+	HttpSession session = ServletActionContext.getRequest().getSession();
 	/**
 	 * 
 	 */
@@ -47,9 +54,11 @@ public class AccountAction extends ActionSupport {
 	private List<Department> departments;
 	@Autowired
 	private IDepartmentService departmentService;
-
+	
 	@Autowired
 	private IRoleService roleService;
+	
+	private PageBean<Account> pageBean;
 
 	private List<Role> roles;
 	private Account account;
@@ -57,7 +66,6 @@ public class AccountAction extends ActionSupport {
 	private String roleName;
 	private List<Account> accounts;
 	private int page; // 页数
-	private PageBean<Account> pageBean;
 	// 从页面上传入的值
 	private Integer id;
 
@@ -114,11 +122,13 @@ public class AccountAction extends ActionSupport {
 	// 点击登录要跳转的界面
 	@Action(value = "loginAccount", results = { @Result(name = SUCCESS, location = "/WEB-INF/views/main.jsp") })
 	public String loginAccount() throws Exception {
-		HttpSession session = ServletActionContext.getRequest().getSession();
+		
 		if (account != null) {
-			Account account1 = accountService.loginAccount(account.getUserName(), account.getPassword());
-			if (account1 != null) {
-				session.setAttribute("currentAccount", account1);
+			Account currentAccount = accountService.loginAccount(account.getUserName(), account.getPassword());
+			if (currentAccount != null) {
+				session.setAttribute("currentAccount", currentAccount);
+				Collection<Jurisdiction> jurisdictions = currentAccount.getRole().getJurisdictions();
+				session.setAttribute("privileges", jurisdictions);
 				return SUCCESS;
 
 			} else {
@@ -165,51 +175,39 @@ public class AccountAction extends ActionSupport {
 		}
 		return SUCCESS;
 	}
+	
+	
 	/**
-	 * 添加或者修改账户
+	 * 添加账户
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	@Action(value = "saveAccount", interceptorRefs = { @InterceptorRef("myInterceptorStack") }, results = {
-			@Result(name = SUCCESS, location = "/WEB-INF/views/accountManage.jsp") })
+	@Action(value = "saveAccount", interceptorRefs = { @InterceptorRef("myInterceptorStack"),@InterceptorRef("jurisdictionInterceptor")},
+			results = {@Result(name = SUCCESS,type="json") })
+	@PrivilegeInfo(name="保存")
 	public String saveAccount() throws Exception {
-		System.out.println("------------  saveAccount()");
-
-		Department department = departmentService.findByName(departmentName);
-		Role role = roleService.findByName(roleName);
-		if (account.getId() != null) {
-
-			Account account2 = accountService.get(account.getId());
-			if (account.getUserName() != null) {
-				account2.setUserName(account.getUserName());
-			} else if (account.getName() != null) {
-				account2.setName(account.getName());
-			} else if (account.getPassword() != null) {
-				account2.setPassword(account.getPassword());
-			} else if (account.getPhoneNumber() != null) {
-				account2.setPhoneNumber(account.getPhoneNumber());
-			}
-			account2.setDepartment(department);
-			account2.setRole(role);
-			if (account.getName() != null || !"".equals(account.getName())) {
-				account2.setName(account.getName());
-			}
-			account2.setGender(account.getGender());
-			account2.setStatus(account.getStatus());
-			accountService.saveOrUpdate(account2);
-
-		} else {
-			account.setCreateTime(new Date());
-			account.setDepartment(department);
-			account.setRole(role);
-			accountService.save(account);
-		}
-
-		// System.out.println(account);
+		accountService.save(account);
+		message="success";
 		return SUCCESS;
+		
 	}
 
+	/**
+	 * 修改账户
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@Action(value = "editAccount", interceptorRefs = { @InterceptorRef("myInterceptorStack"),@InterceptorRef("jurisdictionInterceptor")},
+			results = {@Result(name = SUCCESS, type="json") })
+	@PrivilegeInfo(name="编辑")
+	public String editAccount() throws Exception {
+		
+		accountService.saveOrUpdate(account);
+		message="success";
+		return SUCCESS;
+	}
 	/**
 	 * 编辑当前用户资料
 	 * 
@@ -219,7 +217,6 @@ public class AccountAction extends ActionSupport {
 	@Action(value = "editCurrentAccount", results = {
 			@Result(name = SUCCESS, type="redirectAction",params={"actionName","loginAccount"}) })
 	public String editCurrentAccount() throws Exception {
-		HttpSession session = ServletActionContext.getRequest().getSession();
 		Account currentAccount = (Account) session.getAttribute("currentAccount");
 		if (photo == null) {
 			Department department = departmentService.findByName(departmentName);
@@ -264,16 +261,16 @@ public class AccountAction extends ActionSupport {
 	 * 
 	 * @return
 	 */
-	@Action(value = "findAllAccount", interceptorRefs = { @InterceptorRef("myInterceptorStack") }, results = {
-			@Result(name = SUCCESS, location = "/WEB-INF/views/accountManage.jsp") })
+	@Action(value = "findAllAccount", interceptorRefs = { @InterceptorRef("myInterceptorStack"),@InterceptorRef("jurisdictionInterceptor") }, 
+			results = {@Result(name = SUCCESS, location = "/WEB-INF/views/accountManage.jsp") })
+	@PrivilegeInfo(name="查找")
 	public String findAllAccount() throws Exception {
-		accounts = accountService.findAll();
-		System.out.println(accounts);
-
+		
+		System.out.println("findAllAccount当前页："+page);
+		
 		pageBean = accountService.getPageBean(5, page);
 		return SUCCESS;
 	}
-	
 	
 	/**
 	 * 删除账户
@@ -281,14 +278,16 @@ public class AccountAction extends ActionSupport {
 	 * @return
 	 * @throws Exception
 	 */
-	@Action(value = "deleteAccount", interceptorRefs = { @InterceptorRef("myInterceptorStack") }, results = {
-			@Result(name = SUCCESS, location = "/WEB-INF/views/accountManage.jsp") })
+	@Action(value = "deleteAccount", interceptorRefs = { @InterceptorRef("myInterceptorStack"),@InterceptorRef("jurisdictionInterceptor") }, 
+			results = {@Result(name = SUCCESS, type="json") })
+	@PrivilegeInfo(name="删除")
 	public String deleteAccount() throws Exception {
 		System.out.println("执行了删除----");
 		if (id != null) {
+			
 			accountService.delete(id);
+			message="success";
 		}
-
 		return SUCCESS;
 	}
 
@@ -299,7 +298,7 @@ public class AccountAction extends ActionSupport {
 	 */
 	@Action(value = "logoutAccount", results = { @Result(name = SUCCESS, location = "/WEB-INF/views/login.jsp") })
 	public String logoutAccount() throws Exception {
-		HttpSession session = ServletActionContext.getRequest().getSession();
+		
 		Object user = session.getAttribute("currentAccount");
 		if (user != null) {
 			session.removeAttribute("currentAccount");
@@ -381,14 +380,6 @@ public class AccountAction extends ActionSupport {
 		this.page = page;
 	}
 
-	public PageBean<Account> getPageBean() {
-		return pageBean;
-	}
-
-	public void setPageBean(PageBean<Account> pageBean) {
-		this.pageBean = pageBean;
-	}
-
 	public String getMessage() {
 		return message;
 	}
@@ -411,6 +402,14 @@ public class AccountAction extends ActionSupport {
 
 	public void setPhoto(File photo) {
 		this.photo = photo;
+	}
+
+	public PageBean<Account> getPageBean() {
+		return pageBean;
+	}
+
+	public void setPageBean(PageBean<Account> pageBean) {
+		this.pageBean = pageBean;
 	}
 
 }

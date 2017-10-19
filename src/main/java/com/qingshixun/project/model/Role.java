@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,6 +20,8 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Entity
 @Table(name = "t_role")
@@ -27,12 +30,16 @@ public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // id递增
 	private Integer id;
+	
+	@Column(name="name",unique=true)
 	private String name; // 角色名称
 
 	private String description; // 角色描述
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date createTime;
+	// 创建时间(updateable=false表示编辑后，不更新此字段)
+	@Column(nullable = true, length = 19,updatable=false)
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = ISO.DATE)
+	private Date createTime = new Date(System.currentTimeMillis());
 	// fetch类型如何改为lazy的话，可能会出现异常(对于编辑那一部分，如
 	// org.hibernate.LazyInitializationException: failed to lazily initialize a
 	// collection of role: com.qingshixun.project.model.Role.jurisdictions,
@@ -43,7 +50,6 @@ public class Role {
 			@JoinColumn(name = "role_id", referencedColumnName = "id") }, inverseJoinColumns = {
 					@JoinColumn(name = "jurisdiction_id", referencedColumnName = "id") })
 	// 设置级联，当这个实体类与另一个实体之间存在着外键关系时，需要设置一个delete级联，把与这个记录关联的表也删除掉，如果是关联两张表以上就会出现错误
-	@Cascade(value = { CascadeType.SAVE_UPDATE})
 	private Set<Jurisdiction> jurisdictions = new HashSet<>();
 
 	// 如果要删除角色的话，需要设置注解级联，把跟角色Id对应的账户删除掉（这里级联删除最好只设置在一的一方），这里使用的双向的

@@ -30,7 +30,7 @@
 					<!-- count获取当前序号，从1开始 -->
 					<!-- index获取当前索引，从0开始 -->
 					<td><input type="checkbox" name="checkbox" value="${item.id }"
-						data-id="${item.id }"> ${item.id }</td>
+						data-id="${item.id }"> ${status.count }</td>
 					<td>${item.userName }</td>
 					<td>${item.name }</td>
 					<td>${item.department.name }</td>
@@ -46,9 +46,9 @@
 	<div class="footer">
 		<font size="3">共<font color="red">${pageBean.totalPage }</font>页
 		</font>&nbsp;&nbsp; <font size="3">共<font color="red">${pageBean.allRows }</font>条记录
-		</font><br> 
-		<input type="hidden"
+		</font><br> <input type="hidden"
 			data-currentpage="${pageBean.currentPage }"> <input
+			type="hidden" value="${pageBean.allRows }"> <input
 			type="hidden" data-totalpages="${pageBean.totalPage }">
 
 		<ul class="pagination" id="pagination1"></ul>
@@ -62,16 +62,23 @@
 	//Jquery分页插件用到时的变量
 	var $inputFirst = $mangeClass.find(".footer").find("input:first");
 	var $inputLast = $mangeClass.find(".footer").find("input:last");
+	var $inputallRows = $mangeClass.find(".footer").find(
+			"input:not(:first,:last)");
 	var totalPages = $inputLast.data("totalpages");
 	var currentPage = $inputFirst.data("currentpage");
-	if(totalPages == 0){
-		totalPages=1;
+	var allRows = $inputallRows.val();
+
+	
+	if (totalPages == 0) {
+		totalPages = 1;
 	}
 	/**
 	 * jQuery 分页插件
 	 */
 
-	$.jqPaginator('#pagination1',
+	$
+			.jqPaginator(
+					'#pagination1',
 					{
 						totalPages : totalPages,
 						visiblePages : 8,
@@ -85,6 +92,11 @@
 						$('font').text(type + '：' + num);
 					} */
 					});
+	
+/* 	if (allRows % totalPages == 1) {
+		--currentPage;
+	}
+	alert(currentPage+":dsf"); */
 </script>
 <!-- 引入外部脚本 -->
 <script src="<%=path%>/js/common.js"></script>

@@ -21,8 +21,7 @@
 				<div class="input-group">
 					<label class="input-label">描述：</label> <label class="input-content">
 						
-						<textarea name="jurisdiction.description" >         
-        				</textarea>
+						<textarea name="jurisdiction.description" ></textarea>
 					</label>
 				</div>
 				
@@ -40,9 +39,9 @@
 			<h4>修改权限信息</h4>
 		</div>
 		<div class="jurisdictionContent">
-			<form action="saveJurisdiction" method="post">
+			<form action="editJurisdiction" method="post">
 			<!-- 把id的值传到Action里，验证id是否存在，如果存在只修改信息，否则添加新记录 -->
-			<input type="hidden" name="id" value="${jurisdiction.id }">
+			<input type="hidden" name="jurisdiction.id" value="${jurisdiction.id }">
 				<div class="input-group">
 					<label class="input-label">名称：</label> <label class="input-content">
 						<input class="input" type="text" name="jurisdiction.name" value="${jurisdiction.name }">
@@ -52,9 +51,7 @@
 				<div class="input-group">
 					<label class="input-label">描述：</label> <label class="input-content">
 						
-						<textarea name="jurisdiction.description"> 
-							${jurisdiction.description }        
-        				</textarea>
+						<textarea name="jurisdiction.description"> ${jurisdiction.description }</textarea>
 					</label>
 				</div>
 				

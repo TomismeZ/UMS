@@ -18,6 +18,8 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.mysql.jdbc.Blob;
 
@@ -28,6 +30,8 @@ public class Account {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // id递增
 	private Integer id;
+	
+	@Column(name="userName",unique=true)
 	private String userName; // 用户名
 	private String password; // 用户密码
 
@@ -51,15 +55,18 @@ public class Account {
 	@Enumerated(EnumType.ORDINAL)
 	private Status status = Status.disable;
 
-	@Temporal(TemporalType.DATE)
-	private Date createTime;
+	// 创建时间(updateable=false表示编辑后，不更新此字段)
+	@Column(nullable = true, length = 19,updatable=false)
+	@DateTimeFormat(pattern = "yyyy-MM-dd", iso = ISO.DATE)
+	private Date createTime = new Date(System.currentTimeMillis());
 	
 	@ManyToOne(targetEntity=Role.class,fetch=FetchType.EAGER) 
-	@Cascade(CascadeType.SAVE_UPDATE) //设定级联关系
+//	@Cascade(CascadeType.SAVE_UPDATE) //设定级联关系，当保存当前对象时，会把角色的对象也保存，默认是空，
+
 	private Role role;
 	
 	@ManyToOne(targetEntity=Department.class,fetch=FetchType.EAGER)
-	@Cascade(CascadeType.SAVE_UPDATE)
+	/*@Cascade(CascadeType.SAVE_UPDATE)*/
 	private Department department;
 	// 性别(枚举值)
 	public enum Gender {

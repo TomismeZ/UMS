@@ -123,6 +123,7 @@
 				$registContent.find(".topPanel").find("button").on("click", function() {
 					$registContent.remove();
 					$("#bg").css("display","none");
+					$("body").css("overflow","hidden");
 				});
 			});
 		});

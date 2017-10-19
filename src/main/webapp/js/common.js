@@ -57,29 +57,34 @@ $(function(){
 
 				/* ckbs.parent().parent().hide(); */
 				ckbs.each(function(i) {
-					arrayId[i] = $(this).data("id")
-
-					/*
-					 * $rightContent.load("deleteAccount", { "account.id" :
-					 * arrayId[i] });
-					 */
-
+					arrayId[i] = $(this).data("id");
+					alert(currentPage);
+					/*$rightContent.load(deleteInfo,{id : arrayId[i],page:currentPage});*/
+					/**
+					实现异步刷新，
+					**/
 					$.ajax({
-						cache : true,
-						type : "POST",
-						url : deleteInfo,
-						data : {
-							id : arrayId[i]
-						},
-						async : false,
-						error : function(request) {
-							alert("Connection error");
-						},
-						success : function(data) {
-							$rightContent.load(findAllInfo);
-							
-						}
-					});
+				        cache: true,
+				        type: "POST",
+				        url:deleteInfo,
+				        data:{
+				        	id : arrayId[i]
+				        },
+				        async: true,
+				        error: function(request) {
+				            alert("Connection error");
+				        },
+				        success: function(data) {
+				        	if(data.message=='error'){
+				        		alert("该权限有用户在使用，你不能删除掉！");
+				        	}else if(data.message=='success'){
+				        		$rightContent.load(findAllInfo,{page:currentPage});
+				        	}else{
+				        		alert("权限不足！")
+				        	}
+				        	
+				        }
+				    });
 				});
 				console.log(arrayId);
 
@@ -110,7 +115,7 @@ $(function(){
 			return;
 		} else {
 			if (confirm("确定要删除选中项？")) {
-				
+				/*$rightContent.load(pageRef,{id : id,page:currentPage});*/
 				/**
 				实现异步刷新，
 				**/
@@ -126,8 +131,14 @@ $(function(){
 			            alert("Connection error");
 			        },
 			        success: function(data) {
-			        	/*$rightContent.load(findAllInfo);*/
-			        	ckbs.parent().parent().remove();
+			        	if(data.message=='error'){
+			        		alert("该权限有用户在使用，你不能删除掉！");
+			        	}else if(data.message=='success'){
+			        		$rightContent.load(findAllInfo,{page:currentPage});
+			        	}else{
+			        		alert("权限不足！")
+			        	}
+			        	
 			        }
 			    });
 			}
@@ -203,16 +214,15 @@ $(function(){
 	});
 	$rightContent.find(".button-group").find("button:last").on("click",function(){
 		var $form=$content.find("form");
-		/* $form.submit(); */
-		/*  $form.on("submit",function(e){
+		/*$form.on("submit",function(e){
 			//阻止原标签原有的默认事件
 			 e.preventDefault();
-			 //得到a标签href属性的值
+			 //得到form标签action属性的值
 	         var pageRef=$(this).prop("action");
-	         //JQuery load页面
-	         $rightContent.load(pageRef);
-		}).submit();  */
-		
+	         //JQuery load页面,局部刷新
+	         $rightContent.load(pageRef,$form.serialize());
+		}).submit();*/
+		//异步刷新
 		$.ajax({
 	        cache: true,
 	        type: "POST",
@@ -222,8 +232,13 @@ $(function(){
 	        error: function(request) {
 	            alert("Connection error");
 	        },
-	        success: function(data) {
-	        	$rightContent.load(findAllInfo);
+	        success: function(data) { 
+	        	if(data.message == 'success'){
+	        		$rightContent.load(findAllInfo);
+	        	}else{
+	        		alert("权限不足")
+	        	}
+	        	
 	        }
 	    });
 	});

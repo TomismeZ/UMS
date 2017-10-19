@@ -65,7 +65,7 @@ public class JurisdictionServiceImpl implements IJurisdictionService{
 	}
 
 	@Override
-	public List<Jurisdiction> findByName(String name) {
+	public Jurisdiction findByName(String name) {
 		// TODO Auto-generated method stub
 		return jurisdictionDao.findByName(name);
 	}

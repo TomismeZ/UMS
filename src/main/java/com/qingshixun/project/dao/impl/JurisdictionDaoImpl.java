@@ -74,9 +74,9 @@ public class JurisdictionDaoImpl implements IJurisdictionDao{
 	}
 
 	@Override
-	public List<Jurisdiction> findByName(String name) {
+	public Jurisdiction findByName(String name) {
 		// TODO Auto-generated method stub
-		return getCurrentSession().createQuery("FROM Jurisdiction WHERE name=?").setParameter(0, name).getResultList();
+		return (Jurisdiction) getCurrentSession().createQuery("FROM Jurisdiction WHERE name=?").setParameter(0, name).getSingleResult();
 	}
 
 	/**

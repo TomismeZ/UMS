@@ -17,9 +17,9 @@
 		<li class="left-item"><a href="twoRightContent" data-id="3">部门管理</a></li>
 		</c:when>
 		<c:otherwise>
-		<li class="left-item"><a href="oneRightContent" data-id="1">框架搭建</a></li>
-		<li class="left-item"><a href="oneRightContent" data-id="2">分页插件</a></li>
-		<li class="left-item"><a href="oneRightContent" data-id="3">Ajax</a></li>
+		<li class="left-item"><a href="threeRightContent" data-id="1">框架搭建</a></li>
+		<li class="left-item"><a href="threeRightContent" data-id="2">分页插件</a></li>
+		<li class="left-item"><a href="threeRightContent" data-id="3">Ajax</a></li>
 		</c:otherwise>
 	</c:choose>
 	
