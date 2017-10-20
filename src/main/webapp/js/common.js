@@ -58,35 +58,39 @@ $(function(){
 				/* ckbs.parent().parent().hide(); */
 				ckbs.each(function(i) {
 					arrayId[i] = $(this).data("id");
-					alert(currentPage);
+				
 					/*$rightContent.load(deleteInfo,{id : arrayId[i],page:currentPage});*/
-					/**
-					实现异步刷新，
-					**/
-					$.ajax({
-				        cache: true,
-				        type: "POST",
-				        url:deleteInfo,
-				        data:{
-				        	id : arrayId[i]
-				        },
-				        async: true,
-				        error: function(request) {
-				            alert("Connection error");
-				        },
-				        success: function(data) {
-				        	if(data.message=='error'){
-				        		alert("该权限有用户在使用，你不能删除掉！");
-				        	}else if(data.message=='success'){
-				        		$rightContent.load(findAllInfo,{page:currentPage});
-				        	}else{
-				        		alert("权限不足！")
-				        	}
-				        	
-				        }
-				    });
 				});
+				
 				console.log(arrayId);
+				/*$rightContent.load(deleteInfo,{arrayId : arrayId});*/
+				/**
+				实现异步刷新，
+				**/
+				
+				$.ajax({
+				  traditional: true,
+			        cache: true,
+			        type: "POST",
+			        url:deleteInfo,
+			        data:{
+			        	arrayId : arrayId
+			        },
+			        async: true,
+			        error: function(request) {
+			            alert("Connection error");
+			        },
+			        success: function(data) {
+			        	if(data.message=='error'){
+			        		alert("该权限有用户在使用，你不能删除掉！");
+			        	}else if(data.message=='success'){
+			        		$rightContent.load(findAllInfo);
+			        	}else{
+			        		alert("权限不足！")
+			        	}
+			        	
+			        }
+			    });
 
 			}
 
@@ -134,6 +138,10 @@ $(function(){
 			        	if(data.message=='error'){
 			        		alert("该权限有用户在使用，你不能删除掉！");
 			        	}else if(data.message=='success'){
+			        		console.log(allRows % 5 == 1);
+			        		if(allRows % 5 == 1){
+			        			--currentPage;
+			        		}
 			        		$rightContent.load(findAllInfo,{page:currentPage});
 			        	}else{
 			        		alert("权限不足！")

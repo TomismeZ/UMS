@@ -3,6 +3,7 @@ package com.qingshixun.project.dao.impl;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -120,6 +121,16 @@ public class AccountDaoImpl implements IAccountDao {
 	@Override
 	public void update(Account entity) {
 		getCurrentSession().update(entity);
+		
+	}
+	/**
+	 * 删除多条记录
+	 */
+	@SuppressWarnings("deprecation")
+	@Override
+	public void delete(List<Integer> ids) {
+		String hql="delete from Account where id IN (:idd)";
+		getCurrentSession().createQuery(hql).setParameterList("idd",ids).executeUpdate();
 		
 	}
 

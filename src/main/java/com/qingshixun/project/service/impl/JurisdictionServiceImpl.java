@@ -92,4 +92,10 @@ public class JurisdictionServiceImpl implements IJurisdictionService{
 		return pageBean;
 	}
 
+	@Override
+	public void delete(List<Integer> ids) {
+	jurisdictionDao.delete(ids);
+		
+	}
+
 }

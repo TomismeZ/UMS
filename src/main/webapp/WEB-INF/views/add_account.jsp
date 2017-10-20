@@ -146,7 +146,7 @@
 			<div class="input-group">
 				<label class="input-label">密 码：</label> <label class="input-content">
 					<input type="password" name="account.password"
-					placeholder="${account.password}" required>
+					value="${account.password}" required>
 				</label>
 			</div>
 
@@ -196,8 +196,6 @@
 				</label>
 			</div>
 		</div>
-
-
 	</form>
 </div>
 <div class="button-group">

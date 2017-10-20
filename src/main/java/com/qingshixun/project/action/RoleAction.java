@@ -42,8 +42,6 @@ public class RoleAction extends ActionSupport {
 	private Role role;
 
 	private List<Jurisdiction> jurisdictions;
-	// 权限列表名字
-	private List<String> jurisdictionNames;
 	// 用户显示在页面上集合
 	private PageBean<Role> pageBean;
 	// 分页的页数
@@ -54,6 +52,7 @@ public class RoleAction extends ActionSupport {
 	//用于显示在页面上的提示信息
 	private String message;
 
+	private List<Integer> arrayId;
 	/**
 	 * 跳转到添加或者编辑角色页面
 	 * 
@@ -130,6 +129,9 @@ public class RoleAction extends ActionSupport {
 		if (id != null) {
 			roleService.delete(id);
 			message="success";
+		}else if(arrayId.size()>0){
+			roleService.delete(arrayId);
+			message="success";
 		}
 		
 		return SUCCESS;
@@ -145,14 +147,6 @@ public class RoleAction extends ActionSupport {
 
 	public List<Jurisdiction> getJurisdictions() {
 		return jurisdictions;
-	}
-
-	public List<String> getJurisdictionNames() {
-		return jurisdictionNames;
-	}
-
-	public void setJurisdictionNames(List<String> jurisdictionNames) {
-		this.jurisdictionNames = jurisdictionNames;
 	}
 
 	public PageBean<Role> getPageBean() {
@@ -185,6 +179,10 @@ public class RoleAction extends ActionSupport {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public void setArrayId(List<Integer> arrayId) {
+		this.arrayId = arrayId;
 	}
 
 	

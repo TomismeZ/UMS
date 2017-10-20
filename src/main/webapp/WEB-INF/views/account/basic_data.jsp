@@ -13,25 +13,26 @@
 		</div>
 		<div class="accountContent">
 			<form action="editCurrentAccount" method="post">
-				<%-- <input type="hidden" name="account.id" value="${currentAccount.id }"> --%>
+				<input type="hidden" name="account.id" value="${account.id }">
+				<input type="hidden" name="id" value="${id}">
 				<div class="left">
 					<div class="input-group">
 						<label class="input-label">用户名：</label> <label
 							class="input-content"> <input type="text" class="input"
-							name="account.userName" value="${currentAccount.userName}">
+							name="account.userName" value="${account.userName}">
 						</label>
 					</div>
 					<div class="input-group">
 						<label class="input-label">姓 名：</label> <label
 							class="input-content"> <input type="text" class="input"
-							name="account.name" value="${currentAccount.name }">
+							name="account.name" value="${account.name }">
 						</label>
 
 					</div>
 					<div class="input-group">
 						<label class="input-label">性 别：</label> <label
 							class="input-content"> <c:choose>
-								<c:when test="${currentAccount.gender == 'male'}">
+								<c:when test="${account.gender == 'male'}">
 									<input type="radio" name="account.gender" value="male" checked>男 <input
 										type="radio" name="account.gender" value="female">女
 					</c:when>
@@ -47,19 +48,19 @@
 					<div class="input-group">
 						<label class="input-label">密 码：</label> <label
 							class="input-content"> <input type="password"
-							name="account.password" value="${currentAccount.password }"
+							name="account.password" value="${account.password }"
 							class="input">
 						</label>
 					</div>
 					<div class="input-group">
 						<label class="input-label">手 机：</label> <label
 							class="input-content"> <input type="number" class="input"
-							name="account.phoneNumber" value="${currentAccount.phoneNumber }">
+							name="account.phoneNumber" value="${account.phoneNumber }">
 						</label>
 					</div>
 					<div class="input-group">
 						<c:choose>
-							<c:when test="${currentAccount.status == 'enable' }">
+							<c:when test="${account.status == 'enable' }">
 								<input type="radio" name="account.status" value="enable" checked>启用
 						<input type="radio" name="account.status" value="disable">禁用
 						</c:when>
@@ -84,19 +85,20 @@
 		<div class="accountContent">
 
 			<form action="editCurrentAccount" method="post">
-				<input type="hidden" name="account.id" value="${currentAccount.id }">
+				<input type="hidden" name="account.id" value="${account.id }">
+				<input type="hidden" name="id" value="${id}">
 				<div class="left">
 					<div class="input-group">
 						<label class="input-label">用户名：</label> <label
 							class="input-content"> <input type="text"
-							name="account.userName" value="${currentAccount.userName }">
+							name="account.userName" value="${account.userName }">
 						</label>
 
 					</div>
 					<div class="input-group">
 						<label class="input-label">姓 名：</label> <label
 							class="input-content"> <input type="text"
-							name="account.name" placeholder="${currentAccount.name }">
+							name="account.name" value="${account.name }">
 						</label>
 
 					</div>
@@ -104,7 +106,7 @@
 					<div class="input-group">
 						<label class="input-label">性 别：</label> <label
 							class="input-content"> <c:choose>
-								<c:when test="${currentAccount.gender == 'male'}">
+								<c:when test="${account.gender == 'male'}">
 									<input type="radio" name="account.gender" value="male" checked>男 <input
 										type="radio" name="account.gender" value="female">女
 					</c:when>
@@ -122,7 +124,7 @@
 					<div class="input-group">
 						<label class="input-label">状 态：</label> <label
 							class="input-content"> <c:choose>
-								<c:when test="${currentAccount.status == 'enable' }">
+								<c:when test="${account.status == 'enable' }">
 									<input type="radio" name="account.status" value="enable"
 										checked>启用
 						<input type="radio" name="account.status" value="disable">禁用
@@ -141,7 +143,7 @@
 					<div class="input-group">
 						<label class="input-label">密 码：</label> <label
 							class="input-content"> <input type="password"
-							name="account.password" placeholder="${currentAccount.password}">
+							name="account.password" placeholder="${account.password}" value="${currentAccount.password}">
 						</label>
 					</div>
 
@@ -149,21 +151,21 @@
 					<div class="input-group">
 						<label class="input-label">手 机：</label> <label
 							class="input-content"> <input type="number"
-							name="account.phoneNumber" value="${currentAccount.phoneNumber }">
+							name="account.phoneNumber" value="${account.phoneNumber }">
 						</label>
 					</div>
 
 					<div class="input-group">
 						<label class="input-label">部 门：</label> <label
-							class="input-content"> <select name="departmentName">
+							class="input-content"> <select name="account.department.id">
 								<c:forEach items="${departments}" var="department">
 									<c:choose>
 
-										<c:when test="${currentAccount.department.name eq department.name}">
-											<option value="${department.name }" selected="selected">${department.name }</option>
+										<c:when test="${account.department.name eq department.name}">
+											<option value="${department.id }" selected="selected">${department.name }</option>
 										</c:when>
 										<c:otherwise>
-											<option value="${department.name }">${department.name }</option>
+											<option value="${department.id }">${department.name }</option>
 										</c:otherwise>
 									</c:choose>
 
@@ -175,14 +177,14 @@
 
 					<div class="input-group">
 						<label class="input-label">角 色：</label> <label
-							class="input-content"> <select name="roleName">
+							class="input-content"> <select name="account.role.id">
 								<c:forEach items="${roles}" var="role">
 									<c:choose>
-										<c:when test="${currentAccount.role.name == role.name}">
-											<option value="${role.name }" selected="selected">${role.name }</option>
+										<c:when test="${account.role.name == role.name}">
+											<option value="${role.id }" selected="selected">${role.name }</option>
 										</c:when>
 										<c:otherwise>
-											<option value="${role.name }">${role.name }</option>
+											<option value="${role.id }">${role.name }</option>
 										</c:otherwise>
 									</c:choose>
 
@@ -210,6 +212,8 @@
 			<div class="avatar-setting">
 			<s:form theme="simple" action="editCurrentAccount" method="post"
 				enctype="multipart/form-data" validate="true">
+				<input type="hidden" name="account.id" value="${account.id }">
+				<input type="hidden" name="id" value="${id}">
 				<img id="image" src="getImage.action" width="100" height="120" />
 				<s:file name="photo" accept="image/*"
 					onchange="document.all['image'].src=getImgURL(this);" />
@@ -277,8 +281,10 @@
 	            alert("Connection error");
 	        },
 	        success: function(data) {
-	        	$rightContent.load("baseData",{id:id});
-	        	alert("修改成功！");
+	        	
+	        	if(data.message='success'){
+	        		alert("修改成功！"); 
+	        	}
 	        }
 	    });
 	});

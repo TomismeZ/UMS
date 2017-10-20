@@ -113,4 +113,11 @@ public class JurisdictionDaoImpl implements IJurisdictionDao{
 		
 	}
 
+	@Override
+	public void delete(List<Integer> ids) {
+		String hql="delete from Jurisdiction where id IN (:idd)";
+		getCurrentSession().createQuery(hql).setParameterList("idd",ids).executeUpdate();
+		
+	}
+
 }

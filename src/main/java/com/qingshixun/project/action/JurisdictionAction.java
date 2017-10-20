@@ -1,6 +1,8 @@
 package com.qingshixun.project.action;
 
 
+import java.util.List;
+
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -41,6 +43,8 @@ public class JurisdictionAction extends ActionSupport {
 	private Integer id;
 	
 	private String message;
+	
+	private List<Integer> arrayId;
 	/**
 	 * 跳转到添加或者编辑权限界面
 	 * @return
@@ -126,8 +130,18 @@ public class JurisdictionAction extends ActionSupport {
 				e.printStackTrace();
 			}
 			
+		}else if(arrayId.size()>0){
+			try {
+				jurisdictionService.delete(arrayId);
+				message="success";
+			} catch (Exception e) {
+				message="error";			
+				System.out.println("message:"+message);
+				e.printStackTrace();
+			}
+			
 		}
-		System.out.println("id:"+id);
+		
 		return SUCCESS;
 	}
 	public Jurisdiction getJurisdiction() {
@@ -170,6 +184,10 @@ public class JurisdictionAction extends ActionSupport {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public void setArrayId(List<Integer> arrayId) {
+		this.arrayId = arrayId;
 	}
 
 

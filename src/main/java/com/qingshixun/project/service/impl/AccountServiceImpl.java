@@ -96,4 +96,10 @@ public class AccountServiceImpl implements IAccountService {
 		return accountDao.findByName(userName);
 	}
 
+	@Override
+	public void delete(List<Integer> ids) {
+		accountDao.delete(ids);
+		
+	}
+
 }

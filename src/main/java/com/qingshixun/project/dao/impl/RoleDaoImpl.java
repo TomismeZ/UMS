@@ -115,4 +115,11 @@ public class RoleDaoImpl implements IRoleDao {
 		
 	}
 
+	@Override
+	public void delete(List<Integer> ids) {
+		String hql="delete from Role where id IN (:idd)";
+		getCurrentSession().createQuery(hql).setParameterList("idd",ids).executeUpdate();
+		
+	}
+
 }

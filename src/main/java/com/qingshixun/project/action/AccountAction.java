@@ -62,13 +62,12 @@ public class AccountAction extends ActionSupport {
 
 	private List<Role> roles;
 	private Account account;
-	private String departmentName;
-	private String roleName;
 	private List<Account> accounts;
 	private int page; // 页数
 	// 从页面上传入的值
 	private Integer id;
 
+	private List<Integer> arrayId;
 	// 页面提示信息
 	private String message;
 	// 账户头像信息
@@ -169,6 +168,7 @@ public class AccountAction extends ActionSupport {
 	@Action(value = "baseData", interceptorRefs = { @InterceptorRef("myInterceptorStack") }, 
 			results = { @Result(name = SUCCESS, location = "/WEB-INF/views/account/basic_data.jsp") })
 	public String baseData() throws Exception {
+		account=(Account) session.getAttribute("currentAccount");
 		if(id==2){
 			departments = departmentService.findAll();
 			roles = roleService.findAll();
@@ -203,6 +203,10 @@ public class AccountAction extends ActionSupport {
 			results = {@Result(name = SUCCESS, type="json") })
 	@PrivilegeInfo(name="编辑")
 	public String editAccount() throws Exception {
+		Account enditAccount=accountService.get(account.getId());
+		if(enditAccount.getPhoto()!=null){
+			account.setPhoto(enditAccount.getPhoto());
+		}
 		
 		accountService.saveOrUpdate(account);
 		message="success";
@@ -218,41 +222,26 @@ public class AccountAction extends ActionSupport {
 			@Result(name = SUCCESS, type="redirectAction",params={"actionName","loginAccount"}) })
 	public String editCurrentAccount() throws Exception {
 		Account currentAccount = (Account) session.getAttribute("currentAccount");
-		if (photo == null) {
-			Department department = departmentService.findByName(departmentName);
-			Role role = roleService.findByName(roleName);
-			if (account.getName() != null) {
-				currentAccount.setName(account.getName());
-			}
-			if (account.getUserName() != null) {
-				currentAccount.setUserName(account.getUserName());
-			} else if (account.getPassword() != null) {
-				currentAccount.setPassword(account.getPassword());
-			} else if (account.getPhoneNumber() != null) {
-				currentAccount.setPhoneNumber(account.getPhoneNumber());
-			} else if (department != null) {
-				currentAccount.setDepartment(department);
-			} else if (role != null) {
-				currentAccount.setRole(role);
-			} else if (photo != null) {
-				FileInputStream fis = new FileInputStream(this.getPhoto());
-				byte[] buffer = new byte[fis.available()];
-				fis.read(buffer);
-				currentAccount.setPhoto(buffer);
-			} else if (account.getGender() != null) {
-				currentAccount.setGender(account.getGender());
-			} else if (account.getStatus() != null) {
-				currentAccount.setStatus(account.getStatus());
-			}
-		} else {
+		if(id==1){
+			account.setDepartment(currentAccount.getDepartment());
+			account.setRole(currentAccount.getRole());
+			account.setPhoto(currentAccount.getPhoto());
+			accountService.saveOrUpdate(account);
+		}else if(id==2){
+			account.setPhoto(currentAccount.getPhoto());
+			accountService.saveOrUpdate(account);
+		}else if(id==3){
 			FileInputStream fis = new FileInputStream(this.getPhoto());
 			byte[] buffer = new byte[fis.available()];
 			fis.read(buffer);
-			currentAccount.setPhoto(buffer);
-		}
-		accountService.saveOrUpdate(currentAccount);
+			currentAccount.setPhoto(buffer);			
+			accountService.saveOrUpdate(currentAccount);
+		}		
+		//重新保存当前账户
+		currentAccount=accountService.get(account.getId());
 		session.removeAttribute("currentAccount");
 		session.setAttribute("currentAccount", currentAccount);
+		message="success";
 		return SUCCESS;
 	}
 
@@ -282,10 +271,13 @@ public class AccountAction extends ActionSupport {
 			results = {@Result(name = SUCCESS, type="json") })
 	@PrivilegeInfo(name="删除")
 	public String deleteAccount() throws Exception {
-		System.out.println("执行了删除----");
-		if (id != null) {
-			
+		System.out.println("执行了删除----ids:"+arrayId);
+		
+		if (id != null) {		
 			accountService.delete(id);
+			message="success";
+		}else if(arrayId.size()>0){		
+			accountService.delete(arrayId);
 			message="success";
 		}
 		return SUCCESS;
@@ -360,17 +352,13 @@ public class AccountAction extends ActionSupport {
 		return departments;
 	}
 
-	public void setDepartmentName(String departmentName) {
-		this.departmentName = departmentName;
-	}
+
 
 	public List<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
-	}
+
 
 	public int getPage() {
 		return page;
@@ -411,5 +399,17 @@ public class AccountAction extends ActionSupport {
 	public void setPageBean(PageBean<Account> pageBean) {
 		this.pageBean = pageBean;
 	}
+
+
+	public void setArrayId(List<Integer> arrayId) {
+		this.arrayId = arrayId;
+	}
+
+
+
+
+	
+
+	
 
 }

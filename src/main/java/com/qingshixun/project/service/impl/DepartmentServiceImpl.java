@@ -93,6 +93,12 @@ public class DepartmentServiceImpl implements IDepartmentService {
 		return pageBean;
 	}
 
+	@Override
+	public void delete(List<Integer> ids) {
+		departDao.delete(ids);
+		
+	}
+
 	
 
 }

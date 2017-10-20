@@ -1,6 +1,7 @@
 package com.qingshixun.project.action;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
@@ -41,6 +42,8 @@ public class departmentAction extends ActionSupport {
 
 	//用于显示在页面上的提示信息
 	private String message;
+	
+	private List<Integer> arrayId;
 	/**
 	 * 跳转到添加或者编辑部门界面
 	 * 
@@ -124,6 +127,9 @@ public class departmentAction extends ActionSupport {
 		if (id != null) {
 			departmentService.delete(id);
 			message="success";
+		}else if(arrayId.size()>0){
+			departmentService.delete(arrayId);
+			message="success";
 		}
 		return SUCCESS;
 	}
@@ -162,6 +168,11 @@ public class departmentAction extends ActionSupport {
 
 	public String getMessage() {
 		return message;
+	}
+
+
+	public void setArrayId(List<Integer> arrayId) {
+		this.arrayId = arrayId;
 	}
 
 

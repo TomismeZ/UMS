@@ -14,6 +14,8 @@ public interface BaseDao<T, PK extends Serializable> {
     void update(T entity); 
     void saveOrUpdate(T entity);  
     void delete(PK id);  
+    
+    void delete(List<PK> ids);
     void flush();
 	List<T> queryByPage(String hql, PK offset, PK pageSize);
 

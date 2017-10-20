@@ -93,4 +93,10 @@ public class RoleServiceImpl implements IRoleService{
 		return pageBean;
 	}
 
+	@Override
+	public void delete(List<Integer> ids) {
+		roleDao.delete(ids);
+		
+	}
+
 }
