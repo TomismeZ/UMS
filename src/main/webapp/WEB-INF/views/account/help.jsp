@@ -9,6 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <link type="text/css" rel="stylesheet" href="<%=path%>/css/style.css" />
+<link rel="stylesheet" type="text/css" href="<%=path%>/plugins/css/iconfont.css">
 <style type="text/css">
 body {
 	display: flex;
@@ -73,6 +74,7 @@ body {
 	text-decoration: none;
 	font-size:18px;
 	color: grey;
+	padding-left: 8px;
 }
 #help-title-panel .menu-panel ul li:hover, #help-title-panel .menu-panel ul li.active
 	{
@@ -114,9 +116,9 @@ body {
 		</div>
 		<div class="menu-panel">
 			<ul>
-				<li class="left-item"><a href="quickGetStart" data-id="1">快速入门</a></li>
-				<li class="left-item"><a href="quickGetStart" data-id="2">基础功能</a></li>
-				<li class="left-item"><a href="quickGetStart" data-id="3">常见问题</a></li>
+				<li class="left-item"><i class="iconfont icon-kuaisurumen"></i><a href="quickGetStart" data-id="1">快速入门</a></li>
+				<li class="left-item"><i class="iconfont icon-jichugongneng"></i><a href="quickGetStart" data-id="2">基础功能</a></li>
+				<li class="left-item"><i class="iconfont icon-wentiquestions1"></i><a href="quickGetStart" data-id="3">常见问题</a></li>
 			</ul>
 		</div>
 	</div>

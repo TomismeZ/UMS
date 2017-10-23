@@ -261,7 +261,7 @@ left.jsp，style代码
 .left-content ul li a{
 	text-decoration: none;
 	color:#000;
-	
+	padding-left: 8px;
 }
 
 .left-content ul li:hover, .left-content ul li.active
