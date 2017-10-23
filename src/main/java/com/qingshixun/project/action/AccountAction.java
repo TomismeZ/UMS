@@ -124,9 +124,13 @@ public class AccountAction extends ActionSupport {
 		
 		if (account != null) {
 			Account currentAccount = accountService.loginAccount(account.getUserName(), account.getPassword());
+			Collection<Jurisdiction> jurisdictions=null;
 			if (currentAccount != null) {
 				session.setAttribute("currentAccount", currentAccount);
-				Collection<Jurisdiction> jurisdictions = currentAccount.getRole().getJurisdictions();
+				if(currentAccount.getRole()!=null){
+					jurisdictions= currentAccount.getRole().getJurisdictions();
+				}
+				
 				session.setAttribute("privileges", jurisdictions);
 				return SUCCESS;
 
@@ -313,6 +317,9 @@ public class AccountAction extends ActionSupport {
 			if (id == 1) {
 				if (findByName != null) {
 					message = "用户名已存在";
+				}else if(!account.getPassword().equals(account.getPasswordAgain())){
+					message="密码和确认密码不一致！";
+					
 				}else{
 					account.setCreateTime(new Date());
 					accountService.save(account);

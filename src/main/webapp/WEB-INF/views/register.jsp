@@ -19,6 +19,10 @@
 						<label class="lable">登陆密码</label> <label class="input"><input
 							type="password" name="account.password"></label>
 					</section>
+					<section>
+						<label class="lable">确认密码</label> <label class="input"><input
+							type="password" name="account.passwordAgain"></label>
+					</section>
 				</div>
 			</form>
 			<div class="register-button-panel">
@@ -59,10 +63,11 @@
 				/* alert($("input[type='hidden']").val()); */
 				$form = $registContent.find("form");
 				var userName = $form.find("input[type='text']").val();
-				var password = $form.find("input[type='password']").val();
+				var password = $form.find("input[name='account.password']").val();
+				var passwordAgain=$form.find("input[name='account.passwordAgain']").val();
 				var id=$form.find("input[type='hidden']").val();
 				if(id == 1){
-					if (!$.trim(userName) || !$.trim(password)) {
+					if (!$.trim(userName) || !$.trim(password) || !$.trim(passwordAgain)) {
 						alert("用户名或者密码不能为空！");
 					} else {
 						$.ajax({
