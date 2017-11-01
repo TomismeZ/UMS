@@ -16,7 +16,6 @@
 					<label class="input-label">名称：</label> <label class="input-content">
 						<input class="input" type="text" name="role.name">
 					</label>
-
 				</div>
 				<div class="input-group">
 					<label class="input-label">描述：</label> <label class="input-content">
@@ -25,10 +24,11 @@
 					</label>
 				</div>
 				
-				<div class="input-group">
+				<div class="input-group ">
 					<label class="input-label">权限：</label> <label class="input-content">
 						<c:forEach items="${jurisdictions }" var="item">
-							<input type="checkbox" name="role.jurisdictions.id" class="checkbox" value="${item.id }">${item.name }　
+							<input type="checkbox" name="role.jurisdictions.id" class="checkbox" value="${item.id }"
+							>${item.name }　
 						</c:forEach>
 					</label>
 				</div>
@@ -65,7 +65,7 @@
 					<label class="input-label">权限：</label> <label class="input-content">
 						<c:forEach items="${jurisdictions }" var="item">
 							<c:choose>
-								<c:when test="${role.jurisdictions.contains(item)}">
+								<c:when test="${item.flag eq true}">
 								<input type="checkbox" name="role.jurisdictions.id" class="checkbox" value="${item.id }" checked>${item.name }　
 								</c:when>
 								<c:otherwise>
@@ -92,4 +92,4 @@ var $content=$rightContent.find(".roleContent");
 var findAllInfo="findAllRole";
 </script>
 <!-- 引入外部脚本 -->
-<script src="<%=path%>/js/common.js"></script>
+<script src="<%=path%>/js/add_common.js"></script>

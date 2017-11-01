@@ -4,8 +4,6 @@
 <%
 	String path = request.getContextPath();
 %>
-<link type="text/css" rel="stylesheet"
-	href="<%=path%>/plugins/bootstrap.min.css" />
 <div class="header">
 	<button>添加</button>
 	<button>删除</button>
@@ -31,7 +29,7 @@
 					<td>${item.name }</td>
 					<td>${item.description }</td>
 					<td>${item.createTime }</td>
-					<td><a href="toJurisdiction" data-id="${item.id }">编辑</a>
+					<td><a href="toEdit" data-id="${item.id }">编辑</a>
 					 <a href="deleteJurisdiction" data-id="${item.id }">删除</a></td>
 				</tr>
 			</c:forEach>
@@ -50,6 +48,7 @@
 	
 </div>
  <script type="text/javascript">
+ var addPrivilege="toAdd";
 var manageRef="toJurisdiction";
 var deleteInfo="deleteJurisdiction";
 var findAllInfo="findAllJurisdiction";
@@ -68,20 +67,18 @@ if(totalPages == 0){
  * jQuery 分页插件
  */
 
-$.jqPaginator('#pagination1',
-				{
-					totalPages : totalPages,
-					visiblePages : 8,
-					currentPage : currentPage,
-					first : '<li class="first"><a href="javascript:;">First</a></li>',
-					prev : '<li class="prev"><a href="javascript:;" data-page="${pageBean.currentPage - 1 }">Previous</a></li>',
-					next : '<li class="next"><a href="javascript:;" data-page="${pageBean.currentPage + 1 }">Next</a></li>',
-					last : '<li class="last"><a href="javascript:;" data-page="${pageBean.totalPage }">Last</a></li>',
-					page : '<li class="page"><a href="javascript:;" data-page="{{page}}">{{page}}</a></li>',
-				/* onPageChange : function(num, type) {
-					$('font').text(type + '：' + num);
-				} */
-				});
+ $.jqPaginator('#pagination1',
+			{
+				totalPages : totalPages,
+				visiblePages : 8,
+				currentPage : currentPage,
+				first : '<li class="first"><a href="javascript:;">首页</a></li>',
+				prev : '<li class="prev"><a href="javascript:;" data-page="${pageBean.currentPage - 1 }">上一页</a></li>',
+				next : '<li class="next"><a href="javascript:;" data-page="${pageBean.currentPage + 1 }">下一页</a></li>',
+				last : '<li class="last"><a href="javascript:;" data-page="${pageBean.totalPage }">尾页</a></li>',
+				page : '<li class="page"><a href="javascript:;" data-page="{{page}}">{{page}}</a></li>',
+
+			});
 </script>
 <!-- 引入外部脚本 -->
 <script src="<%=path%>/plugins/jqPaginator.js" type="text/javascript"></script>

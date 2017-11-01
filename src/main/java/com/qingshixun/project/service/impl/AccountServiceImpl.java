@@ -71,7 +71,7 @@ public class AccountServiceImpl implements IAccountService {
 	@Override
 	public PageBean<Account> getPageBean(Integer pageSize, Integer page) {
 		PageBean<Account> pageBean=new PageBean<Account>();
-		String hql="from Account";
+		String hql="from Account order by id desc";
 		int allRows=accountDao.getAllRowCount(hql);
 		int totalPage=pageBean.getTotalPages(pageSize, allRows);
 		int currentPage=pageBean.getCurPage(page);

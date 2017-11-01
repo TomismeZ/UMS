@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.qingshixun.project.interceptor.PrivilegeInfo;
 import com.qingshixun.project.model.Account;
 
 @ParentPackage("web-default")
@@ -25,6 +26,7 @@ public class UmsAction extends ActionSupport {
 	
 	//从页面上传入的值，根据id标识要显示的界面
 	private Integer id;
+
 	/**
 	 * 加载左边菜单按钮
 	 * @return
@@ -145,6 +147,8 @@ public class UmsAction extends ActionSupport {
 	public String threeRightContent() throws Exception {
 		return SUCCESS;
 	}
+	
+
 	public Integer getId() {
 		return id;
 	}

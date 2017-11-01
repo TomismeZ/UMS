@@ -25,7 +25,6 @@ html, body {
 	max-height: 60px;
 	background-color: #438EB9;
 	position: relative;
-	font-family: "楷体";
 	/* border-bottom: 1px solid red; */
 }
 
@@ -146,7 +145,6 @@ right: 10px;
         margin: 0;
         padding: 0;
         vertical-align: baseline;
-        font-family: 'RobotoBoldCondensed', Arial, Helvetica, sans-serif;
         font-weight: normal;
     }
 
@@ -167,7 +165,6 @@ right: 10px;
         color: #b9c2cf;
         display: inline-block;
         padding: 0 5px;
-        font-family: 'RobotoCondensed', Arial, Helvetica, sans-serif;
     }
 
    #container .topPanel .menu-panel .userinfodrop,
@@ -264,11 +261,12 @@ left.jsp，style代码
 	padding-left: 8px;
 }
 
-.left-content ul li:hover, .left-content ul li.active
-	{
+.left-content ul li:hover, .left-content ul li.active,
+	table tbody tr:hover,table tbody tr.active{
 	background-color: #CCCCCC;
-	color: white;
 }
+
+
 
 /**
 accountManage.jsp,CSS样式
@@ -318,7 +316,7 @@ flex-grow: 1;
 	text-align: center;
 }
 .right-content th{
-	background-color: #ccc;
+	background-color: #F0F0F0;
 }
 .right-content table tr{
 	height: 40px;
@@ -326,6 +324,10 @@ flex-grow: 1;
 .right-content table tr td a:last-child{
 	color: red;
 	margin-left: 15px;
+}
+
+table tbody tr {
+	cursor: pointer;
 }
 /**
 添加account页面的CSS样式
@@ -395,7 +397,7 @@ flex-grow: 1;
 	flex-grow: 1;
 	min-height: 45px;
 	max-height: 45px;
-	border-top: 1px solid red;
+	border-top: 1px solid grey;
 	text-align: center;
 	
 }
@@ -437,13 +439,13 @@ flex-grow: 1;
 .right-content .roleContent .input-group .input,
 .right-content .jurisdictionContent .input-group .input,
 .right-content .departmentContent .input-group .input {
-
 	width: 60%;
 	height: 21px;
 	border: 1px solid black;
 	font-size: 15px;
 	padding-left: 10px;
 	margin-top: 10px;
+	
 }
 
 .right-content .roleContent .input-group textarea,

@@ -209,6 +209,51 @@
 <script type="text/javascript">
 var $content=$rightContent.find(".accountContent");
 var findAllInfo="findAllAccount";
+
+$rightContent.find(".button-group").find("button:first").on("click",function(){
+		$rightContent.load(findAllInfo);
+	});
+$rightContent.find(".button-group").find("button:last").on("click",function(){
+		var $form=$content.find("form");
+		/*$form.on("submit",function(e){
+			//阻止原标签原有的默认事件
+			 e.preventDefault();
+			 //得到form标签action属性的值
+	         var pageRef=$(this).prop("action");
+	         //JQuery load页面,局部刷新
+	         $rightContent.load(pageRef,$form.serialize());
+		}).submit();*/
+		//异步刷新
+		var userName=$form.find("input[name='account.userName']").val();
+		var name=$form.find("input[name='account.name']").val();
+		var password=$form.find("input[type='password']").val();
+		var number=$form.find("input[type='number']").val();
+		if(name.length == 0 || name.length ==0 || password.length ==0){
+			alert("字段不能为空！")
+		}else{
+			$.ajax({
+		        cache: true,
+		        type: "POST",
+		        url:$form.prop("action"),
+		        data:$form.serialize(),// 你的formid
+		        async: false,
+		        error: function(request) {
+		            alert("Connection error");
+		        },
+		        success: function(data) { 
+		        	if(data.message == 'success'){
+		        		$rightContent.load(findAllInfo);
+		        	}else if(data.message =='error'){
+		        		alert("用户名已存在，请重新输入");
+		        	}
+		        	else{
+		        		alert("权限不足")
+		        	}
+		        	
+		        }
+		    });
+		}
+		
+	});
 </script>
-<!-- 引入外部脚本 -->
-<script src="<%=path%>/js/common.js"></script>
+

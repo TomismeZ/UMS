@@ -61,11 +61,11 @@
 	$registContent.find(".register-button-panel").find("button").on("click",
 			function() {
 				/* alert($("input[type='hidden']").val()); */
-				$form = $registContent.find("form");
-				var userName = $form.find("input[type='text']").val();
-				var password = $form.find("input[name='account.password']").val();
-				var passwordAgain=$form.find("input[name='account.passwordAgain']").val();
-				var id=$form.find("input[type='hidden']").val();
+				$form1 = $registContent.find("form");
+				var userName = $form1.find("input[type='text']").val();
+				var password = $form1.find("input[name='account.password']").val();
+				var passwordAgain=$form1.find("input[name='account.passwordAgain']").val();
+				var id=$form1.find("input[type='hidden']").val();
 				if(id == 1){
 					if (!$.trim(userName) || !$.trim(password) || !$.trim(passwordAgain)) {
 						alert("用户名或者密码不能为空！");
@@ -73,8 +73,8 @@
 						$.ajax({
 							cache : true,
 							type : "POST",
-							url : $form.prop("action"),
-							data : $form.serialize(),// 你的formid
+							url : $form1.prop("action"),
+							data : $form1.serialize(),// 你的formid
 							async : false,
 							error : function(request) {
 								alert("Connection error");
@@ -91,8 +91,8 @@
 						$.ajax({
 							cache : true,
 							type : "POST",
-							url : $form.prop("action"),
-							data : $form.serialize(),// 你的formid
+							url : $form1.prop("action"),
+							data : $form1.serialize(),// 你的formid
 							async : false,
 							error : function(request) {
 								alert("Connection error");

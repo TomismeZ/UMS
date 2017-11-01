@@ -36,7 +36,7 @@ public class Department {
 	
 	//如果要删除部门的话，需要设置注解级联，把跟部门Id对应的账户删除掉（这里级联删除最好只设置在一的一方），这里使用的双向的
 	@OneToMany(targetEntity=Account.class,mappedBy="department")
-	@Cascade(value={CascadeType.ALL,CascadeType.DELETE})
+/*	@Cascade(value={CascadeType.ALL,CascadeType.DELETE})*/
 	private Set<Account> accounts;
 	public Integer getId() {
 		return id;

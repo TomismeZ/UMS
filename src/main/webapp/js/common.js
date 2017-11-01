@@ -28,6 +28,9 @@ $(function(){
 	$table.find("tbody").find("tr td:not(:first-child,:last-child)").on(
 			"click", function() {
 				var $this = $(this).parent();
+				//高亮处理
+				$table.find("tbody").find("tr").removeClass("active");
+				$this.addClass("active");
 				var nowItem = $this.find("input[name='checkbox']");
 				// 获取当前行CheckBox的状态值
 				var isChecked = nowItem.prop("checked");
@@ -40,7 +43,23 @@ $(function(){
 	 * 实现添加账户
 	 */
 	$rightContent.find(".header").find("button:first").on("click", function() {
-		$rightContent.load(manageRef);
+		/*$rightContent.load(manageRef);*/
+		
+		$.ajax({
+		        type: "POST",
+		        url:addPrivilege,
+		        error: function(request) {
+		            alert("Connection error");
+		        },
+		        success: function(data) {
+		        	if(data.message=='success'){
+		        		$rightContent.load(manageRef)
+		        	}else{
+		        		alert("权限不足！")
+		        	}
+		        	
+		        }
+		    });
 	});
 	/**
 	 * 根据复选框选中的状态删除用户
@@ -82,7 +101,7 @@ $(function(){
 			        },
 			        success: function(data) {
 			        	if(data.message=='error'){
-			        		alert("该权限有用户在使用，你不能删除掉！");
+			        		alert("该对象有用户在使用，你不能删除掉！");
 			        	}else if(data.message=='success'){
 			        		$rightContent.load(findAllInfo);
 			        	}else{
@@ -98,7 +117,7 @@ $(function(){
 	});
 	
 	//同一行上删除当前选中账户
-	$table.find("tbody").find("tr:odd").css("background-color", "#F0F0F0");
+/*	$table.find("tbody").find("tr:odd").css("background-color", "#F0F0F0");*/
 	$operator.find("a:last").on("click", function(e) {
 		var $this = $(this);
 		
@@ -114,42 +133,37 @@ $(function(){
 		var pageRef = $this.prop("href");
 		console.log(pageRef);
 		console.log("ckbsValue:" + ckbs.val());
-		if(trId!=id){
-			alert("要删除指定行，需要选中当前的复选框！");
-			return;
-		} else {
-			if (confirm("确定要删除选中项？")) {
-				/*$rightContent.load(pageRef,{id : id,page:currentPage});*/
-				/**
-				实现异步刷新，
-				**/
-				$.ajax({
-			        cache: true,
-			        type: "POST",
-			        url:pageRef,
-			        data:{
-			        	id : id
-			        },
-			        async: true,
-			        error: function(request) {
-			            alert("Connection error");
-			        },
-			        success: function(data) {
-			        	if(data.message=='error'){
-			        		alert("该权限有用户在使用，你不能删除掉！");
-			        	}else if(data.message=='success'){
-			        		console.log(allRows % 5 == 1);
-			        		if(allRows % 5 == 1){
-			        			--currentPage;
-			        		}
-			        		$rightContent.load(findAllInfo,{page:currentPage});
-			        	}else{
-			        		alert("权限不足！")
-			        	}
-			        	
-			        }
-			    });
-			}
+		if (confirm("确定要删除选中项？")) {
+			/*$rightContent.load(pageRef,{id : id,page:currentPage});*/
+			/**
+			实现异步刷新，
+			**/
+			$.ajax({
+		        cache: true,
+		        type: "POST",
+		        url:pageRef,
+		        data:{
+		        	id : id
+		        },
+		        async: true,
+		        error: function(request) {
+		            alert("Connection error");
+		        },
+		        success: function(data) {
+		        	if(data.message=='error'){
+		        		alert("该对象有用户在使用，你不能删除掉！");
+		        	}else if(data.message=='success'){
+		        		console.log(allRows % 5 == 1);
+		        		if(allRows % 5 == 1){
+		        			--currentPage;
+		        		}
+		        		$rightContent.load(findAllInfo,{page:currentPage});
+		        	}else{
+		        		alert("权限不足！")
+		        	}
+		        	
+		        }
+		    });
 		}
 	});
 	
@@ -174,18 +188,29 @@ $(function(){
 		var pageRef = $this.prop("href");
 		console.log(pageRef);
 		console.log("ckbsValue:" + ckbs.val());
-		if(trId!=id){
-			alert("要编辑指定行，需要选中当前的复选框！");
-			return;
-		} else {
-			if (confirm("确定要编辑选中项？")) {
-				/* ckbs.parent().parent().remove(); */
-				$rightContent.load(pageRef, {
-					//左边是Action里的值，右边是js定义的变量
-					id: id
-				});
-			}
-		}
+		
+/*		$rightContent.load(pageRef, {
+			//左边是Action里的值，右边是js定义的变量
+			id: id
+		});*/
+		$.ajax({
+	        type: "POST",
+	        url:pageRef,
+	        data:{
+	        	id: id
+	        },
+	        error: function(request) {
+	            alert("Connection error");
+	        },
+	        success: function(data) {
+	        	if(data.message=='success'){
+	        		$rightContent.load(manageRef,{id: id});
+	        	}else{
+	        		alert("权限不足！")
+	        	}
+	        	
+	        }
+	    });
 	});
 	/**
 	实现分页（超链接跳转功能）模块
@@ -214,45 +239,5 @@ $(function(){
 	**XXmanage.jsp end
 	*/
 
-	/**
-	**add_XX.jsp begin
-	*/
-	$rightContent.find(".button-group").find("button:first").on("click",function(){
-		$rightContent.load(findAllInfo);
-	});
-	$rightContent.find(".button-group").find("button:last").on("click",function(){
-		var $form=$content.find("form");
-		/*$form.on("submit",function(e){
-			//阻止原标签原有的默认事件
-			 e.preventDefault();
-			 //得到form标签action属性的值
-	         var pageRef=$(this).prop("action");
-	         //JQuery load页面,局部刷新
-	         $rightContent.load(pageRef,$form.serialize());
-		}).submit();*/
-		//异步刷新
-		$.ajax({
-	        cache: true,
-	        type: "POST",
-	        url:$form.prop("action"),
-	        data:$form.serialize(),// 你的formid
-	        async: false,
-	        error: function(request) {
-	            alert("Connection error");
-	        },
-	        success: function(data) { 
-	        	if(data.message == 'success'){
-	        		$rightContent.load(findAllInfo);
-	        	}else{
-	        		alert("权限不足")
-	        	}
-	        	
-	        }
-	    });
-	});
-	
-	/**
-	**add_XX.jsp end
-	*/
 	
 });

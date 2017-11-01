@@ -8,6 +8,7 @@ import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
@@ -62,13 +63,23 @@ public class RoleAction extends ActionSupport {
 	@Action(value = "toRole",  interceptorRefs = { @InterceptorRef("myInterceptorStack") },
 			results = { @Result(name = SUCCESS, location = "/WEB-INF/views/add_role.jsp") })
 	public String toRole() throws Exception {
-		
-		if(id!=null){
-			role = roleService.get(id);		
-		}
 		jurisdictions = jurisdictionService.findAll();
+		if(id!=null){
+			role = roleService.get(id);	
+			for (Jurisdiction jurisdiction : jurisdictions) {
+				for (Jurisdiction myJurisdiction : role.getJurisdictions()) {
+					if(jurisdiction.getName().equals(myJurisdiction.getName())){
+						jurisdiction.setFlag(true);
+						break;
+					}
+				}
+				System.out.println("编辑权限:"+jurisdiction);
+			}
+		}
+		
 		return SUCCESS;
 	}
+	
 
 	/**
 	 * 保存角色信息

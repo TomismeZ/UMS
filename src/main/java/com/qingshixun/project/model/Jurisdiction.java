@@ -14,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -29,6 +30,10 @@ public class Jurisdiction {
 	@Column(name="name",unique=true)
 	private String name; // 权限名称
 	private String description; // 描述
+	
+	//设置标志
+	@Transient // 不作为数据库持久化字段
+	private boolean flag=false;
 
 	// 创建时间(updateable=false表示编辑后，不更新此字段)
 	@Column(nullable = true, length = 19,updatable=false)
@@ -78,10 +83,18 @@ public class Jurisdiction {
 		this.roles = roles;
 	}
 
+	public boolean isFlag() {
+		return flag;
+	}
+
+	public void setFlag(boolean flag) {
+		this.flag = flag;
+	}
+
 	@Override
 	public String toString() {
-		return "Jurisdiction [id=" + id + ", name=" + name + ", description=" + description + ", createTime="
-				+ createTime + "]";
+		return "Jurisdiction [id=" + id + ", name=" + name + ", description=" + description + ", flag=" + flag
+				+ ", createTime=" + createTime + "]";
 	}
 
 

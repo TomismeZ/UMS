@@ -71,4 +71,4 @@ var $content=$rightContent.find(".departmentContent");
 var findAllInfo="findAllDepartment";
 </script>
 <!-- 引入外部脚本 -->
-<script src="<%=path%>/js/common.js"></script>
+<script src="<%=path%>/js/add_common.js"></script>

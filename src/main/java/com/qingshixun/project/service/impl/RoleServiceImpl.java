@@ -80,7 +80,7 @@ public class RoleServiceImpl implements IRoleService{
 	public PageBean<Role> getPageBean(Integer pageSize, Integer page) {
 		// TODO Auto-generated method stub
 		PageBean<Role> pageBean=new PageBean<Role>();
-		String hql="from Role";
+		String hql="from Role order by id desc";
 		int allRows=roleDao.getAllRowCount(hql);
 		int totalPage=pageBean.getTotalPages(pageSize, allRows);
 		int currentPage=pageBean.getCurPage(page);

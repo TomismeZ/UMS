@@ -124,10 +124,8 @@ public class JurisdictionAction extends ActionSupport {
 				jurisdictionService.delete(id);
 				message="success";
 			} catch (Exception e) {
-				message="error";
-				
-				System.out.println("message:"+message);
-				e.printStackTrace();
+				message="error";			
+				System.out.println("message:"+message);		
 			}
 			
 		}else if(arrayId.size()>0){
@@ -137,7 +135,6 @@ public class JurisdictionAction extends ActionSupport {
 			} catch (Exception e) {
 				message="error";			
 				System.out.println("message:"+message);
-				e.printStackTrace();
 			}
 			
 		}

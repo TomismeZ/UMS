@@ -34,16 +34,15 @@ import com.qingshixun.project.service.IRoleService;
 @ParentPackage("web-default")
 @Scope("prototype")
 @Results({ @Result(name = "login", location = "/WEB-INF/views/login.jsp"),
-	@Result(name = "jurisdiction", location = "/WEB-INF/views/jurisdiction/jurisdiction_interceptor.jsp"),
-})
+		@Result(name = "jurisdiction", location = "/WEB-INF/views/jurisdiction/jurisdiction_interceptor.jsp"), })
 // @Controller("accountAction")
 // @Component("accountAction")
 // //当使用这个注解时，下方的setter就不需要使用了,当知道分层结构之后就用@Controller
 public class AccountAction extends ActionSupport {
-	
-	//用于输出
+
+	// 用于输出
 	Logger logger = LoggerFactory.getLogger(getClass());
-	//获取session
+	// 获取session
 	HttpSession session = ServletActionContext.getRequest().getSession();
 	/**
 	 * 
@@ -54,10 +53,10 @@ public class AccountAction extends ActionSupport {
 	private List<Department> departments;
 	@Autowired
 	private IDepartmentService departmentService;
-	
+
 	@Autowired
 	private IRoleService roleService;
-	
+
 	private PageBean<Account> pageBean;
 
 	private List<Role> roles;
@@ -91,26 +90,19 @@ public class AccountAction extends ActionSupport {
 	public String validateLogin() throws Exception {
 		System.out.println("进入验证登录模块");
 		if (account != null) {
-			if (accountService.findByName(account.getUserName()) == null) {
-				message = "用户名错误";
 
-			} else {
-				Account account1 = accountService.loginAccount(account.getUserName(), account.getPassword());
-				if (account1 != null) {
-					if (account1.getStatus().equals(Status.enable)) {
-						message = "success";
-					} else {
-						message = "您的账户已经被禁用了";
-
-					}
-
+			Account account1 = accountService.loginAccount(account.getUserName(), account.getPassword());
+			if (account1 != null) {
+				if (account1.getStatus().equals(Status.enable)) {
+					message = "success";
 				} else {
-					message = "密码输入错误，请重新选择";
+					message = "您的账户已经被禁用了";
 
 				}
-				/*
-				 * //可以根据用户名查找用户头像，这里就不需要设置了，可以在ajax实现这部分功能 id=1;
-				 */
+
+			} else {
+				message = "用户名错误或者密码输入错误，请重新选择";
+
 			}
 
 		}
@@ -121,16 +113,16 @@ public class AccountAction extends ActionSupport {
 	// 点击登录要跳转的界面
 	@Action(value = "loginAccount", results = { @Result(name = SUCCESS, location = "/WEB-INF/views/main.jsp") })
 	public String loginAccount() throws Exception {
-		
+
 		if (account != null) {
 			Account currentAccount = accountService.loginAccount(account.getUserName(), account.getPassword());
-			Collection<Jurisdiction> jurisdictions=null;
+			Collection<Jurisdiction> jurisdictions = null;
 			if (currentAccount != null) {
 				session.setAttribute("currentAccount", currentAccount);
-				if(currentAccount.getRole()!=null){
-					jurisdictions= currentAccount.getRole().getJurisdictions();
+				if (currentAccount.getRole() != null) {
+					jurisdictions = currentAccount.getRole().getJurisdictions();
 				}
-				
+
 				session.setAttribute("privileges", jurisdictions);
 				return SUCCESS;
 
@@ -152,7 +144,8 @@ public class AccountAction extends ActionSupport {
 	 * @return
 	 * @throws Exception
 	 */
-	@Action(value = "toAccount", interceptorRefs = { @InterceptorRef("myInterceptorStack") }, results = {
+	@Action(value = "toAccount", interceptorRefs = { @InterceptorRef("myInterceptorStack")
+	}, results = {
 			@Result(name = SUCCESS, location = "/WEB-INF/views/add_account.jsp") })
 	public String toAccount() throws Exception {
 		if (id != null) {
@@ -161,40 +154,63 @@ public class AccountAction extends ActionSupport {
 		System.err.println("----id:" + id);
 		departments = departmentService.findAll();
 		roles = roleService.findAll();
+		message="success";
+		return SUCCESS;
+	}
 
+	@Action(value = "toAdd", interceptorRefs = { @InterceptorRef("myInterceptorStack"),@InterceptorRef("jurisdictionInterceptor")
+	}, results = {
+			@Result(name = SUCCESS, type="json") })
+	@PrivilegeInfo(name = "保存")
+	public String toAdd() throws Exception {
+		message="success";
+		return SUCCESS;
+	}
+	@Action(value = "toEdit", interceptorRefs = { @InterceptorRef("myInterceptorStack"),@InterceptorRef("jurisdictionInterceptor")
+	}, results = {
+			@Result(name = SUCCESS,type="json") })
+	@PrivilegeInfo(name = "编辑")
+	public String toEdit() throws Exception {	
+		message="success";
 		return SUCCESS;
 	}
 	/**
 	 * 根据标识符跳转到当前账户基本、详细、头像设置页面
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	@Action(value = "baseData", interceptorRefs = { @InterceptorRef("myInterceptorStack") }, 
-			results = { @Result(name = SUCCESS, location = "/WEB-INF/views/account/basic_data.jsp") })
+	@Action(value = "baseData", interceptorRefs = { @InterceptorRef("myInterceptorStack") }, results = {
+			@Result(name = SUCCESS, location = "/WEB-INF/views/account/basic_data.jsp") })
 	public String baseData() throws Exception {
-		account=(Account) session.getAttribute("currentAccount");
-		if(id==2){
+		account = (Account) session.getAttribute("currentAccount");
+		if (id == 2) {
 			departments = departmentService.findAll();
 			roles = roleService.findAll();
 		}
 		return SUCCESS;
 	}
-	
-	
+
 	/**
 	 * 添加账户
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	@Action(value = "saveAccount", interceptorRefs = { @InterceptorRef("myInterceptorStack"),@InterceptorRef("jurisdictionInterceptor")},
-			results = {@Result(name = SUCCESS,type="json") })
-	@PrivilegeInfo(name="保存")
+	@Action(value = "saveAccount", interceptorRefs = { @InterceptorRef("myInterceptorStack"),
+			@InterceptorRef("jurisdictionInterceptor") }, results = { @Result(name = SUCCESS, type = "json") })
+	@PrivilegeInfo(name = "保存")
 	public String saveAccount() throws Exception {
-		accountService.save(account);
-		message="success";
-		return SUCCESS;
+		Account findByName = accountService.findByName(account.getUserName());
+		if(findByName==null){
+			accountService.save(account);
+			message = "success";
+		}else{
+			message = "error";
+		}
 		
+		return SUCCESS;
+
 	}
 
 	/**
@@ -203,19 +219,20 @@ public class AccountAction extends ActionSupport {
 	 * @return
 	 * @throws Exception
 	 */
-	@Action(value = "editAccount", interceptorRefs = { @InterceptorRef("myInterceptorStack"),@InterceptorRef("jurisdictionInterceptor")},
-			results = {@Result(name = SUCCESS, type="json") })
-	@PrivilegeInfo(name="编辑")
+	@Action(value = "editAccount", interceptorRefs = { @InterceptorRef("myInterceptorStack"),
+			@InterceptorRef("jurisdictionInterceptor") }, results = { @Result(name = SUCCESS, type = "json") })
+	@PrivilegeInfo(name = "编辑")
 	public String editAccount() throws Exception {
-		Account enditAccount=accountService.get(account.getId());
-		if(enditAccount.getPhoto()!=null){
+		Account enditAccount = accountService.get(account.getId());
+		if (enditAccount.getPhoto() != null) {
 			account.setPhoto(enditAccount.getPhoto());
 		}
-		
+
 		accountService.saveOrUpdate(account);
-		message="success";
+		message = "success";
 		return SUCCESS;
 	}
+
 	/**
 	 * 编辑当前用户资料
 	 * 
@@ -223,29 +240,29 @@ public class AccountAction extends ActionSupport {
 	 * @throws Exception
 	 */
 	@Action(value = "editCurrentAccount", results = {
-			@Result(name = SUCCESS, type="redirectAction",params={"actionName","loginAccount"}) })
+			@Result(name = SUCCESS, type = "redirectAction", params = { "actionName", "loginAccount" }) })
 	public String editCurrentAccount() throws Exception {
 		Account currentAccount = (Account) session.getAttribute("currentAccount");
-		if(id==1){
+		if (id == 1) {
 			account.setDepartment(currentAccount.getDepartment());
 			account.setRole(currentAccount.getRole());
 			account.setPhoto(currentAccount.getPhoto());
 			accountService.saveOrUpdate(account);
-		}else if(id==2){
+		} else if (id == 2) {
 			account.setPhoto(currentAccount.getPhoto());
 			accountService.saveOrUpdate(account);
-		}else if(id==3){
+		} else if (id == 3) {
 			FileInputStream fis = new FileInputStream(this.getPhoto());
 			byte[] buffer = new byte[fis.available()];
 			fis.read(buffer);
-			currentAccount.setPhoto(buffer);			
+			currentAccount.setPhoto(buffer);
 			accountService.saveOrUpdate(currentAccount);
-		}		
-		//重新保存当前账户
-		currentAccount=accountService.get(account.getId());
+		}
+		// 重新保存当前账户
+		currentAccount = accountService.get(account.getId());
 		session.removeAttribute("currentAccount");
 		session.setAttribute("currentAccount", currentAccount);
-		message="success";
+		message = "success";
 		return SUCCESS;
 	}
 
@@ -254,35 +271,36 @@ public class AccountAction extends ActionSupport {
 	 * 
 	 * @return
 	 */
-	@Action(value = "findAllAccount", interceptorRefs = { @InterceptorRef("myInterceptorStack"),@InterceptorRef("jurisdictionInterceptor") }, 
-			results = {@Result(name = SUCCESS, location = "/WEB-INF/views/accountManage.jsp") })
-	@PrivilegeInfo(name="查找")
+	@Action(value = "findAllAccount", interceptorRefs = { @InterceptorRef("myInterceptorStack"),
+			@InterceptorRef("jurisdictionInterceptor") }, results = {
+					@Result(name = SUCCESS, location = "/WEB-INF/views/accountManage.jsp") })
+	@PrivilegeInfo(name = "查找")
 	public String findAllAccount() throws Exception {
-		
-		System.out.println("findAllAccount当前页："+page);
-		
+
+		System.out.println("findAllAccount当前页：" + page);
+
 		pageBean = accountService.getPageBean(5, page);
 		return SUCCESS;
 	}
-	
+
 	/**
 	 * 删除账户
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	@Action(value = "deleteAccount", interceptorRefs = { @InterceptorRef("myInterceptorStack"),@InterceptorRef("jurisdictionInterceptor") }, 
-			results = {@Result(name = SUCCESS, type="json") })
-	@PrivilegeInfo(name="删除")
+	@Action(value = "deleteAccount", interceptorRefs = { @InterceptorRef("myInterceptorStack"),
+			@InterceptorRef("jurisdictionInterceptor") }, results = { @Result(name = SUCCESS, type = "json") })
+	@PrivilegeInfo(name = "删除")
 	public String deleteAccount() throws Exception {
-		System.out.println("执行了删除----ids:"+arrayId);
-		
-		if (id != null) {		
+		System.out.println("执行了删除----ids:" + arrayId);
+
+		if (id != null) {
 			accountService.delete(id);
-			message="success";
-		}else if(arrayId.size()>0){		
+			message = "success";
+		} else if (arrayId.size() > 0) {
 			accountService.delete(arrayId);
-			message="success";
+			message = "success";
 		}
 		return SUCCESS;
 	}
@@ -294,7 +312,7 @@ public class AccountAction extends ActionSupport {
 	 */
 	@Action(value = "logoutAccount", results = { @Result(name = SUCCESS, location = "/WEB-INF/views/login.jsp") })
 	public String logoutAccount() throws Exception {
-		
+
 		Object user = session.getAttribute("currentAccount");
 		if (user != null) {
 			session.removeAttribute("currentAccount");
@@ -317,22 +335,22 @@ public class AccountAction extends ActionSupport {
 			if (id == 1) {
 				if (findByName != null) {
 					message = "用户名已存在";
-				}else if(!account.getPassword().equals(account.getPasswordAgain())){
-					message="密码和确认密码不一致！";
-					
-				}else{
+				} else if (!account.getPassword().equals(account.getPasswordAgain())) {
+					message = "密码和确认密码不一致！";
+
+				} else {
 					account.setCreateTime(new Date());
 					accountService.save(account);
 					message = "您已经成功注册！等待管理员验证方可登录";
 				}
-				
+
 			} else if (id == 2) {
-				if(findByName!=null){
-					message = "用户名正确，您的密码为："+findByName.getPassword()+"\n该用户的状态："+findByName.getStatus();
-				}else{
-					message="用户名不存在，请重新输入！";
+				if (findByName != null) {
+					message = "用户名正确，您的密码为：" + findByName.getPassword() + "\n该用户的状态：" + findByName.getStatus();
+				} else {
+					message = "用户名不存在，请重新输入！";
 				}
-				
+
 			}
 		}
 
@@ -359,13 +377,9 @@ public class AccountAction extends ActionSupport {
 		return departments;
 	}
 
-
-
 	public List<Role> getRoles() {
 		return roles;
 	}
-
-
 
 	public int getPage() {
 		return page;
@@ -407,16 +421,8 @@ public class AccountAction extends ActionSupport {
 		this.pageBean = pageBean;
 	}
 
-
 	public void setArrayId(List<Integer> arrayId) {
 		this.arrayId = arrayId;
 	}
-
-
-
-
-	
-
-	
 
 }

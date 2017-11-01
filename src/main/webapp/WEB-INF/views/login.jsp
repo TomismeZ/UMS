@@ -33,7 +33,7 @@
 		</div>
 
 		<div class="avtar">
-			<img src="images/avtar.png" />
+			<img src="images/login_avatar.jpg" style=" border-radius:50% ;"/>
 		</div>
 		<form action="loginAccount" method="post">
 			<input type="text" class="text" name="account.userName"
@@ -70,7 +70,7 @@
 			/* $form.submit(); */
 			var userName = $form.find("input[type='text']").val();
 			var password = $form.find("input[type='password']").val();
-
+			
 			if (!$.trim(userName) || !$.trim(password)) {
 				$clear.text("用户名或者密码不能为空！");
 			} else {
@@ -124,6 +124,7 @@
 					$registContent.remove();
 					$("#bg").css("display","none");
 					$("body").css("overflow","hidden");
+					
 				});
 			});
 		});

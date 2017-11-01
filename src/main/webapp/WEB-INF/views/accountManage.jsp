@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%
 	String path = request.getContextPath();
 %>
-<link type="text/css" rel="stylesheet"
-	href="<%=path%>/plugins/bootstrap.min.css" />
 <div class="header">
 	<button>添加</button>
 	<button>删除</button>
@@ -36,8 +35,9 @@
 					<td>${item.department.name }</td>
 					<td>${item.role.name }</td>
 					<td>${item.status }</td>
-					<td>${item.createTime }</td>
-					<td><a href="toAccount" data-id="${item.id }">编辑</a> <a
+					
+					<td><fmt:formatDate value="${item.createTime }"/></td>
+					<td><a href="toEdit" data-id="${item.id }">编辑</a> <a
 						href="deleteAccount" data-id="${item.id }">删除</a></td>
 				</tr>
 			</c:forEach>
@@ -55,6 +55,7 @@
 	</div>
 </div>
 <script type="text/javascript">
+	var addPrivilege="toAdd";
 	var manageRef = "toAccount";
 	var deleteInfo = "deleteAccount";
 	var findAllInfo = "findAllAccount";
@@ -76,17 +77,16 @@
 	 * jQuery 分页插件
 	 */
 
-	$
-			.jqPaginator(
+	$.jqPaginator(
 					'#pagination1',
 					{
 						totalPages : totalPages,
 						visiblePages : 8,
 						currentPage : currentPage,
-						first : '<li class="first"><a href="javascript:;">First</a></li>',
-						prev : '<li class="prev"><a href="javascript:;" data-page="${pageBean.currentPage - 1 }">Previous</a></li>',
-						next : '<li class="next"><a href="javascript:;" data-page="${pageBean.currentPage + 1 }">Next</a></li>',
-						last : '<li class="last"><a href="javascript:;" data-page="${pageBean.totalPage }">Last</a></li>',
+						first : '<li class="first"><a href="javascript:;">首页</a></li>',
+						prev : '<li class="prev"><a href="javascript:;" data-page="${pageBean.currentPage - 1 }">上一页</a></li>',
+						next : '<li class="next"><a href="javascript:;" data-page="${pageBean.currentPage + 1 }">下一页</a></li>',
+						last : '<li class="last"><a href="javascript:;" data-page="${pageBean.totalPage }">尾页</a></li>',
 						page : '<li class="page"><a href="javascript:;" data-page="{{page}}">{{page}}</a></li>',
 					/* onPageChange : function(num, type) {
 						$('font').text(type + '：' + num);

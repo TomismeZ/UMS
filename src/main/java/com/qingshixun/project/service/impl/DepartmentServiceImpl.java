@@ -80,7 +80,7 @@ public class DepartmentServiceImpl implements IDepartmentService {
 	public PageBean<Department> getPageBean(Integer pageSize, Integer page) {
 		// TODO Auto-generated method stub
 		PageBean<Department> pageBean=new PageBean<Department>();
-		String hql="from Department";
+		String hql="from Department order by id desc";
 		int allRows=departDao.getAllRowCount(hql);
 		int totalPage=pageBean.getTotalPages(pageSize, allRows);
 		int currentPage=pageBean.getCurPage(page);

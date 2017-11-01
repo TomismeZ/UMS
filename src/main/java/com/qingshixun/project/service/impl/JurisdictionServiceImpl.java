@@ -79,7 +79,7 @@ public class JurisdictionServiceImpl implements IJurisdictionService{
 	@Override
 	public PageBean<Jurisdiction> getPageBean(Integer pageSize, Integer page) {
 		PageBean<Jurisdiction> pageBean=new PageBean<Jurisdiction>();
-		String hql="from Jurisdiction";
+		String hql="from Jurisdiction order by id desc";
 		int allRows=jurisdictionDao.getAllRowCount(hql);
 		int totalPage=pageBean.getTotalPages(pageSize, allRows);
 		int currentPage=pageBean.getCurPage(page);

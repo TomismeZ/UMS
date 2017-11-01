@@ -8,9 +8,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Document</title>
-<%-- <link type="text/css" rel="stylesheet" href="<%=path%>/plugins/bootstrap.min.css"/> --%>
 <link type="text/css" rel="stylesheet" href="<%=path%>/css/style.css"/>
-
+<link type="text/css" rel="stylesheet" href="<%=path%>/plugins/bootstrap.min.css" />
 </head>
 
 <body>

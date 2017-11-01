@@ -1,7 +1,6 @@
 html, body {
 	margin: 0px;
 	padding: 0px;
-	font-family: "楷体";
 }
 
 #index {
@@ -106,7 +105,6 @@ a:hover {
 	height: 40px;
 	font-size: 20px;
 	background-color: rgba(192, 192, 192, 0.4);
-	font-family: "楷体";
 	color: white;
 	border-color: white;
 }

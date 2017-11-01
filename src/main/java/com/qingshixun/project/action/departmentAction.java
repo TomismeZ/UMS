@@ -61,7 +61,7 @@ public class departmentAction extends ActionSupport {
 		System.out.println("id:" + id);
 		return SUCCESS;
 	}
-
+	
 	/**
 	 * 保存部门信息
 	 * 
@@ -125,11 +125,24 @@ public class departmentAction extends ActionSupport {
 	public String deleteDepartment() throws Exception {
 		System.out.println("执行了删除");
 		if (id != null) {
-			departmentService.delete(id);
-			message="success";
+			try {
+				departmentService.delete(id);
+				message="success";
+			} catch (Exception e) {
+				message="error";
+				System.out.println("删除失败");
+			}
+			
+			
 		}else if(arrayId.size()>0){
-			departmentService.delete(arrayId);
-			message="success";
+			try {
+				departmentService.delete(arrayId);
+				message="success";
+			} catch (Exception e) {
+				message="error";
+				System.out.println("删除失败");
+			}
+			
 		}
 		return SUCCESS;
 	}
