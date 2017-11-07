@@ -460,6 +460,21 @@ table tbody tr:hover td{
     background-color: #eeeeee;
     cursor: pointer;
 }
+
+th:first-child,td:first-child{
+	width: 50px;
+}
+
+td.username,td.name,td.department,td.role{
+	width: 120px;
+}
+
+
+td.description{
+	width: 50%;
+}
+
+
 .right-content th,
 	.right-content td {
 	padding: 10px;

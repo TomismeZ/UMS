@@ -349,7 +349,7 @@ a:hover {
 					<tr>
 						<td class="a"><img src="images/login.jpg" width="350px"><br>登录界面</td>
 						<td class="b"><img src="images/register.jpg" width="350px"><br>注册界面</td>
-						<td class="c"><img src="images/index2.jpg" width="350px"><br>系统首页面</td>
+						<td class="c"><img src="images/index2.jpg" width="350px"><br>帮助页面</td>
 					</tr>
 					<tr>
 						<td><img src="images/operation.jpg" width="350px"><br>操作界面</td>

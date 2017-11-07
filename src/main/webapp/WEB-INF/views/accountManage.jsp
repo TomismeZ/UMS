@@ -31,10 +31,10 @@
 						<!-- index获取当前索引，从0开始 -->
 						<td><input type="checkbox" name="checkbox"
 							value="${item.id }" data-id="${item.id }"> ${status.count }</td>
-						<td>${item.userName }</td>
-						<td>${item.name }</td>
-						<td>${item.department.name }</td>
-						<td>${item.role.name }</td>
+						<td class="username">${item.userName }</td>
+						<td class="name">${item.name }</td>
+						<td class="department">${item.department.name }</td>
+						<td class="role">${item.role.name }</td>
 						<td>${item.status }</td>
 
 						<td><fmt:formatDate value="${item.createTime }" /></td>

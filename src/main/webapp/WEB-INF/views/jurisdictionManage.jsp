@@ -28,8 +28,8 @@
 					<!-- index获取当前索引，从0开始 -->
 					<td><input type="checkbox" name="checkbox" value="${item.id }" data-id="${item.id }">
 						${status.count }</td>				
-					<td>${item.name }</td>
-					<td>${item.description }</td>
+					<td class="name">${item.name }</td>
+					<td class="description">${item.description }</td>
 					<td><fmt:formatDate value="${item.createTime }" /></td>
 					<td><a class="link link-primary" href="toEdit" data-id="${item.id }">编辑</a>
 					 <a class="link link-danger" href="deleteJurisdiction" data-id="${item.id }">删除</a></td>

@@ -30,14 +30,14 @@
 	<!--SIGN UP-->
 	<h1>用户登录</h1>
 	<div class="login-form">
-		<div class="close"></div>
+		<!-- <div class="close"></div> -->
 		<div class="head-info">
 			<label class="lbl-1"> </label> <label class="lbl-2"> </label> <label
 				class="lbl-3"> </label>
 		</div>
 
 		<div class="avtar">
-			<img src="images/login_avatar.jpg" style=" border-radius:50% ;"/>
+			<img src="images/login_avatar.png" style=" border-radius:50% ;"/>
 		</div>
 		<form action="loginAccount" method="post">
 			<input type="text" class="text" name="account.userName"
