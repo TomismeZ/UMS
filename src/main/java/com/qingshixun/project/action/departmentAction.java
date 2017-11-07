@@ -68,13 +68,17 @@ public class departmentAction extends ActionSupport {
 	 * @return
 	 * @throws Exception
 	 */
-	@Action(value = "saveDepartment", interceptorRefs = { @InterceptorRef("myInterceptorStack"),
-			@InterceptorRef("jurisdictionInterceptor") }, results = {
+	@Action(value = "saveDepartment", interceptorRefs = { @InterceptorRef("myInterceptorStack")}, results = {
 					@Result(name = SUCCESS, type = "json") })
-	@PrivilegeInfo(name = "保存")
 	public String saveDepartment() throws Exception {
-		departmentService.save(department);
-		message="success";
+		
+		if(departmentService.findByName(department.getName())!=null){
+			message="error";
+		}else{
+			departmentService.save(department);
+			message="success";
+		}
+		
 		return SUCCESS;
 
 	}
@@ -85,12 +89,10 @@ public class departmentAction extends ActionSupport {
 	 * @return
 	 * @throws Exception
 	 */
-	@Action(value = "editDepartment", interceptorRefs = { @InterceptorRef("myInterceptorStack"),
-			@InterceptorRef("jurisdictionInterceptor") }, results = {
+	@Action(value = "editDepartment", interceptorRefs = { @InterceptorRef("myInterceptorStack")}, results = {
 					@Result(name = SUCCESS, type = "json") })
-	@PrivilegeInfo(name = "保存")
 	public String editDepartment() throws Exception {
-		
+		System.out.println("进入编辑页面！----");
 		departmentService.saveOrUpdate(department);
 		message="success";
 		return SUCCESS;
@@ -103,10 +105,9 @@ public class departmentAction extends ActionSupport {
 	 * @return
 	 * @throws Exception
 	 */
-	@Action(value = "findAllDepartment", interceptorRefs = { @InterceptorRef("myInterceptorStack"),@InterceptorRef("jurisdictionInterceptor") },
+	@Action(value = "findAllDepartment", interceptorRefs = { @InterceptorRef("myInterceptorStack")},
 			results = {
 			@Result(name = SUCCESS, location = "/WEB-INF/views/departmentManage.jsp") })
-	@PrivilegeInfo(name="查找")
 	public String findAllDepartment() throws Exception {
 		pageBean = departmentService.getPageBean(5, page);
 		System.out.println(pageBean);

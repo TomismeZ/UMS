@@ -70,13 +70,13 @@ public class AccountServiceImpl implements IAccountService {
 		 */
 	@Override
 	public PageBean<Account> getPageBean(Integer pageSize, Integer page) {
+		
 		PageBean<Account> pageBean=new PageBean<Account>();
-		String hql="from Account order by id desc";
-		int allRows=accountDao.getAllRowCount(hql);
+		int allRows=accountDao.getAllRowCount();
 		int totalPage=pageBean.getTotalPages(pageSize, allRows);
 		int currentPage=pageBean.getCurPage(page);
 		int offset=pageBean.getCurrentPageOffset(pageSize, currentPage);
-		List<Account> list=accountDao.queryByPage(hql, offset, pageSize);
+		List<Account> list=accountDao.queryByPage(offset, pageSize);
 		pageBean.setList(list);
 		pageBean.setAllRows(allRows);
 		pageBean.setCurrentPage(currentPage);

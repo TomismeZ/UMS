@@ -71,9 +71,13 @@ public class JurisdictionAction extends ActionSupport {
 			results = { @Result(name = SUCCESS,type="json") })
 	@PrivilegeInfo(name="保存")
 	public String saveJurisdiction() throws Exception {
-		
-		jurisdictionService.saveOrUpdate(jurisdiction);
-		message="success";		
+		if(jurisdictionService.findByName(jurisdiction.getName())==null){
+			jurisdictionService.saveOrUpdate(jurisdiction);
+			message="success";		
+		}else{
+			message="error";
+		}
+				
 		return SUCCESS;
 		
 	}

@@ -11,42 +11,43 @@
 </div>
 
 <div class="account-manage">
-	<table>
-		<thead>
-			<th>序号</th>
-			<th>用户名</th>
-			<th>姓名</th>
-			<th>部门</th>
-			<th>角色</th>
-			<th>状态</th>
-			<th>创建时间</th>
-			<th>操作</th>
-		</thead>
-		<tbody>
-			<!-- varStatus获取当前索引或序号 -->
-			<c:forEach var="item" items="${pageBean.list }" varStatus="status">
-				<tr class="account-content-item" data-id="${item.id }">
-					<!-- count获取当前序号，从1开始 -->
-					<!-- index获取当前索引，从0开始 -->
-					<td><input type="checkbox" name="checkbox" value="${item.id }"
-						data-id="${item.id }"> ${status.count }</td>
-					<td>${item.userName }</td>
-					<td>${item.name }</td>
-					<td>${item.department.name }</td>
-					<td>${item.role.name }</td>
-					<td>${item.status }</td>
-					
-					<td><fmt:formatDate value="${item.createTime }"/></td>
-					<td><a href="toEdit" data-id="${item.id }">编辑</a> <a
-						href="deleteAccount" data-id="${item.id }">删除</a></td>
-				</tr>
-			</c:forEach>
-		</tbody>
-	</table>
+	<div class="table">
+		<table>
+			<thead>
+				<th>序号</th>
+				<th>用户名</th>
+				<th>姓名</th>
+				<th>部门</th>
+				<th>角色</th>
+				<th>状态</th>
+				<th>创建时间</th>
+				<th>操作</th>
+			</thead>
+			<tbody>
+				<!-- varStatus获取当前索引或序号 -->
+				<c:forEach var="item" items="${pageBean.list }" varStatus="status">
+					<tr class="account-content-item" data-id="${item.id }">
+						<!-- count获取当前序号，从1开始 -->
+						<!-- index获取当前索引，从0开始 -->
+						<td><input type="checkbox" name="checkbox"
+							value="${item.id }" data-id="${item.id }"> ${status.count }</td>
+						<td>${item.userName }</td>
+						<td>${item.name }</td>
+						<td>${item.department.name }</td>
+						<td>${item.role.name }</td>
+						<td>${item.status }</td>
+
+						<td><fmt:formatDate value="${item.createTime }" /></td>
+						<td><a class="link link-primary" href="toEdit"
+							data-id="${item.id }">编辑</a> <a class="link link-danger"
+							href="deleteAccount" data-id="${item.id }">删除</a></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
 	<div class="footer">
-		<font size="3">共<font color="red">${pageBean.totalPage }</font>页
-		</font>&nbsp;&nbsp; <font size="3">共<font color="red">${pageBean.allRows }</font>条记录
-		</font><br> <input type="hidden"
+<input type="hidden"
 			data-currentpage="${pageBean.currentPage }"> <input
 			type="hidden" value="${pageBean.allRows }"> <input
 			type="hidden" data-totalpages="${pageBean.totalPage }">

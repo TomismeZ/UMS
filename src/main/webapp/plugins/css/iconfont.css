@@ -11,6 +11,8 @@
   font-family:"iconfont" !important;
   font-size:16px;
   font-style:normal;
+  color:#ffffff;
+  margin-right:10px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

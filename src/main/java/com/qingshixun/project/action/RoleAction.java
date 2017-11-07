@@ -91,8 +91,13 @@ public class RoleAction extends ActionSupport {
 			results = { @Result(name = SUCCESS,type="json") })
 	@PrivilegeInfo(name="保存")
 	public String saveRole() throws Exception {	
-			roleService.saveOrUpdate(role);
-			message="success";						
+			if(roleService.findByName(role.getName())==null){
+				roleService.saveOrUpdate(role);
+				message="success";	
+			}else{
+				message="error";
+			}
+								
 		return SUCCESS;
 	}
 
@@ -116,9 +121,8 @@ public class RoleAction extends ActionSupport {
 	 * @return
 	 * @throws Exception
 	 */
-	@Action(value = "findAllRole", interceptorRefs = { @InterceptorRef("myInterceptorStack"),@InterceptorRef("jurisdictionInterceptor")  },
+	@Action(value = "findAllRole", interceptorRefs = { @InterceptorRef("myInterceptorStack")},
 			results = {@Result(name = SUCCESS, location = "/WEB-INF/views/roleManage.jsp") })
-	@PrivilegeInfo(name="查找")
 	public String findAllRole() throws Exception {
 		pageBean = roleService.getPageBean(5, page);
 		return SUCCESS;

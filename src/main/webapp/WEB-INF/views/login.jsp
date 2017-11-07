@@ -9,11 +9,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>UMS</title>
 <link type="text/css" rel="stylesheet" href="<%=path%>/css/login.css" />
-
+<link rel="stylesheet" type="text/css" href="<%=path%>/plugins/easyform/easyform.css">
+<script src="<%=path %>/plugins/jquery2.1.3.min.js" type="text/javascript"></script>
+<script src="<%=path%>/plugins/easyform/easyform.js"></script>
+<link type="text/css" rel="stylesheet" href="<%=path%>/plugins/toastr/toastr.min.css" />
+<script src="<%=path%>/plugins/toastr/toastr.min.js"></script>
 </head>
 
 <body>
-
+<div id="color">
 	<div id="header-panel">
 		<div class="logo-panel">
 			<div class="logo-content-panel"></div>
@@ -55,10 +59,13 @@
 	</div>
 	<div id="footer"></div>
 	<div id="bg"></div>
-
-	<script src="<%=path%>/plugins/jquery2.1.3.min.js"
-		type="text/javascript"></script>
+	</div>
 	<script type="text/javascript">
+	toastr.options = {  	  
+			positionClass: "toast-top-center",
+			 timeOut: "1000"
+        };
+	
 		var $loginForm = $(".login-form");
 		var $form = $loginForm.find("form");
 		var $headInfo = $loginForm.find(".head-info");
@@ -72,7 +79,7 @@
 			var password = $form.find("input[type='password']").val();
 			
 			if (!$.trim(userName) || !$.trim(password)) {
-				$clear.text("用户名或者密码不能为空！");
+				toastr.warning("用户名或者密码不能为空！");
 			} else {
 				$.ajax({
 					cache : true,
@@ -81,15 +88,21 @@
 					data : $form.serialize(),// 你的formid
 					async : false,
 					error : function(request) {
-						alert("Connection error");
+						toastr.error("Connection error");
 					},
 					success : function(data) {
 						if (data.message == "success") {
 							$form.submit();
 						} else {
-							$clear.text(data.message);
+							/* $clear.text(data.message);
 							$clear.css("background-color", "#fff");
-							$clear.css("color", "red");
+							$clear.css("color", "red"); */
+							toastr.options = {  	  
+									positionClass: "toast-top-center",
+									 timeOut: "3000"
+						        };
+							
+							toastr.error(data.message);
 						}
 						if (data.id == 1) {
 							//这里可以设置标识用于显示用户头像

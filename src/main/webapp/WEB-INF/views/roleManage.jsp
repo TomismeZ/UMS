@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%
 	String path = request.getContextPath();
 %>
@@ -10,6 +11,7 @@
 </div>
 
 <div class="role-manage">
+<div class="table">
 	<table>
 		<thead>
 			<th>序号</th>
@@ -28,17 +30,15 @@
 						${status.count }</td>				
 					<td>${item.name }</td>
 					<td>${item.description }</td>
-					<td>${item.createTime }</td>
-					<td><a href="toEdit" data-id="${item.id }">编辑</a>
-					 <a href="deleteRole" data-id="${item.id }">删除</a></td>
+					<td><fmt:formatDate value="${item.createTime }" /></td>
+					<td><a class="link link-primary" href="toEdit" data-id="${item.id }">编辑</a>
+					 <a class="link link-danger" href="deleteRole" data-id="${item.id }">删除</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
+	</div>
 	<div class="footer">
-		<font size="3">共<font color="red">${pageBean.totalPage }</font>页
-		</font>&nbsp;&nbsp; <font size="3">共<font color="red">${pageBean.allRows }</font>条记录
-		</font><br> 
 		<input type="hidden"
 			data-currentpage="${pageBean.currentPage }"> <input
 			type="hidden" data-totalpages="${pageBean.totalPage }">

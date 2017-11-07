@@ -24,7 +24,6 @@ body {
 	max-height: 60px;
 	background-color: #fff;
 	position: relative;
-	border-bottom: 2px solid #DDD;
 }
 
 #help-title-panel .logo-panel {
@@ -101,7 +100,8 @@ body {
 #help-content-panel .right-content .tab_3{
 	margin-left: 20px;
 }
-#help-content-panel .right-content .tab_3 img{
+#help-content-panel .right-content .tab_3 img,
+#help-content-panel .right-content .tab_2 img{
 	width:-moz-calc(100% - 20px);
 	width:-webkit-calc(100% - 20px);
 	width: calc(100% - 20px);
@@ -116,9 +116,9 @@ body {
 		</div>
 		<div class="menu-panel">
 			<ul>
-				<li class="left-item"><i class="iconfont icon-kuaisurumen"></i><a href="quickGetStart" data-id="1">快速入门</a></li>
-				<li class="left-item"><i class="iconfont icon-jichugongneng"></i><a href="quickGetStart" data-id="2">基础功能</a></li>
-				<li class="left-item"><i class="iconfont icon-wentiquestions1"></i><a href="quickGetStart" data-id="3">常见问题</a></li>
+				<li class="left-item"><i class="iconfont icon-kuaisurumen" style="color: black;"></i><a href="quickGetStart" data-id="1">快速入门</a></li>
+				<li class="left-item"><i class="iconfont icon-jichugongneng" style="color: black;"></i><a href="quickGetStart" data-id="2">基础功能</a></li>
+				<li class="left-item"><i class="iconfont icon-wentiquestions1" style="color: black;"></i><a href="quickGetStart" data-id="3">常见问题</a></li>
 			</ul>
 		</div>
 	</div>

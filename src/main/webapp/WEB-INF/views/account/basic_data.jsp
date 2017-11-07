@@ -8,157 +8,97 @@
 <div id="hidden" style="display: none;" data-id="${id}"></div>
 <c:choose>
 	<c:when test="${id eq 1}">
-		<div class="header">
-			<h4>基本资料</h4>
+		<div class="headline">
+			<h2>基本资料</h2>
 		</div>
 		<div class="accountContent">
-			<form action="editCurrentAccount" method="post">
-				<input type="hidden" name="account.id" value="${account.id }">
-				<input type="hidden" name="id" value="${id}">
-				<div class="left">
-					<div class="input-group">
-						<label class="input-label">用户名：</label> <label
-							class="input-content"> <input type="text" class="input"
-							name="account.userName" value="${account.userName}">
-						</label>
-					</div>
-					<div class="input-group">
-						<label class="input-label">姓 名：</label> <label
-							class="input-content"> <input type="text" class="input"
-							name="account.name" value="${account.name }">
-						</label>
-
-					</div>
-					<div class="input-group">
-						<label class="input-label">性 别：</label> <label
-							class="input-content"> <c:choose>
-								<c:when test="${account.gender == 'male'}">
-									<input type="radio" name="account.gender" value="male" checked>男 <input
-										type="radio" name="account.gender" value="female">女
+			<form action="editCurrentAccount" method="post" class="real-content-form form">
+			<div class="form-group">
+					<label class="input-label">用户名</label> <input class="input-content"
+						type="text" name="account.userName" value="${account.userName }" readonly="readonly">
+				</div>
+				<div class="form-group">
+					<label class="input-label">姓名</label> <input class="input-content"
+						name="account.name" type="text" value="${account.name }">
+				</div>
+				<div class="form-group">
+					<label class="input-label">密码</label> <input class="input-content"
+						type="password" name="account.password" value="${account.password}">
+				</div>
+				<div class="form-group">
+					<label class="input-label">手机</label> <input class="input-content"
+						type="text" name="account.phoneNumber" value="${account.phoneNumber }">
+				</div>
+				
+				<div class="form-group">
+					<label class="input-label">性别</label>
+					<div class="radio-content">
+						<c:choose>
+								<c:when test="${account.gender == '男'}">
+									<input type="radio" name="account.gender" value="男" checked>男 <input
+										type="radio" name="account.gender" value="女">女
 					</c:when>
 								<c:otherwise>
-									<input type="radio" name="account.gender" value="male">男 <input
-										type="radio" name="account.gender" value="female" checked>女
+									<input type="radio" name="account.gender" value="男">男 <input
+										type="radio" name="account.gender" value="女" checked>女
 					</c:otherwise>
 							</c:choose>
-						</label>
 					</div>
 				</div>
-				<div class="right">
-					<div class="input-group">
-						<label class="input-label">密 码：</label> <label
-							class="input-content"> <input type="password"
-							name="account.password" value="${account.password }"
-							class="input">
-						</label>
-					</div>
-					<div class="input-group">
-						<label class="input-label">手 机：</label> <label
-							class="input-content"> <input type="number" class="input"
-							name="account.phoneNumber" value="${account.phoneNumber }">
-						</label>
-					</div>
-					<div class="input-group">
+				<div class="form-group">
+					<label class="input-label">状态</label>
+					<div class="radio-content">
 						<c:choose>
-							<c:when test="${account.status == 'enable' }">
-								<input type="radio" name="account.status" value="enable" checked>启用
-						<input type="radio" name="account.status" value="disable">禁用
+								<c:when test="${account.status == '启用' }">
+									<input type="radio" name="account.status" value="启用"
+										checked>启用
+						<input type="radio" name="account.status" value="禁用">禁用
 						</c:when>
-							<c:otherwise>
-								<input type="radio" name="account.status" value="enable">启用
-					<input type="radio" name="account.status" value="disable" checked>禁用
+								<c:otherwise>
+									<input type="radio" name="account.status" value="启用">启用
+					<input type="radio" name="account.status" value="禁用" checked>禁用
 						</c:otherwise>
-						</c:choose>
+							</c:choose>
 					</div>
 				</div>
+				<input type="hidden" name="account.id" value="${account.id }">
+				<input type="hidden" name="id" value="${id}">
 			</form>
 		</div>
 		<div class="button-group">
-			<button type="reset">取消</button>
-			<button>编辑</button>
+			<button class="btn btn-warning">取消</button>
+			<button class="btn btn-success">保存</button>
 		</div>
 	</c:when>
 	<c:when test="${id eq 2}">
-		<div class="header">
-			<h4>详细资料</h4>
+		<div class="headline">
+			<h2>详细资料</h2>
 		</div>
 		<div class="accountContent">
 
-			<form action="editCurrentAccount" method="post">
+			<form action="editCurrentAccount" method="post" class="real-content-form form">
 				<input type="hidden" name="account.id" value="${account.id }">
 				<input type="hidden" name="id" value="${id}">
-				<div class="left">
-					<div class="input-group">
-						<label class="input-label">用户名：</label> <label
-							class="input-content"> <input type="text"
-							name="account.userName" value="${account.userName }">
-						</label>
-
-					</div>
-					<div class="input-group">
-						<label class="input-label">姓 名：</label> <label
-							class="input-content"> <input type="text"
-							name="account.name" value="${account.name }">
-						</label>
-
-					</div>
-
-					<div class="input-group">
-						<label class="input-label">性 别：</label> <label
-							class="input-content"> <c:choose>
-								<c:when test="${account.gender == 'male'}">
-									<input type="radio" name="account.gender" value="male" checked>男 <input
-										type="radio" name="account.gender" value="female">女
-					</c:when>
-								<c:otherwise>
-									<input type="radio" name="account.gender" value="male">男 <input
-										type="radio" name="account.gender" value="female" checked>女
-					</c:otherwise>
-							</c:choose>
-
-
-						</label>
-					</div>
-
-
-					<div class="input-group">
-						<label class="input-label">状 态：</label> <label
-							class="input-content"> <c:choose>
-								<c:when test="${account.status == 'enable' }">
-									<input type="radio" name="account.status" value="enable"
-										checked>启用
-						<input type="radio" name="account.status" value="disable">禁用
-						</c:when>
-								<c:otherwise>
-									<input type="radio" name="account.status" value="enable">启用
-					<input type="radio" name="account.status" value="disable" checked>禁用
-						</c:otherwise>
-							</c:choose>
-
-						</label>
-					</div>
+				<div class="form-group">
+					<label class="input-label">用户名</label> <input class="input-content"
+						type="text" name="account.userName" value="${account.userName }" readonly="readonly">
 				</div>
-
-				<div class="right">
-					<div class="input-group">
-						<label class="input-label">密 码：</label> <label
-							class="input-content"> <input type="password"
-							name="account.password" placeholder="${account.password}" value="${currentAccount.password}">
-						</label>
-					</div>
-
-
-					<div class="input-group">
-						<label class="input-label">手 机：</label> <label
-							class="input-content"> <input type="number"
-							name="account.phoneNumber" value="${account.phoneNumber }">
-						</label>
-					</div>
-
-					<div class="input-group">
-						<label class="input-label">部 门：</label> <label
-							class="input-content"> <select name="account.department.id">
-								<c:forEach items="${departments}" var="department">
+				<div class="form-group">
+					<label class="input-label">姓名</label> <input class="input-content"
+						name="account.name" type="text" value="${account.name }">
+				</div>
+				<div class="form-group">
+					<label class="input-label">密码</label> <input class="input-content"
+						type="password" name="account.password" value="${account.password}">
+				</div>
+				<div class="form-group">
+					<label class="input-label">手机</label> <input class="input-content"
+						type="text" name="account.phoneNumber" value="${account.phoneNumber }">
+				</div>
+				<div class="form-group">
+					<label class="input-label">部门</label> 
+					<select name="account.department.id" class="select-content">
+						<c:forEach items="${departments}" var="department">
 									<c:choose>
 
 										<c:when test="${account.department.name eq department.name}">
@@ -170,15 +110,13 @@
 									</c:choose>
 
 								</c:forEach>
-						</select>
-
-						</label>	
-					</div>
-
-					<div class="input-group">
-						<label class="input-label">角 色：</label> <label
-							class="input-content"> <select name="account.role.id">
-								<c:forEach items="${roles}" var="role">
+					</select> <i class="select-arrow"></i>
+				</div>
+				<div class="form-group">
+					<label class="input-label">角色</label>
+					 <select name="account.role.id"
+						class="select-content">
+						<c:forEach items="${roles}" var="role">
 									<c:choose>
 										<c:when test="${account.role.name == role.name}">
 											<option value="${role.id }" selected="selected">${role.name }</option>
@@ -189,24 +127,49 @@
 									</c:choose>
 
 								</c:forEach>
-						</select>
-
-						</label>
+					</select> <i class="select-arrow"></i>
+				</div>
+				<div class="form-group">
+					<label class="input-label">性别</label>
+					<div class="radio-content">
+						<c:choose>
+								<c:when test="${account.gender == '男'}">
+									<input type="radio" name="account.gender" value="男" checked>男 <input
+										type="radio" name="account.gender" value="女">女
+					</c:when>
+								<c:otherwise>
+									<input type="radio" name="account.gender" value="男">男 <input
+										type="radio" name="account.gender" value="女" checked>女
+					</c:otherwise>
+							</c:choose>
 					</div>
 				</div>
-
-
+				<div class="form-group">
+					<label class="input-label">状态</label>
+					<div class="radio-content">
+						<c:choose>
+								<c:when test="${account.status == '启用' }">
+									<input type="radio" name="account.status" value="启用"
+										checked>启用
+						<input type="radio" name="account.status" value="禁用">禁用
+						</c:when>
+								<c:otherwise>
+									<input type="radio" name="account.status" value="启用">启用
+					<input type="radio" name="account.status" value="禁用" checked>禁用
+						</c:otherwise>
+							</c:choose>
+					</div>
+				</div>
 			</form>
 		</div>
 		<div class="button-group">
-
-			<button type="reset">取消</button>
-			<button>修改</button>
+			<button class="btn btn-warning">取消</button>
+			<button class="btn btn-success">保存</button>
 		</div>
 	</c:when>
 	<c:otherwise>
-		<div class="header">
-			<h4>头像设置</h4>
+		<div class="headline">
+			<h2>头像设置</h2>
 		</div>
 		<div class="accountContent">
 			<div class="avatar-setting">
@@ -217,7 +180,7 @@
 				<img id="image" src="getImage.action" width="100" height="120" />
 				<s:file name="photo" accept="image/*"
 					onchange="document.all['image'].src=getImgURL(this);" />
-				<s:submit value="修改" class="submit"></s:submit>
+				<s:submit value="修改" class="btn btn-success submit"></s:submit>
 			</s:form>
 			</div>		
 		</div>

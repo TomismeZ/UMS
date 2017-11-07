@@ -7,253 +7,246 @@
 
 <c:choose>
 	<c:when test="${account ==null }">
-	<div class="header">
-	<h4>添加用户</h4>
-	</div>
-<div class="accountContent">
-	<form action="saveAccount" method="post">
-		<div class="left">
-			 <div class="input-group">
-				<label class="input-label">用户名：</label> <label class="input-content">
-					<input type="text" class="input" name="account.userName" required>
-				</label>
-
-			</div>
-			<div class="input-group">
-				<label class="input-label">姓 名：</label> <label class="input-content">
-					<input type="text" class="input" name="account.name" required>
-				</label>
-
-			</div>
-			<div class="input-group">
-				<label class="input-label">性 别：</label> <label class="input-content">
-					<input type="radio" name="account.gender" value="male" checked>男 <input
-					type="radio" name="account.gender" value="female">女
-				</label>
-			</div>
-			<div class="input-group">
-				<label class="input-label">状 态：</label> <label class="input-content">
-					<input type="radio" name="account.status" value="enable" checked>启用
-					<input type="radio" name="account.status" value="disable">禁用
-				</label>
-			</div> 
+		<div class="headline">
+			<h2>新增用户</h2>
 		</div>
-
-		<div class="right">
-			<div class="input-group">
-				<label class="input-label">密 码：</label> <label class="input-content">
-					<input type="password" name="account.password" class="input" required>
-				</label>
-			</div>
-
-
-			<div class="input-group">
-				<label class="input-label">手 机：</label> <label class="input-content">
-					<input type="number" class="input" name="account.phoneNumber" required>
-				</label>
-			</div>
-
-			<div class="input-group">
-				<label class="input-label">部　门：</label> <label class="input-content">
-					<select name="account.department.id">
+		<div class="accountContent">
+			<form action="saveAccount" method="post"
+				class="real-content-form form">
+				<div class="form-group">
+					<label class="input-label">用户名</label> <input class="input-content"
+						type="text" name="account.userName" placeholder="请输入用户名"
+						data-easyform="length:3 16;char-normal;real-time;"
+                               data-message="用户名必须为3—16位的英文字母或数字"
+                               data-easytip="class:easy-blue;">
+				</div>
+				<div class="form-group">
+					<label class="input-label">姓名</label> <input class="input-content"
+						name="account.name" type="text" placeholder="请输入姓名"
+						data-easyform="length:1 20;real-time;"
+                               data-message="姓名不可为空"
+                               data-easytip="class:easy-blue;">
+				</div>
+				<div class="form-group">
+					<label class="input-label">密码</label> <input class="input-content"
+						type="password" name="account.password" placeholder="请输入密码"
+						data-easyform="length:6 20;char-normal;real-time;"
+                               data-message="密码必须为6—16位的英文字母或数字"
+                               data-easytip="class:easy-blue;">
+				</div>
+				<div class="form-group">
+					<label class="input-label">手机</label> <input class="input-content"
+						type="text" name="account.phoneNumber" placeholder="请输入手机号"
+						data-easyform="length:1 20;real-time;"
+                               data-message="手机号码不可为空"
+                               data-easytip="class:easy-blue;">
+				</div>
+				<div class="form-group">
+					<label class="input-label">部门</label> 
+					<select name="account.department.id" class="select-content">
 						<c:forEach items="${departments}" var="department">
 							<option value="${department.id }">${department.name }</option>
 						</c:forEach>
-				</select>
-
-				</label>
-			</div>
-			
-			<div class="input-group">
-				<label class="input-label">角　色：</label> <label class="input-content">
-					<select name="account.role.id">
+					</select> <i class="select-arrow"></i>
+				</div>
+				<div class="form-group">
+					<label class="input-label">角色</label>
+					 <select name="account.role.id"
+						class="select-content">
 						<c:forEach items="${roles}" var="role">
 							<option value="${role.id }">${role.name }</option>
 						</c:forEach>
-				</select>
-
-				</label>
-			</div>
+					</select> <i class="select-arrow"></i>
+				</div>
+				<div class="form-group">
+					<label class="input-label">性别</label>
+					<div class="radio-content">
+						<input type="radio" name="account.gender" value="男" checked> 男 <input
+							type="radio" name="account.gender" value="女"> 女
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="input-label">状态</label>
+					<div class="radio-content">
+						<input type="radio" name="account.status" value="启用" checked> 启用 <input
+							type="radio" name="account.status" value="禁用"> 禁用
+					</div>
+				</div>
+			</form>
 		</div>
-
-
-	</form>
-</div>
-<div class="button-group">
-
-	<button type="reset">取消</button>
-	<button>保存</button>
-</div>
+		<div class="button-group">
+			<button class="btn btn-warning">取消</button>
+			<button class="btn btn-success">保存</button>
+		</div>
 	</c:when>
 	<c:otherwise>
-	<div class="header">
-	<h4>编辑用户</h4>
-</div>
-<div class="accountContent">
-	
-	<form action="editAccount" method="post">
-		<input type="hidden" name="account.id" value="${account.id }">
-		<div class="left">
-			 <div class="input-group">
-				<label class="input-label">用户名：</label> <label class="input-content">
-					<input type="text" name="account.userName" value="${account.userName }" required>
-				</label>
-
-			</div>
-			<div class="input-group">
-				<label class="input-label">姓 名：</label> <label class="input-content">
-					<input type="text" name="account.name" value="${account.name }" required>
-				</label>
-
-			</div>
-			
-			<div class="input-group">
-				<label class="input-label">性 别：</label> <label class="input-content">
-				<c:choose>
-					<c:when test="${account.gender == 'male'}">
-					<input type="radio" name="account.gender" value="male" checked>男 <input
-					type="radio" name="account.gender" value="female" >女
-					</c:when>
-					<c:otherwise>
-					<input type="radio" name="account.gender" value="male">男 <input
-					type="radio" name="account.gender" value="female" checked>女
-					</c:otherwise>
-				</c:choose>
-				
-					
-				</label>
-			</div>
-			
-		
-			<div class="input-group">
-				<label class="input-label">状 态：</label> <label class="input-content">
-					<c:choose>
-						<c:when test="${account.status == 'enable' }">
-						<input type="radio" name="account.status" value="enable" checked>启用
-						<input type="radio" name="account.status" value="disable">禁用
-						</c:when>
-						<c:otherwise>
-						<input type="radio" name="account.status" value="enable" >启用
-					<input type="radio" name="account.status" value="disable" checked>禁用
-						</c:otherwise>
-					</c:choose>
-					
-				</label>
-			</div> 
+		<div class="headline">
+			<h2>编辑用户</h2>
 		</div>
-
-		<div class="right">
-			<div class="input-group">
-				<label class="input-label">密 码：</label> <label class="input-content">
-					<input type="password" name="account.password"
-					value="${account.password}" required>
-				</label>
-			</div>
-
-
-			<div class="input-group">
-				<label class="input-label">手 机：</label> <label class="input-content">
-					<input type="number" name="account.phoneNumber" value="${account.phoneNumber }" required>
-				</label>
-			</div>
-
-			<div class="input-group">
-				<label class="input-label">部　门：</label> <label class="input-content">
-					<select name="account.department.id">
+		<div class="accountContent">
+			<form action="editAccount" method="post"
+				class="real-content-form form">
+				<input type="hidden" name="account.id" value="${account.id }">
+				<div class="form-group">
+					<label class="input-label">用户名</label> <input class="input-content"
+						type="text" name="account.userName" value="${account.userName }" readonly="readonly">
+				</div>
+				<div class="form-group">
+					<label class="input-label">姓名</label> <input class="input-content"
+						name="account.name" type="text" value="${account.name }">
+				</div>
+				<div class="form-group">
+					<label class="input-label">密码</label> <input class="input-content"
+						type="password" name="account.password" value="${account.password}"
+						data-easyform="length:6 20;char-normal;real-time;"
+                               data-message="密码必须为6—16位的英文字母或数字"
+                               data-easytip="class:easy-blue;">
+				</div>
+				<div class="form-group">
+					<label class="input-label">手机</label> <input class="input-content"
+						type="text" name="account.phoneNumber" value="${account.phoneNumber }"
+						data-easyform="length:1 20;real-time;"
+                               data-message="手机号码不可为空"
+                               data-easytip="class:easy-blue;">
+				</div>
+				<div class="form-group">
+					<label class="input-label">部门</label> 
+					<select name="account.department.id" class="select-content">
 						<c:forEach items="${departments}" var="department">
-						<c:choose>
-							
-							<c:when test="${account.department.name eq department.name}">
-							<option value="${department.id }" selected="selected">${department.name }</option>
-							</c:when>
-							<c:otherwise>
-							<option value="${department.id }">${department.name }</option>
-							</c:otherwise>
-						</c:choose>
-							
-						</c:forEach>
-				</select>
+									<c:choose>
 
-				</label>
-			</div>
-			
-			<div class="input-group">
-				<label class="input-label">角　色：</label> <label class="input-content">
-					<select name="account.role.id">
+										<c:when test="${account.department.name eq department.name}">
+											<option value="${department.id }" selected="selected">${department.name }</option>
+										</c:when>
+										<c:otherwise>
+											<option value="${department.id }">${department.name }</option>
+										</c:otherwise>
+									</c:choose>
+
+								</c:forEach>
+					</select> <i class="select-arrow"></i>
+				</div>
+				<div class="form-group">
+					<label class="input-label">角色</label>
+					 <select name="account.role.id"
+						class="select-content">
 						<c:forEach items="${roles}" var="role">
+									<c:choose>
+										<c:when test="${account.role.name == role.name}">
+											<option value="${role.id }" selected="selected">${role.name }</option>
+										</c:when>
+										<c:otherwise>
+											<option value="${role.id }">${role.name }</option>
+										</c:otherwise>
+									</c:choose>
+
+								</c:forEach>
+					</select> <i class="select-arrow"></i>
+				</div>
+				<div class="form-group">
+					<label class="input-label">性别</label>
+					<div class="radio-content">
 						<c:choose>
-							<c:when test="${account.role.name == role.name}">
-							<option value="${role.id }" selected="selected">${role.name }</option>
-							</c:when>
-							<c:otherwise>
-							<option value="${role.id }">${role.name }</option>
-							</c:otherwise>
-						</c:choose>
-							
-						</c:forEach>
-				</select>
-
-				</label>
-			</div>
+								<c:when test="${account.gender == '男'}">
+									<input type="radio" name="account.gender" value="男" checked>男 <input
+										type="radio" name="account.gender" value="女">女
+					</c:when>
+								<c:otherwise>
+									<input type="radio" name="account.gender" value="男">男 <input
+										type="radio" name="account.gender" value="女" checked>女
+					</c:otherwise>
+							</c:choose>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="input-label">状态</label>
+					<div class="radio-content">
+						<c:choose>
+								<c:when test="${account.status == '启用' }">
+									<input type="radio" name="account.status" value="启用"
+										checked>启用
+						<input type="radio" name="account.status" value="禁用">禁用
+						</c:when>
+								<c:otherwise>
+									<input type="radio" name="account.status" value="启用">启用
+					<input type="radio" name="account.status" value="禁用" checked>禁用
+						</c:otherwise>
+							</c:choose>
+					</div>
+				</div>
+			</form>
 		</div>
-	</form>
-</div>
-<div class="button-group">
-
-	<button type="reset">取消</button>
-	<button>修改</button>
-</div>
+		<div class="button-group">
+			<button class="btn btn-warning">取消</button>
+			<button class="btn btn-success">保存</button>
+		</div>
 	</c:otherwise>
 </c:choose>
 
 <script type="text/javascript">
-var $content=$rightContent.find(".accountContent");
-var findAllInfo="findAllAccount";
+	var $content = $rightContent.find(".accountContent");
+	var findAllInfo = "findAllAccount";
+	var v = $content.find("form").easyform();
+	$rightContent.find(".button-group").find("button:first").on("click",
+			function() {
+				$rightContent.load(findAllInfo);
+			});
+	$rightContent.find(".button-group").find("button:last").on(
+			"click",
+			function() {
+				var $form = $content.find("form");
+				/*$form.on("submit",function(e){
+					//阻止原标签原有的默认事件
+					 e.preventDefault();
+					 //得到form标签action属性的值
+				     var pageRef=$(this).prop("action");
+				     //JQuery load页面,局部刷新
+				     $rightContent.load(pageRef,$form.serialize());
+				}).submit();*/
+				//异步刷新
+				var $userName = $form.find("input[name='account.userName']");
+						
+				var $name = $form.find("input[name='account.name']");
+				var $password = $form.find("input[type='password']");
+				var $number = $form.find("input[name='account.phoneNumber']");
+				if ($userName.val().length <3 || $userName.val().length>16) {
+					$userName.trigger("blur");
+				} else if($name.val().length ==0){
+					$name.trigger("blur");
+				}else if($password.val().length <6 || $password.val().length>20){
+					$password.trigger("blur");
+				}else if($number.val().length==0){
+					$number.trigger("blur");
+				}else {
+					
+					 $.ajax({
+						cache : true,
+						type : "POST",
+						url : $form.prop("action"),
+						data : $form.serialize(),// 你的formid
+						async : false,
+						error : function(request) {
+							// alert("Connection error"); 
+							toastr.error("Connection error");
+						},
+						success : function(data) {
+							if (data.message == 'success') {
+								$rightContent.load(findAllInfo,function(){
+				        			toastr.success("保存成功");
+				        		});
+							} else if (data.message == 'error') {
+								 toastr.warning("用户名已存在，请重新输入");					
+								// alert("用户名已存在，请重新输入"); 	
+								
+							} else {
+								// alert("权限不足");
+								toastr.info("权限不足");
+							}
 
-$rightContent.find(".button-group").find("button:first").on("click",function(){
-		$rightContent.load(findAllInfo);
-	});
-$rightContent.find(".button-group").find("button:last").on("click",function(){
-		var $form=$content.find("form");
-		/*$form.on("submit",function(e){
-			//阻止原标签原有的默认事件
-			 e.preventDefault();
-			 //得到form标签action属性的值
-	         var pageRef=$(this).prop("action");
-	         //JQuery load页面,局部刷新
-	         $rightContent.load(pageRef,$form.serialize());
-		}).submit();*/
-		//异步刷新
-		var userName=$form.find("input[name='account.userName']").val();
-		var name=$form.find("input[name='account.name']").val();
-		var password=$form.find("input[type='password']").val();
-		var number=$form.find("input[type='number']").val();
-		if(name.length == 0 || name.length ==0 || password.length ==0){
-			alert("字段不能为空！")
-		}else{
-			$.ajax({
-		        cache: true,
-		        type: "POST",
-		        url:$form.prop("action"),
-		        data:$form.serialize(),// 你的formid
-		        async: false,
-		        error: function(request) {
-		            alert("Connection error");
-		        },
-		        success: function(data) { 
-		        	if(data.message == 'success'){
-		        		$rightContent.load(findAllInfo);
-		        	}else if(data.message =='error'){
-		        		alert("用户名已存在，请重新输入");
-		        	}
-		        	else{
-		        		alert("权限不足")
-		        	}
-		        	
-		        }
-		    });
-		}
-		
-	});
+						}
+					}); 
+				}
+
+			});
 </script>
 

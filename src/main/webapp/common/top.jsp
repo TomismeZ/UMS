@@ -34,16 +34,19 @@
 		<div class="avatar">
 		<c:choose>
 			<c:when test="${not empty currentAccount.photo }">
-			<a href=""><img src="getImage" alt="" width="90" height="90" style=" border-radius: 50%;"/></a>
+			<a href=""><img src="getImage" alt="" width="60" height="60" style=" border-radius: 50%;"/></a>
 			</c:when>
 			<c:otherwise>
-			<a href=""><img src="<%=path %>/images/avatarbig.png" alt="" width="90" height="90" style=" border-radius: 50%;"/></a>
+			<a href=""><img src="<%=path %>/images/avatarbig.png" alt="" width="60" height="60" style=" border-radius: 50%;"/></a>
 			</c:otherwise>
 		</c:choose>
 			
 			<div class="changetheme">
-				切换主题: <br /> <a class="default"></a> <a class="blueline"></a> <a
-					class="greenline"></a> <a class="contrast"></a> <a class="custombg"></a>
+				切换主题: <br /> <a class="default"></a>
+				 <a class="blueline"></a>
+				 <a class="greenline"></a>
+				 <a class="contrast"></a>
+				 <a class="custombg"></a>
 			</div>
 		</div>
 		<!--avatar-->
@@ -68,7 +71,6 @@
 			
 			<ul>
 				<li><a href="personalSetting">编辑资料</a></li>
-				<li><a href="javascript:;">账号设置</a></li>
 				<li><a href="toHelp">帮助</a></li>
 				<li><a href="logoutAccount">退出</a></li>
 			</ul>
@@ -91,51 +93,25 @@
 
 		return false;
 	});
+	$menuPanel.find('.userinfodrop').on("mouseleave",function(){
+		var $this=$(this);
+		$this.hide();
+		$menuPanel.find('.userinfo').removeClass('active');
+	});
 	
 	$topPanel.find(".logo-panel").find("h5").on("click",function(){
 		// 以下方式直接跳转
 	/* 	window.location.href='loginAccount'; */
 		// 以下方式定时跳转
-		setTimeout("javascript:location.href='loginAccount'", 1000); 
+		setTimeout("javascript:location.href='loginAccount'", 300); 
 	});
-/* 	//列表的点击事件
-	var $li = $userinfodrop.find(".userdata").find("li:not(:last-child)");
-	$li.find("a").on("click", function(e) {
 
-		var $this = $(this);
-		//阻止a标签原有的默认事件
-		e.preventDefault();
-		//得到a标签href属性的值
-		var pageRef = $this.prop("href");
-		console.log(pageRef);
-		$leftContent.load(pageRef, function() {
-			var $parent = $(this);
-			//点击
-			$parent.find(".left-item").on("click", function(e) {
-				var $this = $(this);
-
-				//高亮处理
-				$parent.find(".left-item").removeClass("active");
-				$this.addClass("active");
-				//使用SPA，在一个URL加载两个界面
-				//阻止a标签原有的默认事件
-				e.preventDefault();
-				//得到a标签href属性的值
-				var id = $this.find("a").data("id");
-				console.log("基本资料:" + id);
-				var pageRef1 = $this.find("a").prop("href");
-				//JQuery load页面
-				$rightContent.load(pageRef1, {
-					id : id
-				});
-			}).first().click();
-		});
-	}); */
 	//切换主题
 	var $changetheme=$userinfodrop.find(".avatar").find(".changetheme");
 	$changetheme.find("a").on("click",function(){
 		var $this=$(this);
 		
-		$topPanel.css("background-color",$this.css("background-color"))
+		$topPanel.css("background-color",$this.css("background-color"));
+		$leftContent.css("background-color",$this.css("color"));
 	});
 </script>

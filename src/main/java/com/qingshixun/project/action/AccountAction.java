@@ -93,7 +93,7 @@ public class AccountAction extends ActionSupport {
 
 			Account account1 = accountService.loginAccount(account.getUserName(), account.getPassword());
 			if (account1 != null) {
-				if (account1.getStatus().equals(Status.enable)) {
+				if (account1.getStatus().equals(Status.启用)) {
 					message = "success";
 				} else {
 					message = "您的账户已经被禁用了";
@@ -151,7 +151,7 @@ public class AccountAction extends ActionSupport {
 		if (id != null) {
 			account = accountService.get(id);
 		}
-		System.err.println("----id:" + id);
+//		System.err.println("----id:" + id);
 		departments = departmentService.findAll();
 		roles = roleService.findAll();
 		message="success";
@@ -171,6 +171,7 @@ public class AccountAction extends ActionSupport {
 			@Result(name = SUCCESS,type="json") })
 	@PrivilegeInfo(name = "编辑")
 	public String toEdit() throws Exception {	
+		
 		message="success";
 		return SUCCESS;
 	}
@@ -219,10 +220,9 @@ public class AccountAction extends ActionSupport {
 	 * @return
 	 * @throws Exception
 	 */
-	@Action(value = "editAccount", interceptorRefs = { @InterceptorRef("myInterceptorStack"),
-			@InterceptorRef("jurisdictionInterceptor") }, results = { @Result(name = SUCCESS, type = "json") })
-	@PrivilegeInfo(name = "编辑")
+	@Action(value = "editAccount", interceptorRefs = { @InterceptorRef("myInterceptorStack")}, results = { @Result(name = SUCCESS, type = "json") })
 	public String editAccount() throws Exception {
+		System.out.println("cccccc---");
 		Account enditAccount = accountService.get(account.getId());
 		if (enditAccount.getPhoto() != null) {
 			account.setPhoto(enditAccount.getPhoto());
@@ -271,14 +271,13 @@ public class AccountAction extends ActionSupport {
 	 * 
 	 * @return
 	 */
-	@Action(value = "findAllAccount", interceptorRefs = { @InterceptorRef("myInterceptorStack"),
-			@InterceptorRef("jurisdictionInterceptor") }, results = {
+	@Action(value = "findAllAccount", interceptorRefs = { @InterceptorRef("myInterceptorStack")
+	}, results = {
 					@Result(name = SUCCESS, location = "/WEB-INF/views/accountManage.jsp") })
-	@PrivilegeInfo(name = "查找")
 	public String findAllAccount() throws Exception {
 
-		System.out.println("findAllAccount当前页：" + page);
-
+		
+		logger.info("findAllAccount当前页：",page);
 		pageBean = accountService.getPageBean(5, page);
 		return SUCCESS;
 	}
@@ -339,9 +338,9 @@ public class AccountAction extends ActionSupport {
 					message = "密码和确认密码不一致！";
 
 				} else {
-					account.setCreateTime(new Date());
+					
 					accountService.save(account);
-					message = "您已经成功注册！等待管理员验证方可登录";
+					message = "success";
 				}
 
 			} else if (id == 2) {

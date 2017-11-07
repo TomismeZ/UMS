@@ -49,13 +49,13 @@ $(function(){
 		        type: "POST",
 		        url:addPrivilege,
 		        error: function(request) {
-		            alert("Connection error");
+		        	toastr.error("Connection error");
 		        },
 		        success: function(data) {
 		        	if(data.message=='success'){
 		        		$rightContent.load(manageRef)
 		        	}else{
-		        		alert("权限不足！")
+		        		toastr.info("权限不足");
 		        	}
 		        	
 		        }
@@ -65,11 +65,15 @@ $(function(){
 	 * 根据复选框选中的状态删除用户
 	 */
 	$rightContent.find(".header").find("button:last").on("click", function() {
+		
+		 toastr.options = {   
+	                positionClass: "toast-top-center"              
+	            };  
 		var ckbs = $operator.find("input[name='checkbox']:checked");
 		
 		var arrayId = new Array();
 		if (ckbs.size() == 0) {
-			alert("要删除指定行，需选中要删除的行！");
+			toastr.info("要删除指定行，需选中要删除的行！");
 			return;
 		} else {
 			if (confirm("确定要删除选中项？")) {
@@ -97,15 +101,17 @@ $(function(){
 			        },
 			        async: true,
 			        error: function(request) {
-			            alert("Connection error");
+			        	toastr.error("Connection error");
 			        },
 			        success: function(data) {
 			        	if(data.message=='error'){
-			        		alert("该对象有用户在使用，你不能删除掉！");
+			        		toastr.warning("该对象有用户在使用，你不能删除掉！");
 			        	}else if(data.message=='success'){
-			        		$rightContent.load(findAllInfo);
+			        		$rightContent.load(findAllInfo,function(){
+			        			toastr.success("删除成功");
+			        		});
 			        	}else{
-			        		alert("权限不足！")
+			        		toastr.info("权限不足！")
 			        	}
 			        	
 			        }
@@ -119,6 +125,8 @@ $(function(){
 	//同一行上删除当前选中账户
 /*	$table.find("tbody").find("tr:odd").css("background-color", "#F0F0F0");*/
 	$operator.find("a:last").on("click", function(e) {
+		
+		
 		var $this = $(this);
 		
 		//阻止a标签原有的默认事件
@@ -151,15 +159,17 @@ $(function(){
 		        },
 		        success: function(data) {
 		        	if(data.message=='error'){
-		        		alert("该对象有用户在使用，你不能删除掉！");
+		        		toastr.warning("该对象有用户在使用，你不能删除掉！");
 		        	}else if(data.message=='success'){
 		        		console.log(allRows % 5 == 1);
 		        		if(allRows % 5 == 1){
 		        			--currentPage;
 		        		}
-		        		$rightContent.load(findAllInfo,{page:currentPage});
+		        		$rightContent.load(findAllInfo,{page:currentPage},function(){
+		        			toastr.success("删除成功");
+		        		});
 		        	}else{
-		        		alert("权限不足！")
+		        		toastr.info("权限不足！")
 		        	}
 		        	
 		        }
@@ -200,13 +210,13 @@ $(function(){
 	        	id: id
 	        },
 	        error: function(request) {
-	            alert("Connection error");
+	        	toastr.error("Connection error");
 	        },
 	        success: function(data) {
 	        	if(data.message=='success'){
 	        		$rightContent.load(manageRef,{id: id});
 	        	}else{
-	        		alert("权限不足！")
+	        		toastr.info("权限不足！")
 	        	}
 	        	
 	        }

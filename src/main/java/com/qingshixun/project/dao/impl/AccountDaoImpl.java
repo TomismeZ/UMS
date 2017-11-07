@@ -3,6 +3,7 @@ package com.qingshixun.project.dao.impl;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.struts2.ServletActionContext;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -78,10 +79,12 @@ public class AccountDaoImpl implements IAccountDao {
      * 使用hibernate提供的分页功能，得到分页显示的数据
      */
 	@Override
-	public List<Account> queryByPage(String hql, Integer offset, Integer pageSize) {
+	public List<Account> queryByPage(Integer offset, Integer pageSize) {
+		Account currentAccount=(Account) ServletActionContext.getRequest().getSession().getAttribute("currentAccount");
 		List<Account> list=null;
 		try {
-			list=getCurrentSession().createQuery(hql).setFirstResult(offset).setMaxResults(pageSize).getResultList();
+			String hql="from Account where id != ? order by id desc";
+			list=getCurrentSession().createQuery(hql).setParameter(0, currentAccount.getId()).setFirstResult(offset).setMaxResults(pageSize).getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
 			list=null;
@@ -98,11 +101,12 @@ public class AccountDaoImpl implements IAccountDao {
 	 * 通过hql语句得到数据库中记录总数
 	 */
 	@Override
-	public Integer getAllRowCount(String hql) {
+	public Integer getAllRowCount() {
 		// TODO Auto-generated method stub
+		String hql="from Account order by id desc";
 		Integer allRows=0;
 		allRows = getCurrentSession().createQuery(hql).getResultList().size();
-		return allRows;
+		return allRows-1;
 	}
 	@Override
 	public Account loginAccount(String username, String password) {

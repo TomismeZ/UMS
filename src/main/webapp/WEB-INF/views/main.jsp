@@ -7,9 +7,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Document</title>
+<title>UMS-用户管理系统</title>
 <link type="text/css" rel="stylesheet" href="<%=path%>/css/style.css"/>
 <link type="text/css" rel="stylesheet" href="<%=path%>/plugins/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="<%=path%>/plugins/easyform/easyform.css">
+<script src="<%=path %>/plugins/jquery2.1.3.min.js" type="text/javascript"></script>
+<script src="<%=path%>/plugins/easyform/easyform.js"></script>
+<link type="text/css" rel="stylesheet" href="<%=path%>/plugins/toastr/toastr.min.css" />
+<script src="<%=path%>/plugins/toastr/toastr.min.js"></script>
 </head>
 
 <body>
@@ -24,7 +29,6 @@
 	<!--引入jQuery框架库文件-->
 	<!-- <script type="text/javascript"
 		src="http://code.jquery.com/jquery-2.1.3.js"></script> -->
-<script src="<%=path %>/plugins/jquery2.1.3.min.js" type="text/javascript"></script>
 <!-- 引用JQuery分页插件 -->
 <script src="<%=path%>/plugins/jqPaginator.js" type="text/javascript"></script>
 	<script type="text/javascript">
@@ -61,6 +65,15 @@
 				}).first().click();
 			});
 		});
+		
+		toastr.options = {  
+				  
+				positionClass: "toast-top-center",  
+                showDuration: "300",  
+                hideDuration: "1000",  
+                timeOut: "1000",  
+                extendedTimeOut: "500"
+            };  
 	</script>
 </body>
 

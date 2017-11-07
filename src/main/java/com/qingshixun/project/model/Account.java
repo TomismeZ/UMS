@@ -48,12 +48,12 @@ public class Account {
 	// 用户性别(不可以为空)
 	@Column(nullable = false)
 	@Enumerated(EnumType.ORDINAL)
-	private Gender gender = Gender.male;
+	private Gender gender = Gender.男;
 
 	// 用户状态(不可以为空)
 	@Column(nullable = false)
 	@Enumerated(EnumType.ORDINAL)
-	private Status status = Status.disable;
+	private Status status = Status.禁用;
 
 	// 创建时间(updateable=false表示编辑后，不更新此字段)
 	@Column(nullable = true, length = 19,updatable=false)
@@ -70,12 +70,12 @@ public class Account {
 	private Department department;
 	// 性别(枚举值)
 	public enum Gender {
-		male, female;
+		男, 女;
 	}
 
 	// 状态(枚举值)
 	public enum Status {
-		enable, disable;
+		启用, 禁用;
 	}
 
 	public Integer getId() {
